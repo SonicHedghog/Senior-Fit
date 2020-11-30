@@ -9,6 +9,7 @@ public class PoseRocgnizer : MonoBehaviour
     [SerializeField] RawImage cameraView = null;
     [SerializeField, Range(0f, 1f)] float threshold = 0.5f;
     [SerializeField, Range(0f, 1f)] float lineThickness = 0.5f;
+    private bool menu = false;
 
     WebCamTexture webcamTexture;
     PoseNet poseNet;
@@ -45,6 +46,17 @@ public class PoseRocgnizer : MonoBehaviour
     {
         poseNet.Invoke(webcamTexture);
         results = poseNet.GetResults();
+
+        if(PauseMenu.GetIsPaused() && !menu)
+        {
+            webcamTexture.Pause();
+            menu = true;
+        }
+        else if(menu && !PauseMenu.GetIsPaused())
+        {
+            webcamTexture.Play();
+            menu = false;
+        }
 
         // cameraView.material = poseNet.transformMat;
         // cameraView.texture = poseNet.inputTex;
