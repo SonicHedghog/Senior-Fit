@@ -11,6 +11,8 @@ An AR exercising app for ages 65+.
 
 * Clone the Repository and open the project via Unity Hub
 
+![](Images/pull_rep.png)
+
 * Download and open the TensorFlow Lite package above. 
 
   * A popup asking to include files pops up in the Unity window. Just press ok
