@@ -23,7 +23,7 @@ An AR exercising app for ages 65+.
 
 ![](Images/unity_1.png)
 
-* Select both Android (as well as its packages) and iOS Build Support on the modules screen.
+* Select both Android (as well as its packages) and iOS Build Support on the modules screen. Then click `Install`.
 
 ![](Images/unity_2.png)
 
