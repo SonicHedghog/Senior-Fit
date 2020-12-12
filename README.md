@@ -7,11 +7,27 @@ An AR exercising app for ages 65+.
 - Samsung Galaxy S9
 
 ## Set Up
-* Download Unity Hub (link above) and install Unity 2019.4.14f1 LTS
-
-* Clone the Repository and open the project via Unity Hub
+* Clone the Repository
 
 ![](Images/pull_rep.png)
+
+* Download Unity Hub (link above) 
+
+  * You will need to login or create an account and set up a license before going forward
+  
+![](Images/unity_0.png)
+
+* In Project Tab, click Add and import the `Senior-Fit` Project Folder
+
+  * To install Unity 2019.4.14f1 LTS, click on the project to recieve a pop-up asking to install the required unity verion. Make sure to click `Install`
+
+![](Images/unity_1.png)
+
+* Select both Android (as well as its packages) and iOS Build Support on the modules screen.
+
+![](Images/unity_2.png)
+
+* Go to Projects Tab and open the project
 
 * Download and open the TensorFlow Lite package above. 
 
