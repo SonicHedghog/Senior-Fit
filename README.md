@@ -22,4 +22,4 @@ An AR exercising app for ages 65+.
 
 ## Reporting Issues
 
-If you have any problems, please reach out or post your problem in issues if it's appropriate.
+If you have any problems, please reach out or post your problem in the Issues if it's appropriate.
