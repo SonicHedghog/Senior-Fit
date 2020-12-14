@@ -16,6 +16,8 @@ public class PoseRocgnizer : MonoBehaviour
     Vector3[] corners = new Vector3[4];
     PrimitiveDraw draw;
 
+    public Text exerciseName;
+
     public PoseNet.Result[] results;
 
     void Start()
@@ -58,10 +60,26 @@ public class PoseRocgnizer : MonoBehaviour
             menu = false;
         }
 
-        // cameraView.material = poseNet.transformMat;
+        cameraView.material = poseNet.transformMat;
         // cameraView.texture = poseNet.inputTex;
 
-        // DrawResult();
+        DrawResult();
+        var connections = PoseNet.Connections;
+        // Debug.Log(results[7].part + ", " + results[7].x + ", " + results[7].y);
+        // Debug.Log(results[9].part + ", " + results[9].x + ", " + results[9].y);
+        // Debug.Log(results[8].part + ", " + results[8].x + ", " + results[8].y);
+        // Debug.Log(results[10].part + ", " + results[10].x + ", " + results[10].y);
+        float i = 0f;
+        for(int x = 7; x < 11; x++){i+=results[x].confidence;}
+
+        if(results[9].y < results[7].y && 
+                results[10].y < results[8].y && 
+                (results[10].x - results[9].x) > -.05 && i > 2.6)
+        {
+            exerciseName.text = "Crossing Arms";
+        }
+        else
+            exerciseName.text = "Exercise Name";
     }
 
     void DrawResult()

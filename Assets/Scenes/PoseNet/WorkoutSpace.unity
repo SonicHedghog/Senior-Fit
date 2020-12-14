@@ -154,6 +154,7 @@ MonoBehaviour:
   cameraView: {fileID: 237587965}
   threshold: 0.5
   lineThickness: 0.5
+  exerciseName: {fileID: 1124019090793975663}
   results: []
 --- !u!4 &86521803
 Transform:
@@ -1089,4 +1090,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Exercising Name
+  m_Text: Exercise Name
