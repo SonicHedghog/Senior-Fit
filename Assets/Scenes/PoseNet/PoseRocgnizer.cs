@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TensorFlowLite;
+using Poses;
 
 public class PoseRocgnizer : MonoBehaviour
 {
@@ -72,9 +73,7 @@ public class PoseRocgnizer : MonoBehaviour
         float i = 0f;
         for(int x = 7; x < 11; x++){i+=results[x].confidence;}
 
-        if(results[9].y < results[7].y && 
-                results[10].y < results[8].y && 
-                (results[10].x - results[9].x) > -.05 && i > 2.6)
+        if(ArmCross.IsPose(results))
         {
             exerciseName.text = "Crossing Arms";
         }
