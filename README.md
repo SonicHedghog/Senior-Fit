@@ -11,6 +11,14 @@ An AR exercising app for ages 65+.
 
 ![](Images/pull_rep.png)
 
+* You will then need to follow [these instructions](https://openupm.com/packages/com.github.asus4.tflite/#build-tensorflow-lite-libraries:~:text=Build%20TensorFlow%20Lite%20libraries) to get everything working properly. 
+
+  * Make sure to download all of the following to complete those instructions:
+    1. [Bazel](https://docs.bazel.build/versions/3.7.0/install.html)
+    2. [Python 3.7](https://www.python.org/downloads/)
+
+  * Note: Make sure to put the tensorflow repository in the same folder as the Senior Fit folder in order for the last command to work. If the last command produces an error, that doesn't neccessarily mean that the comman didn't work. Also, make sure `build_tflite.py` is spelled correctly.
+
 * Download Unity Hub (link above) 
 
   * You will need to login or create an account and set up a license before going forward
