@@ -11,7 +11,9 @@ public class PoseRocgnizer : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float threshold = 0.5f;
     [SerializeField, Range(0f, 1f)] float lineThickness = 0.5f;
     private bool menu = false;
-
+    private bool completed = false;
+    private Poses.Pose curPose;
+    private Interpreter script;
     WebCamTexture webcamTexture;
     PoseNet poseNet;
     Vector3[] corners = new Vector3[4];
@@ -36,6 +38,8 @@ public class PoseRocgnizer : MonoBehaviour
         {
             color = Color.green,
         };
+
+        script = new Interpreter("test");
     }
 
     void OnDestroy()
@@ -65,20 +69,25 @@ public class PoseRocgnizer : MonoBehaviour
         // cameraView.texture = poseNet.inputTex;
 
         DrawResult();
-        var connections = PoseNet.Connections;
-        // Debug.Log(results[7].part + ", " + results[7].x + ", " + results[7].y);
-        // Debug.Log(results[9].part + ", " + results[9].x + ", " + results[9].y);
-        // Debug.Log(results[8].part + ", " + results[8].x + ", " + results[8].y);
-        // Debug.Log(results[10].part + ", " + results[10].x + ", " + results[10].y);
-        float i = 0f;
-        for(int x = 7; x < 11; x++){i+=results[x].confidence;}
 
-        if(ArmCross.IsPose(results))
+        if(completed && !script.isDone)
         {
-            exerciseName.text = "Crossing Arms";
+            completed = false;
+            curPose = script.AdvanceScript();
         }
-        else
-            exerciseName.text = "Exercise Name";
+
+        if(curPose!=null)
+        {
+            // Debug.Log("Yes");
+            completed = curPose.IsFinished(results, exerciseName);
+        }
+        else if(!completed)
+        {
+            // string commmand = script.GetCommand();
+            // Debug.Log(commmand);
+            completed = true;
+        }
+        Debug.Log(curPose);
     }
 
     void DrawResult()

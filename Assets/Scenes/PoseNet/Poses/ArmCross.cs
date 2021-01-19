@@ -1,4 +1,6 @@
 using static TensorFlowLite.PoseNet;
+using UnityEngine.UI;
+using UnityEngine;
 
 namespace Poses
 {
@@ -16,8 +18,13 @@ namespace Poses
                 };
             }
         }
-        public new static bool IsPose(Result[] result)
+
+        
+
+        public ArmCross(string repCount) : base(repCount) { name = "Arm Cross"; }
+        public override bool IsFinished(Result[] result, Text t)
         {
+            Debug.Log("B");
             float i = 0f;
             for(int x = 7; x < 11; x++){i+=result[x].confidence;}
 
@@ -25,9 +32,12 @@ namespace Poses
                     result[10].y < result[8].y && 
                     (result[10].x - result[9].x) > -.05 && i > 2.6)
             {
+                _repCount--;
+                RepAction(t);
                 return true;
             }
             else
+                NoRepAction(t);
                 return false;
         }
     }
