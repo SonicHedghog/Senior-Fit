@@ -11,7 +11,17 @@ public class Interpreter
     
     public Interpreter(string filename)
     {
-        List<string> fileLines = File.ReadAllLines(Application.streamingAssetsPath + "/Routines/" + filename + ".txt").ToList();
+        string[] paths = {Application.streamingAssetsPath, "Routines", filename + ".txt"};
+        List<string> fileLines;
+        
+        var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+        www.SendWebRequest();
+        while (!www.isDone)
+        {
+        }
+        fileLines = www.downloadHandler.text.Split('\n').ToList();
+        Debug.Log(www.downloadHandler.text);
+
         string[] temp = {"switch ", "background ", "run ", "voice ", "image ", "wait ", "pause ", "words ", "; ", "next "};
 
         poses = new Queue<Poses.Pose>();
@@ -19,17 +29,16 @@ public class Interpreter
 
         foreach (var line in fileLines)
         {
-            // try
-            // {
+            try
+            {
                 Debug.Log(line.Split()[0] );
                 poses.Enqueue((Poses.Pose)Activator.CreateInstance(Type.GetType("Poses." + line.Split(' ')[0]), new System.Object[]{line.Split(' ')[1]}));
-            // }
-            // catch
-            // {
-            //     // Poses.ArmCross 
-            //     poses.Enqueue(null);
-            //     sceneCommands.Enqueue(line);
-            // }
+            }
+            catch
+            {
+                poses.Enqueue(null);
+                sceneCommands.Enqueue(line);
+            }
         }
     }
 
