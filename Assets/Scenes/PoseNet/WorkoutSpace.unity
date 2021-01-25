@@ -154,6 +154,7 @@ MonoBehaviour:
   cameraView: {fileID: 237587965}
   threshold: 0.5
   lineThickness: 0.5
+  file: test
   exerciseName: {fileID: 1124019090793975663}
   results: []
 --- !u!4 &86521803

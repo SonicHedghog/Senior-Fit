@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TensorFlowLite;
@@ -10,6 +11,7 @@ public class PoseRocgnizer : MonoBehaviour
     [SerializeField] RawImage cameraView = null;
     [SerializeField, Range(0f, 1f)] float threshold = 0.5f;
     [SerializeField, Range(0f, 1f)] float lineThickness = 0.5f;
+    [SerializeField] string file = "test";
     private bool menu = false;
     private bool completed = false;
     private Poses.Pose curPose;
@@ -30,7 +32,7 @@ public class PoseRocgnizer : MonoBehaviour
 
         // Init camera
         string cameraName = WebCamUtil.FindName();
-        webcamTexture = new WebCamTexture(cameraName, 1280, 720, 30);
+        webcamTexture = new WebCamTexture(cameraName, Screen.width, Screen.height);
         webcamTexture.Play();
         cameraView.texture = webcamTexture;
 
@@ -39,7 +41,14 @@ public class PoseRocgnizer : MonoBehaviour
             color = Color.green,
         };
 
-        script = new Interpreter("test");
+        try{
+            script = new Interpreter(file);
+        }
+        catch(Exception e)
+        {
+            exerciseName.text =e.Message;
+            exerciseName.fontSize = 20;
+        }
     }
 
     void OnDestroy()
@@ -65,7 +74,7 @@ public class PoseRocgnizer : MonoBehaviour
             menu = false;
         }
 
-        cameraView.material = poseNet.transformMat;
+        // cameraView.material = poseNet.transformMat;
         // cameraView.texture = poseNet.inputTex;
 
         DrawResult();
