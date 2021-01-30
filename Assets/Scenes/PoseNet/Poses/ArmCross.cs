@@ -24,7 +24,6 @@ namespace Poses
         public ArmCross(string repCount) : base(repCount) { name = "Arm Cross"; }
         public override bool IsFinished(Result[] result, Text t)
         {
-            Debug.Log("B");
             float i = 0f;
             for(int x = 7; x < 11; x++){i+=result[x].confidence;}
 
