@@ -9,36 +9,39 @@ EditorBuildSettings:
     path: Assets/Scenes/Index/Index.unity
     guid: 9396535c99fb944afbc60c89799f316e
   - enabled: 0
-    path: Assets/Samples/MNIST/MNIST.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/SSD/SSD.unity
-    guid: 97a93d56ec0ff46078e253cebe3c63ee
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Scenes/DeepLab/DeepLab.unity
     guid: 83d7df9250b9b412fb5713f372009893
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PoseNet/WorkoutSpace.unity
     guid: 338da8008aa764c05a72b5db18dc0d5c
   - enabled: 0
-    path: Assets/Samples/StyleTransfer/StyleTransfer.unity
-    guid: 494656ebdd6dc43b4843586753a539bb
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/HandTracking/HandTracking.unity
-    guid: 662ce65fb2adc439e84fa9fc8d766fe4
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/BlazePose/BlazePoseUpperBody.unity
-    guid: d950d4d838fef4617a05bdf13bad7f89
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/BlazePose/BlazePoseFullBody.unity
-    guid: 3abf2ff7d3acd4eda8d5014c1830c433
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/TextClassification/TextClassification.unity
-    guid: 60a19500630374f2da35947df5148c5e
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/Bert/Bert.unity
-    guid: a09d7e2da582c4bfdb3aebd6a0e9779f
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Samples/TestWebcamRotation/TestWebcamRotation.unity
-    guid: 9d50926a120584683985b32230436be4
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: 8999e02019ede824099c2a80d5106c8d
   m_configObjects: {}

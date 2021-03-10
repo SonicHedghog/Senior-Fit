@@ -1,2 +1,3 @@
+OneLegStand 1
 SeatedMarch 10
-ArmCross 1
+ArmCross 10
