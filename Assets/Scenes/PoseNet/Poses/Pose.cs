@@ -13,7 +13,7 @@ namespace Poses
         
         public static Part[] disabilities;
         protected string name = "";
-        protected int _repCount = 0;
+        protected float _repCount = 0;
 
         public Pose(string repCount) { _repCount = Int32.Parse(repCount);}
 
@@ -25,14 +25,14 @@ namespace Poses
 
         public void RepAction(Text t)
         {
-            t.text = name + " x " + _repCount;
+            t.text = name + " x " + (int)_repCount;
             Debug.Log(name);
         }
 
         public void NoRepAction(Text t)
         {
             // t.text = "Exercise Name";
-            t.text = name + " x " + _repCount;
+            t.text = name + " x " + (int)_repCount;
         }
         
     }

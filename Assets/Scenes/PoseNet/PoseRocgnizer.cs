@@ -74,7 +74,7 @@ public class PoseRocgnizer : MonoBehaviour
             menu = false;
         }
 
-        // cameraView.material = poseNet.transformMat;
+        cameraView.material = poseNet.transformMat;
         // cameraView.texture = poseNet.inputTex;
 
         DrawResult();
@@ -83,6 +83,7 @@ public class PoseRocgnizer : MonoBehaviour
         {
             completed = false;
             curPose = script.AdvanceScript();
+            Debug.Log(curPose);
         }
 
         if(curPose!=null)
@@ -96,7 +97,6 @@ public class PoseRocgnizer : MonoBehaviour
             // Debug.Log(commmand);
             completed = true;
         }
-        Debug.Log(curPose);
     }
 
     void DrawResult()
