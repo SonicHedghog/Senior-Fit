@@ -7,7 +7,7 @@ using Poses;
 
 public class PoseRocgnizer : MonoBehaviour
 {
-    [SerializeField, FilePopup("*.tflite")] string fileName = "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite";
+    [SerializeField, FilePopup("*.tflite")] string fileName;
     [SerializeField] RawImage cameraView = null;
     [SerializeField, Range(0f, 1f)] float threshold = 0.5f;
     [SerializeField, Range(0f, 1f)] float lineThickness = 0.5f;
@@ -25,8 +25,13 @@ public class PoseRocgnizer : MonoBehaviour
 
     public PoseNet.Result[] results;
 
+    private bool isFlipped = false;
+
     void Start()
     {
+        fileName = !isFlipped ? "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
+                            : "posenet_mobilenet_v1_100_513x513_multi_kpt_stripped.tflite";
+
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
         poseNet = new PoseNet(path);
 
@@ -41,7 +46,8 @@ public class PoseRocgnizer : MonoBehaviour
             color = Color.green,
         };
 
-        try{
+        try
+        {
             script = new Interpreter(file);
         }
         catch(Exception e)
@@ -60,6 +66,24 @@ public class PoseRocgnizer : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.GetIsFlipped() != isFlipped)
+        {
+            isFlipped = !isFlipped;
+            if(!isFlipped)
+            {
+                fileName = "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite";
+                string path = Path.Combine(Application.streamingAssetsPath, fileName);
+                poseNet = new PoseNet(path);
+            }
+            else
+            {
+                Debug.Log("works");
+                fileName = "posenet_mobilenet_v1_100_513x513_multi_kpt_stripped.tflite";
+                string path = Path.Combine(Application.streamingAssetsPath, fileName);
+                poseNet = new PoseNet(path);
+            }
+        }
+
         poseNet.Invoke(webcamTexture);
         results = poseNet.GetResults();
 

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI = null;
     private static bool isPaused = false;
+    private static bool isFlipped = false;
 
     public static bool GetIsPaused()
     {
@@ -25,6 +23,15 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;
+    }
+    
+    public void SwitchMLModel()
+    {
+        isFlipped = !isFlipped;
+    }
+    public static bool GetIsFlipped()
+    {
+        return isFlipped;
     }
     
 }
