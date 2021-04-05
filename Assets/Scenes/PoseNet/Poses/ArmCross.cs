@@ -33,7 +33,7 @@ namespace Poses
             {
                 _repCount--;
                 RepAction(t);
-                return true;
+                return _repCount == 0;
             }
             else
                 NoRepAction(t);
