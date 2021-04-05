@@ -12,6 +12,8 @@ public class PoseRocgnizer : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float threshold = 0.5f;
     [SerializeField, Range(0f, 1f)] float lineThickness = 0.5f;
     [SerializeField] string file = "test";
+    [SerializeField] private GameObject ResultUI = null;
+
     private bool menu = false;
     private bool completed = false;
     private Poses.Pose curPose;
@@ -108,6 +110,13 @@ public class PoseRocgnizer : MonoBehaviour
             completed = false;
             curPose = script.AdvanceScript();
             Debug.Log(curPose);
+        }
+        else if(completed && script.isDone)
+        {
+            ResultUI.SetActive(true);
+            Time.timeScale = 0;
+            webcamTexture.Pause();
+            curPose = null;
         }
 
         if(curPose!=null)

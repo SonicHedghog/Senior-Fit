@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -29,9 +30,19 @@ public class PauseMenu : MonoBehaviour
     {
         isFlipped = !isFlipped;
     }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene("WorkoutSpace");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     public static bool GetIsFlipped()
     {
         return isFlipped;
     }
-    
 }
