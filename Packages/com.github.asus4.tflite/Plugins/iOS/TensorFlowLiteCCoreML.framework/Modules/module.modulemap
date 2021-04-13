@@ -4,5 +4,4 @@ framework module TensorFlowLiteCCoreML {
   module * { export * }
   link framework "CoreML"
   link framework "Foundation"
-  link framework "UIKit"
 }

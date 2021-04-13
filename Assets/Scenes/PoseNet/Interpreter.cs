@@ -14,13 +14,21 @@ public class Interpreter
         string[] paths = {Application.streamingAssetsPath, "Routines", filename + ".txt"};
         List<string> fileLines;
         
-        var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
-        www.SendWebRequest();
-        while (!www.isDone)
+        if(Application.platform == RuntimePlatform.Android)
         {
+            var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+            www.SendWebRequest();
+            while (!www.isDone)
+            {
+            }
+            fileLines = www.downloadHandler.text.Split('\n').ToList();
+            Debug.Log(www.downloadHandler.text);
         }
-        fileLines = www.downloadHandler.text.Split('\n').ToList();
-        Debug.Log(www.downloadHandler.text);
+        else
+        {
+            fileLines = File.ReadAllLines(Application.streamingAssetsPath + "/Routines/" + filename + ".txt").ToList();
+        }
+
 
         string[] temp = {"switch ", "background ", "run ", "voice ", "image ", "wait ", "pause ", "words ", "; ", "next "};
 
@@ -34,8 +42,9 @@ public class Interpreter
                 Debug.Log(line.Split()[0] );
                 poses.Enqueue((Poses.Pose)Activator.CreateInstance(Type.GetType("Poses." + line.Split(' ')[0]), new System.Object[]{line.Split(' ')[1]}));
             }
-            catch
+            catch(Exception e)
             {
+                Debug.Log(e.Message);
                 poses.Enqueue(null);
                 sceneCommands.Enqueue(line);
             }
