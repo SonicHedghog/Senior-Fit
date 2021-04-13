@@ -68,15 +68,29 @@ namespace Poses
                 {
                     if(waitTime <= 0)
                     {
-                        RepAction(t);
-                        legCheck = 1;
-                        _repCount = setTime;
+                        if(correctCounts/4 > incorrectCounts)
+                        {
+                            RepAction(t);
+                            legCheck++;
+                            _repCount = setTime;
+                        }
+                        
                         waitTime = 3;
+                        correctCounts = 0;
+                        incorrectCounts = 0;
                     }
-                    else waitTime -= Time.deltaTime;
-                    
+                    else { waitTime -= Time.deltaTime; NoRepAction(t); }
+                    correctCounts++;
                 }
-                else waitTime = 3;
+                else
+                {
+                    incorrectCounts++;
+                    NoRepAction(t);
+                    // if(waitTime < 3 && waitTime > 2.7 && incorrectCounts > correctCounts)
+                    // {
+                    //     waitTime = 3;
+                    // }
+                }
             }
             return false;
         }
@@ -114,7 +128,7 @@ namespace Poses
                         correctCounts = 0;
                         incorrectCounts = 0;
                     }
-                    else waitTime -= Time.deltaTime;
+                    else { waitTime -= Time.deltaTime; NoRepAction(t); }
 
                     correctCounts++;
                     
@@ -122,6 +136,7 @@ namespace Poses
                 else
                 {
                     incorrectCounts++;
+                    NoRepAction(t);
                     // if(waitTime < 3 && waitTime > 2.7 && incorrectCounts > correctCounts)
                     // {
                     //     waitTime = 3;

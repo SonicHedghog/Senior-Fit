@@ -15,7 +15,7 @@ public class PoseRocgnizer : MonoBehaviour
     [SerializeField] private GameObject ResultUI = null;
 
     private bool menu = false;
-    private bool completed = false;
+    private bool completed = true;
     private Poses.Pose curPose;
     private Interpreter script;
     WebCamTexture webcamTexture;
@@ -24,6 +24,7 @@ public class PoseRocgnizer : MonoBehaviour
     PrimitiveDraw draw;
 
     public Text exerciseName;
+    public Text resultText;
 
     public PoseNet.Result[] results;
 
@@ -109,14 +110,18 @@ public class PoseRocgnizer : MonoBehaviour
         {
             completed = false;
             curPose = script.AdvanceScript();
+            resultText.text+= exerciseName.text + "\n";
             Debug.Log(curPose);
         }
         else if(completed && script.isDone)
         {
+            resultText.text+= exerciseName.text;
+            resultText.text = resultText.text.Replace("Exercise Name\n","");
             ResultUI.SetActive(true);
             Time.timeScale = 0;
             webcamTexture.Pause();
             curPose = null;
+            completed = false;
         }
 
         if(curPose!=null)
@@ -124,12 +129,12 @@ public class PoseRocgnizer : MonoBehaviour
             // Debug.Log("Yes");
             completed = curPose.IsFinished(results, exerciseName);
         }
-        else if(!completed)
-        {
-            // string commmand = script.GetCommand();
-            // Debug.Log(commmand);
-            completed = true;
-        }
+        // else if(!completed)
+        // {
+        //     // string commmand = script.GetCommand();
+        //     // Debug.Log(commmand);
+        //     completed = true;
+        // }
     }
 
     void DrawResult()
