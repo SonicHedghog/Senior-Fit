@@ -36,7 +36,7 @@ public class TestVideo : MonoBehaviour
         string cameraName = WebCamUtil.FindName();
         videoPlayer = camera.AddComponent<UnityEngine.Video.VideoPlayer>();
         videoPlayer.isLooping = true;
-        videoPlayer.url = "C:\\Users\\kyleh\\Pictures\\Camera Roll\\20210226_114243.mp4";
+        videoPlayer.url = "http://192.168.1.89:8000/Videos/test.mp4";
         videoPlayer.Play();
         cameraView.texture = videoPlayer.texture;
 
