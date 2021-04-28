@@ -37,8 +37,8 @@ public class TestVideo : MonoBehaviour
         videoPlayer = camera.AddComponent<UnityEngine.Video.VideoPlayer>();
         videoPlayer.isLooping = true;
         videoPlayer.url = Application.platform == RuntimePlatform.Android 
-                            ? "http://192.168.1.89:8000/Videos/test.mp4"
-                            : Path.Combine(Application.streamingAssetsPath, "WIN_20210414_01_23_11_Pro.mp4");;
+                            ? Path.Combine(Application.streamingAssetsPath, "WIN_20210414_01_23_11_Pro.mp4")
+                            : Path.Combine(Application.streamingAssetsPath, "WIN_20210414_01_23_11_Pro.mp4");
         videoPlayer.Play();
         cameraView.texture = videoPlayer.texture;
 
