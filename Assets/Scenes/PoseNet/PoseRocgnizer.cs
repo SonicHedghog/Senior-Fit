@@ -31,6 +31,8 @@ public class PoseRocgnizer : MonoBehaviour
     private bool isFlipped = false;
     private bool higherAccuracy = false;
 
+    bool addedExercise = false;
+
     void Start()
     {
         fileName = !isFlipped ? "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
@@ -128,15 +130,12 @@ public class PoseRocgnizer : MonoBehaviour
 
         if(completed && !script.isDone)
         {
-            completed = false;
+            completed = addedExercise = false;
             curPose = script.AdvanceScript();
-            resultText.text+= exerciseName.text + "\n";
             Debug.Log(curPose);
         }
         else if(completed && script.isDone)
         {
-            resultText.text+= exerciseName.text;
-            resultText.text = resultText.text.Replace("Exercise Name\n","");
             ResultUI.SetActive(true);
             Time.timeScale = 0;
             webcamTexture.Pause();
@@ -147,7 +146,14 @@ public class PoseRocgnizer : MonoBehaviour
         if(curPose!=null)
         {
             // Debug.Log("Yes");
+
             completed = curPose.IsFinished(results, exerciseName);
+
+            if (!addedExercise)
+            {
+                addedExercise = true;
+                resultText.text+= exerciseName.text + "\n";
+            }
         }
         // else if(!completed)
         // {
