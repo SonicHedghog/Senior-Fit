@@ -29,6 +29,7 @@ public class PoseRocgnizer : MonoBehaviour
     public PoseNet.Result[] results;
 
     private bool isFlipped = false;
+    private bool higherAccuracy = false;
 
     void Start()
     {
@@ -40,7 +41,8 @@ public class PoseRocgnizer : MonoBehaviour
 
         // Init camera
         string cameraName = WebCamUtil.FindName();
-        webcamTexture = new WebCamTexture(cameraName, Screen.width, Screen.height);
+        Debug.Log(cameraName);
+        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
         webcamTexture.Play();
         cameraView.texture = webcamTexture;
 
@@ -72,23 +74,38 @@ public class PoseRocgnizer : MonoBehaviour
         if (PauseMenu.GetIsFlipped() != isFlipped)
         {
             isFlipped = !isFlipped;
+            webcamTexture.Stop();
             if(!isFlipped)
             {
-                fileName = "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite";
-                string path = Path.Combine(Application.streamingAssetsPath, fileName);
-                poseNet = new PoseNet(path);
+                webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
+                Debug.Log("Flipped to " + webcamTexture.deviceName);
             }
             else
             {
-                Debug.Log("works");
-                fileName = "posenet_mobilenet_v1_100_513x513_multi_kpt_stripped.tflite";
-                string path = Path.Combine(Application.streamingAssetsPath, fileName);
-                poseNet = new PoseNet(path);
+                try
+                {
+                    webcamTexture = new WebCamTexture(WebCamTexture.devices[1].name, Screen.width, Screen.height);
+                    Debug.Log("Flipped to " + webcamTexture.deviceName);
+                }
+                catch (Exception e)
+                {  
+                    webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height); 
+                    Debug.Log(e.Message);
+                }
             }
+            cameraView.texture = webcamTexture;
         }
 
-        poseNet.Invoke(webcamTexture);
-        results = poseNet.GetResults();
+        if (PauseMenu.GetAccuracyLevel() != higherAccuracy)
+        {
+            higherAccuracy = !higherAccuracy;
+
+            fileName = !higherAccuracy ? "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite" 
+                                        : "posenet_mobilenet_v1_100_513x513_multi_kpt_stripped.tflite";
+
+            string path = Path.Combine(Application.streamingAssetsPath, fileName);
+            poseNet = new PoseNet(path);
+        }
 
         if(PauseMenu.GetIsPaused() && !menu)
         {
@@ -100,6 +117,9 @@ public class PoseRocgnizer : MonoBehaviour
             webcamTexture.Play();
             menu = false;
         }
+
+        poseNet.Invoke(webcamTexture);
+        results = poseNet.GetResults();
 
         cameraView.material = poseNet.transformMat;
         // cameraView.texture = poseNet.inputTex;

@@ -6,6 +6,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenuUI = null;
     private static bool isPaused = false;
     private static bool isFlipped = false;
+    private static bool higherAccuracy = false;
 
     public static bool GetIsPaused()
     {
@@ -28,6 +29,11 @@ public class PauseMenu : MonoBehaviour
     
     public void SwitchMLModel()
     {
+        higherAccuracy = !higherAccuracy;
+    }
+
+     public void FlipCamera()
+    {
         isFlipped = !isFlipped;
     }
 
@@ -44,5 +50,10 @@ public class PauseMenu : MonoBehaviour
     public static bool GetIsFlipped()
     {
         return isFlipped;
+    }
+
+    public static bool GetAccuracyLevel()
+    {
+        return higherAccuracy;
     }
 }
