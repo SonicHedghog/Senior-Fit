@@ -34,6 +34,11 @@ namespace Poses
             // t.text = "Exercise Name";
             t.text = name + " x " + (int)_repCount;
         }
+
+        public string GetTutorialAddress()
+        {
+            return Application.streamingAssetsPath + "/TutorialClips/" + name.Replace(' ', '_').ToLower() + "_tutorial.mp4";
+        }
         
     }
 }

@@ -13,6 +13,7 @@ public class PoseRocgnizer : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float lineThickness = 0.5f;
     [SerializeField] string file = "test";
     [SerializeField] private GameObject ResultUI = null;
+    public UnityEngine.Video.VideoPlayer videoPlayer;
 
     private bool menu = false;
     private bool completed = true;
@@ -47,6 +48,7 @@ public class PoseRocgnizer : MonoBehaviour
         webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
         webcamTexture.Play();
         cameraView.texture = webcamTexture;
+
 
         draw = new PrimitiveDraw()
         {
@@ -112,11 +114,13 @@ public class PoseRocgnizer : MonoBehaviour
         if(PauseMenu.GetIsPaused() && !menu)
         {
             webcamTexture.Pause();
+            videoPlayer.Pause();
             menu = true;
         }
         else if(menu && !PauseMenu.GetIsPaused())
         {
             webcamTexture.Play();
+            videoPlayer.Play();
             menu = false;
         }
 
@@ -133,12 +137,16 @@ public class PoseRocgnizer : MonoBehaviour
             completed = addedExercise = false;
             curPose = script.AdvanceScript();
             Debug.Log(curPose);
+
+            videoPlayer.url = curPose.GetTutorialAddress();
+            videoPlayer.Play();
         }
         else if(completed && script.isDone)
         {
             ResultUI.SetActive(true);
             Time.timeScale = 0;
             webcamTexture.Pause();
+            videoPlayer.Pause();
             curPose = null;
             completed = false;
         }
