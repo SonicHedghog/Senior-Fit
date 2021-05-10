@@ -62,12 +62,8 @@ public sealed class BlazePoseSample : MonoBehaviour
         }
 
         // Init camera 
-        string cameraName = WebCamUtil.FindName(new WebCamUtil.PreferSpec()
-        {
-            isFrontFacing = false,
-            kind = WebCamKind.WideAngle,
-        });
-        webcamTexture = new WebCamTexture(cameraName, 1280, 720, 30);
+        string cameraName = WebCamUtil.FindName();
+        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
         cameraView.texture = webcamTexture;
         webcamTexture.Play();
         Debug.Log($"Starting camera: {cameraName}");
