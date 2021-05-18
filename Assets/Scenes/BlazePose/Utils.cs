@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Utils {
   private Utils() {}
@@ -37,29 +39,29 @@ public class Utils {
     return Math.Abs(point.x) + Math.Abs(point.y) + Math.Abs(point.z);
   }
 
-  public static void addAll(Vector3[] pointsList, Vector3 p) {
-    for(int x = 0; x < pointsList.Length; x++)
+  public static void addAll(List<Vector3> pointsList, Vector3 p) {
+    for(int x = 0; x < pointsList.Count; x++)
     {
         pointsList[x] = add(pointsList[x], p);
     }
   }
 
-  public static void subtractAll(Vector3 p, Vector3[] pointsList) {
-    for(int x = 0; x < pointsList.Length; x++)
+  public static void subtractAll(Vector3 p, List<Vector3> pointsList) {
+    for(int x = 0; x < pointsList.Count; x++)
     {
         pointsList[x] = subtract(p, pointsList[x]);
     }
   }
 
-  public static void multiplyAll(Vector3[] pointsList, float multiple) {
-    for(int x = 0; x < pointsList.Length; x++)
+  public static void multiplyAll(List<Vector3> pointsList, float multiple) {
+    for(int x = 0; x < pointsList.Count; x++)
     {
         pointsList[x] = multiply(pointsList[x], multiple);
     }
   }
 
-  public static void multiplyAll(Vector3[] pointsList, Vector3 multiple) {
-    for(int x = 0; x < pointsList.Length; x++)
+  public static void multiplyAll(List<Vector3> pointsList, Vector3 multiple) {
+    for(int x = 0; x < pointsList.Count; x++)
     {
         pointsList[x] = multiply(pointsList[x], multiple);
     }
