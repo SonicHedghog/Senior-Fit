@@ -13,6 +13,39 @@ namespace TensorFlowLite
     /// </summary>
     public abstract class PoseLandmarkDetect : BaseImagePredictor<float>
     {
+        public static readonly int NOSE = 0;
+        public static readonly int LEFT_EYE_INNER = 1;
+        public static readonly int LEFT_EYE = 2;
+        public static readonly int LEFT_EYE_OUTER = 3;
+        public static readonly int RIGHT_EYE_INNER = 4;
+        public static readonly int RIGHT_EYE = 5;
+        public static readonly int RIGHT_EYE_OUTER = 6;
+        public static readonly int LEFT_EAR = 7;
+        public static readonly int RIGHT_EAR = 8;
+        public static readonly int LEFT_MOUTH = 9;
+        public static readonly int RIGHT_MOUTH = 10;
+        public static readonly int LEFT_SHOULDER = 11;
+        public static readonly int RIGHT_SHOULDER = 12;
+        public static readonly int LEFT_ELBOW = 13;
+        public static readonly int RIGHT_ELBOW = 14;
+        public static readonly int LEFT_WRIST = 15;
+        public static readonly int RIGHT_WRIST = 16;
+        public static readonly int LEFT_PINKY = 17;
+        public static readonly int RIGHT_PINKY = 18;
+        public static readonly int LEFT_INDEX = 19;
+        public static readonly int RIGHT_INDEX = 20;
+        public static readonly int LEFT_THUMB = 21;
+        public static readonly int RIGHT_THUMB = 22;
+        public static readonly int LEFT_HIP = 23;
+        public static readonly int RIGHT_HIP = 24;
+        public static readonly int LEFT_KNEE = 25;
+        public static readonly int RIGHT_KNEE = 26;
+        public static readonly int LEFT_ANKLE = 27;
+        public static readonly int RIGHT_ANKLE = 28;
+        public static readonly int LEFT_HEEL = 29;
+        public static readonly int RIGHT_HEEL = 30;
+        public static readonly int LEFT_FOOT_INDEX = 31;
+        public static readonly int RIGHT_FOOT_INDEX = 32;
         public class Result
         {
             public float score;
