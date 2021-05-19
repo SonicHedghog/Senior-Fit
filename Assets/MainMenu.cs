@@ -1,14 +1,17 @@
 ﻿
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     public void StartExercise()
     {
-        if (Application.HasUserAuthorization(UserAuthorization.WebCam))
+        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+        #if PLATFORM_ANDROID
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+        #endif
+        if (webCamPermission)
         {
             SceneManager.LoadScene("WorkoutSpace");
         }
@@ -16,8 +19,14 @@ public class MainMenu : MonoBehaviour
         else
         {
             Application.RequestUserAuthorization(UserAuthorization.WebCam);
+            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 
-            if (Application.HasUserAuthorization(UserAuthorization.WebCam))
+            #if PLATFORM_ANDROID
+                Permission.RequestUserPermission(Permission.Camera);
+                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+            #endif
+
+            if (webCamPermission)
             {
                 SceneManager.LoadScene("WorkoutSpace");
             }
