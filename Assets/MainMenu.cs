@@ -8,7 +8,20 @@ public class MainMenu : MonoBehaviour
 {
     public void StartExercise()
     {
-        SceneManager.LoadScene(1);
+        if (Application.HasUserAuthorization(UserAuthorization.WebCam))
+        {
+            SceneManager.LoadScene("WorkoutSpace");
+        }
+
+        else
+        {
+            Application.RequestUserAuthorization(UserAuthorization.WebCam);
+
+            if (Application.HasUserAuthorization(UserAuthorization.WebCam))
+            {
+                SceneManager.LoadScene("WorkoutSpace");
+            }
+        }
 
     }
 }
