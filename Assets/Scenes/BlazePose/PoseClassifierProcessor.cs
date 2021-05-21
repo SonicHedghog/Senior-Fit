@@ -75,14 +75,14 @@ namespace TensorFlowLite
       {
         Debug.Log("Error when loading pose samples.\n" + e);
       }
+    
+      poseClassifier = new PoseClassifier(poseSamples);
+      if (isStreamMode) {
+        foreach (String className in POSE_CLASSES) {
+          repCounters.Add(new RepetitionCounter(className));
+        }
+      }
     }
-      // poseClassifier = new PoseClassifier(poseSamples);
-      // if (isStreamMode) {
-      //   foreach (String className in POSE_CLASSES) {
-      //     repCounters.Add(new RepetitionCounter(className));
-      //   }
-      // }
-    // }
 
     /**
     * Given a new {@link Pose} input, returns a list of formatted {@link String}s with Pose
@@ -94,17 +94,18 @@ namespace TensorFlowLite
     */
     //@WorkerThread
     public List<String> getPoseResult(PoseLandmarkDetect.Result pose) {
-      // Preconditions.checkState(Looper.myLooper() != Looper.getMainLooper());
       List<String> result = new List<String>();
+      Debug.Log(poseClassifier == null);
       ClassificationResult classification = poseClassifier.classify(pose);
-
+        
+      Debug.Log(classification);
       // Update {@link RepetitionCounter}s if {@code isStreamMode}.
       if (isStreamMode) {
         // Feed pose to smoothing even if no pose found.
         classification = emaSmoothing.getSmoothedResult(classification);
 
         // Return early without updating repCounter if no pose found.
-        if (pose.joints.Count() == 0) {
+        if (pose.joints.Length == 0) {
           result.Add(lastRepResult);
           return result;
         }
