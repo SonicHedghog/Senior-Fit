@@ -32,12 +32,11 @@ public class ClassificationResult
   }
 
   public void incrementClassConfidence(String className) {
-    classConfidences.Add(className,
-        classConfidences.ContainsKey(className) ? classConfidences[className] + 1 : 1);
+    classConfidences[className] =  classConfidences.ContainsKey(className) ? classConfidences[className] + 1 : 1;
   }
 
 
   public void putClassConfidence(String className, float confidence) {
-    classConfidences.Add(className, confidence);
+    classConfidences[className] = confidence;
   }
 }
