@@ -16,8 +16,8 @@ namespace TensorFlowLite
     // Specify classes for which we want rep counting.
     // These are the labels in the given {@code POSE_SAMPLES_FILE}. You can set your own class labels
     // for your pose samples.
-    private static readonly String PUSHUPS_CLASS = "pushups_down";
-    private static readonly String SQUATS_CLASS = "squats_down";
+    private static readonly String PUSHUPS_CLASS = "seated_march_left";
+    private static readonly String SQUATS_CLASS = "seated_march_right";
     private static readonly String[] POSE_CLASSES = {
       PUSHUPS_CLASS, SQUATS_CLASS
     };
