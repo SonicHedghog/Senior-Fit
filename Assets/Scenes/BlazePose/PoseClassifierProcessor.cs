@@ -39,6 +39,8 @@ namespace TensorFlowLite
         lastRepResult = "";
       }
       loadPoseSamples(filename);
+      Debug.Log("Inside pose classifier processor");
+     
     }
 
     private void loadPoseSamples(string filename) {
@@ -82,6 +84,7 @@ namespace TensorFlowLite
           repCounters.Add(new RepetitionCounter(className));
         }
       }
+       Debug.Log("Inside load pose ");
     }
 
     /**
@@ -95,10 +98,11 @@ namespace TensorFlowLite
     //@WorkerThread
     public List<String> getPoseResult(PoseLandmarkDetect.Result pose) {
       List<String> result = new List<String>();
-      Debug.Log(poseClassifier == null);
+      Debug.Log("Inside get pose result");
+     // Debug.Log(poseClassifier == null);
       ClassificationResult classification = poseClassifier.classify(pose);
         
-      Debug.Log(classification);
+      Debug.Log(classification==null);
       // Update {@link RepetitionCounter}s if {@code isStreamMode}.
       if (isStreamMode) {
         // Feed pose to smoothing even if no pose found.
@@ -107,6 +111,8 @@ namespace TensorFlowLite
         // Return early without updating repCounter if no pose found.
         if (pose.joints.Length == 0) {
           result.Add(lastRepResult);
+
+          
           return result;
         }
 
@@ -134,9 +140,17 @@ namespace TensorFlowLite
                 / poseClassifier.confidenceRange());
         result.Add(maxConfidenceClassResult);
       }
-
+      Debug.Log(result.Count);
+      foreach(String s in result)
+      {
+        Debug.Log(s);
+      }
+      
       return result;
+    
+      
     }
 
   }
+  
 }

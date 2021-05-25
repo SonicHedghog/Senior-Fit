@@ -13,7 +13,7 @@ public class EMASmoothing
     // This is a window of {@link ClassificationResult}s as outputted by the {@link PoseClassifier}.
     // We run smoothing over this window of size {@link windowSize}.
     //private  Deque<ClassificationResult> window;
-    private LinkedList<ClassificationResult> window;
+    private LinkedList<ClassificationResult> window=new LinkedList<ClassificationResult>();
     public EMASmoothing()
     {
         this.windowSize = DEFAULT_WINDOW_SIZE;
@@ -32,7 +32,7 @@ public class EMASmoothing
     public ClassificationResult getSmoothedResult(ClassificationResult classificationResult)
     {
         // If we are at window size, remove the last (oldest) result.
-        if (window.Count() == windowSize)
+            if (window.Count == windowSize)
         {
             window.RemoveLast();
         }

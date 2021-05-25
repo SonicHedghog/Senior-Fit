@@ -40,7 +40,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
     PoseLandmarkDetect.Result landmarkResult;
     UniTask<bool> task;
     CancellationToken cancellationToken;
-    public string filename;
+    public string filename="SeatedMarch";
     PoseClassifierProcessor processor;
 
 
@@ -108,7 +108,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         DrawCropMatrix(poseLandmark.CropMatrix);
         DrawJoints(landmarkResult.joints);
         List<string> poses = processor.getPoseResult(landmarkResult);
-        Debug.Log(poses[0]);
+        Debug.Log("result:"+poses[0]);
 
     }
 
