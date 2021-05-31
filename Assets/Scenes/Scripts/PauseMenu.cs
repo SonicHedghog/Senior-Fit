@@ -56,4 +56,8 @@ public class PauseMenu : MonoBehaviour
     {
         return higherAccuracy;
     }
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
 }
