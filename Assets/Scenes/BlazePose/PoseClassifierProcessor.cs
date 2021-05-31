@@ -39,7 +39,7 @@ namespace TensorFlowLite
         lastRepResult = "";
       }
       loadPoseSamples(filename);
-      Debug.Log("Inside pose classifier processor");
+      
      
     }
 
@@ -84,7 +84,7 @@ namespace TensorFlowLite
           repCounters.Add(new RepetitionCounter(className));
         }
       }
-       Debug.Log("Inside load pose ");
+      
     }
 
     /**
@@ -98,7 +98,7 @@ namespace TensorFlowLite
     //@WorkerThread
     public List<String> getPoseResult(PoseLandmarkDetect.Result pose) {
       List<String> result = new List<String>();
-      Debug.Log("Inside get pose result");
+    
      // Debug.Log(poseClassifier == null);
       ClassificationResult classification = poseClassifier.classify(pose);
         
@@ -132,12 +132,10 @@ namespace TensorFlowLite
       // Add maxConfidence class of current frame to result if pose is found.
       if (pose.joints.Count() != 0) {
         String maxConfidenceClass = classification.getMaxConfidenceClass();
-        String maxConfidenceClassResult = String.Format(
-          
-            "%s : %.2f confidence",
-            maxConfidenceClass,
-            classification.getClassConfidence(maxConfidenceClass)
-                / poseClassifier.confidenceRange());
+        String maxConfidenceClassResult = maxConfidenceClass+" : "
+        +classification.getClassConfidence(maxConfidenceClass)/ poseClassifier.confidenceRange()
+        +" confidence";
+               
         result.Add(maxConfidenceClassResult);
       }
       Debug.Log(result.Count);

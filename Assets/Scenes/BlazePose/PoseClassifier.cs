@@ -53,8 +53,9 @@ namespace TensorFlowLite
     }
 
     public ClassificationResult classify(PoseLandmarkDetect.Result pose) {
+     
       return classify(extractPoseLandmarks(pose));
-      Debug.Log("Inside pose classify");
+      
 
     }
 
