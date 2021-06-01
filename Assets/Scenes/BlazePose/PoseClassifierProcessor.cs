@@ -102,7 +102,7 @@ namespace TensorFlowLite
      // Debug.Log(poseClassifier == null);
       ClassificationResult classification = poseClassifier.classify(pose);
         
-      Debug.Log(classification==null);
+      //Debug.Log(classification==null);
       // Update {@link RepetitionCounter}s if {@code isStreamMode}.
       if (isStreamMode) {
         // Feed pose to smoothing even if no pose found.
@@ -123,10 +123,12 @@ namespace TensorFlowLite
             // Play a fun beep when rep counter updates.
             // 
             Debug.Log("BEEEEP");
+            lastRepResult=repCounter.getClassName()+" : "+repsAfter;
             break;
           }
         }
         result.Add(lastRepResult);
+
       }
 
       // Add maxConfidence class of current frame to result if pose is found.
@@ -138,10 +140,10 @@ namespace TensorFlowLite
                
         result.Add(maxConfidenceClassResult);
       }
-      Debug.Log(result.Count);
+     
       foreach(String s in result)
       {
-        Debug.Log(s);
+        //Debug.Log(s);
       }
       
       return result;

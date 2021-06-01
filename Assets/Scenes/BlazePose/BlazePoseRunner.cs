@@ -108,7 +108,10 @@ public sealed class BlazePoseRunner : MonoBehaviour
         DrawCropMatrix(poseLandmark.CropMatrix);
         DrawJoints(landmarkResult.joints);
         List<string> poses = processor.getPoseResult(landmarkResult);
-        Debug.Log("result:"+poses[0]);
+        foreach(string s in poses)
+        {
+            Debug.Log(s);
+        }
 
     }
 

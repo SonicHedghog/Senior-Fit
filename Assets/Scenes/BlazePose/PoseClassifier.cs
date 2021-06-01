@@ -39,6 +39,7 @@ namespace TensorFlowLite
       foreach (Vector3 poseLandmark in pose.joints) {
         landmarks.Add(poseLandmark);
       }
+
       return landmarks;
     }
 
@@ -108,7 +109,9 @@ namespace TensorFlowLite
         // We only want to retain top n so pop the highest distance.
         if (maxDistances.Count > maxDistanceTopK) {
           
-          maxDistances = maxDistances.OrderBy(i => i.Item2).ToList();
+          maxDistances = maxDistances.OrderBy(i => i.Item2).Reverse().ToList();
+         /* Debug.Log("Removed: "+ maxDistances[0].Item1.getClassName()+ " "+ maxDistances[0].Item2);
+          Debug.Log("Top After Removed: "+maxDistances[1].Item1.getClassName()+ " "+ maxDistances[1].Item2);*/
           maxDistances.RemoveAt(0);
         }
       }
@@ -133,7 +136,9 @@ namespace TensorFlowLite
         meanDistances.Add(new Tuple<PoseSample, float>(poseSample, meanDistance));
         // We only want to retain top k so pop the highest mean distance.
         if (meanDistances.Count > meanDistanceTopK) {
-          meanDistances = meanDistances.OrderBy(i => i.Item2).ToList();
+          meanDistances = meanDistances.OrderBy(i => i.Item2).Reverse().ToList();
+          /*Debug.Log("Removed: "+ meanDistances[0].Item1.getClassName()+ " "+ meanDistances[0].Item2);
+          Debug.Log("Top After Removed: "+meanDistances[1].Item1.getClassName()+ " "+ meanDistances[1].Item2);*/
           meanDistances.RemoveAt(0);
         }
       }
@@ -141,6 +146,7 @@ namespace TensorFlowLite
       foreach (Tuple<PoseSample, float> sampleDistances in meanDistances) {
         String className = sampleDistances.Item1.getClassName();
         result.incrementClassConfidence(className);
+        
       }
 
       return result;
