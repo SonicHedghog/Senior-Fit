@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class RepetitionCounter {
@@ -11,6 +12,7 @@ public class RepetitionCounter {
     private  float exitThreshold;
 
     private int numRepeats;
+  
     private bool poseEntered;
 
     public RepetitionCounter(String className) {
@@ -19,6 +21,7 @@ public class RepetitionCounter {
         this.exitThreshold = DEFAULT_EXIT_THRESHOLD;
         numRepeats = 0;
         poseEntered = false;
+      
     }
     public RepetitionCounter(String className, float enterThreshold, float exitThreshold) {
         this.className = className;
@@ -26,20 +29,23 @@ public class RepetitionCounter {
         this.exitThreshold = exitThreshold;
         numRepeats = 0;
         poseEntered = false;
+        
     }
     public int addClassificationResult(ClassificationResult classificationResult) {
         float poseConfidence = classificationResult.getClassConfidence(className);
 
         if (!poseEntered) {
             poseEntered = poseConfidence > enterThreshold;
+           
             return numRepeats;
         }
 
         if (poseConfidence < exitThreshold) {
+            
             numRepeats++;
             poseEntered = false;
         }
-
+        
         return numRepeats;
   }
 
@@ -48,6 +54,7 @@ public class RepetitionCounter {
      }
 
     public int getNumRepeats() {
+        
         return numRepeats;
     }
 }

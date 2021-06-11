@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
@@ -14,6 +14,7 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 public sealed class BlazePoseRunner : MonoBehaviour
 {
+
     public enum Mode
     {
         UpperBody,
@@ -22,12 +23,17 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
     [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
-    [SerializeField] Mode mode = Mode.UpperBody;
+    [SerializeField] Mode mode = Mode.FullBody;
     [SerializeField] RawImage cameraView = null;
-    [SerializeField] RawImage debugView = null;
+   // [SerializeField] RawImage debugView = null;
     [SerializeField] bool useLandmarkFilter = true;
     [SerializeField, Range(2f, 30f)] float filterVelocityScale = 10;
     [SerializeField] bool runBackground;
+     [SerializeField] private GameObject ResultUI = null;
+    public Text exerciseName;
+    public Text resultText;
+
+   
 
     WebCamTexture webcamTexture;
     PoseDetect poseDetect;
@@ -42,7 +48,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
     CancellationToken cancellationToken;
     public string filename="SeatedMarch";
     PoseClassifierProcessor processor;
-
+    
+    
 
     void Start()
     {
@@ -69,7 +76,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         cameraView.texture = webcamTexture;
         webcamTexture.Play();
         Debug.Log($"Starting camera: {cameraName}");
-
+       
         draw = new PrimitiveDraw(Camera.main, gameObject.layer);
         worldJoints = new Vector3[poseLandmark.JointCount];
 
@@ -89,6 +96,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
     void Update()
     {
+        ResultUI.SetActive(true);
         if (runBackground)
         {
             if (task.Status.IsCompleted())
@@ -112,6 +120,9 @@ public sealed class BlazePoseRunner : MonoBehaviour
         {
             Debug.Log(s);
         }
+        
+        resultText.text =poses[0];
+        exerciseName.text =poses[1];
 
     }
 
@@ -191,7 +202,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         if (poseResult.score < 0) return;
 
         poseLandmark.Invoke(webcamTexture, poseResult);
-        debugView.texture = poseLandmark.inputTex;
+      //  debugView.texture = poseLandmark.inputTex;
 
         if (useLandmarkFilter)
         {
@@ -220,10 +231,10 @@ public sealed class BlazePoseRunner : MonoBehaviour
             cameraView.material = poseDetect.transformMat;
             cameraView.rectTransform.GetWorldCorners(rtCorners);
         }
-        if (debugView != null)
+       /* if (debugView != null)
         {
             debugView.texture = poseLandmark.inputTex;
-        }
+        }*/
 
         return true;
     }

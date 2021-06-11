@@ -46,6 +46,9 @@ namespace TensorFlowLite
         public static readonly int RIGHT_HEEL = 30;
         public static readonly int LEFT_FOOT_INDEX = 31;
         public static readonly int RIGHT_FOOT_INDEX = 32;
+
+       
+
         public class Result
         {
             public float score;

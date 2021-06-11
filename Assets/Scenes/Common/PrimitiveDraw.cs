@@ -89,6 +89,7 @@ namespace TensorFlowLite
             quad = new MeshBuffer(CreateMesh(PrimitiveType.Quad), 512);
 
             this.camera = camera ?? Camera.main;
+            
             this.layer = layer;
 
             color = Color.green;
@@ -193,6 +194,7 @@ namespace TensorFlowLite
             if (drawEditor)
             {
                 var editorCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
+              
                 Graphics.DrawMeshInstanced(
                     mb.mesh, 0, material, mb.buffer, mb.index,
                     mpb, ShadowCastingMode.Off, false, layer, editorCamera,
