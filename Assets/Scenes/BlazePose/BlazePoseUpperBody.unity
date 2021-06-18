@@ -469,16 +469,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6c2ecddc84d4bfb931c1f8ad12eac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poseDetectionModelFile: mediapipe/pose_detection.tflite
-  poseLandmarkModelFile: mediapipe/pose_landmark_upper_body.tflite
+  poseDetectionModelFile: ML Models/pose_detection.tflite
+  poseLandmarkModelFile: ML Models/pose_landmark_upper_body.tflite
   mode: 0
   cameraView: {fileID: 2074584278}
-  framePrefab: {fileID: 2968957287132992089, guid: 549d34dea5be54edba285d4947e5cd26,
-    type: 3}
   debugView: {fileID: 1302103928}
-  croppedFrame: {fileID: 0}
   useLandmarkFilter: 1
   filterVelocityScale: 10
+  runBackground: 0
 --- !u!4 &1453601107
 Transform:
   m_ObjectHideFlags: 0

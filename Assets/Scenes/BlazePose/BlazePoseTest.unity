@@ -1180,8 +1180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d88283111418d48adad456e09b99e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poseDetectionModelFile: mlkit/posedetector_full.tflite
-  poseLandmarkModelFile: mlkit/pose_39kp_full.tflite
+  poseDetectionModelFile: ML Models/posedetector.tflite
+  poseLandmarkModelFile: ML Models/pose_landmark_upper_body.tflite
   mode: 1
   cameraView: {fileID: 2074584278}
   useLandmarkFilter: 1
@@ -1441,7 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.5076936
+  m_AspectRatio: 0.88239026
 --- !u!114 &2074584281
 MonoBehaviour:
   m_ObjectHideFlags: 0
