@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using UnityEngine;
 public class RepetitionCounter {
     private static  float DEFAULT_ENTER_THRESHOLD = 6f;
     private static  float DEFAULT_EXIT_THRESHOLD = 4f;
@@ -14,7 +14,7 @@ public class RepetitionCounter {
     private int numRepeats;
   
     private bool poseEntered;
-
+   
     public RepetitionCounter(String className) {
         this.className = className;
         this.enterThreshold = DEFAULT_ENTER_THRESHOLD;
@@ -31,12 +31,14 @@ public class RepetitionCounter {
         poseEntered = false;
         
     }
+
     public int addClassificationResult(ClassificationResult classificationResult) {
         float poseConfidence = classificationResult.getClassConfidence(className);
+       Debug.Log(className+ " : "+ poseConfidence);
 
         if (!poseEntered) {
             poseEntered = poseConfidence > enterThreshold;
-           
+          
             return numRepeats;
         }
 

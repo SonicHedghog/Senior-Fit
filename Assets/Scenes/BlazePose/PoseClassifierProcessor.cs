@@ -16,10 +16,15 @@ namespace TensorFlowLite
     // Specify classes for which we want rep counting.
     // These are the labels in the given {@code POSE_SAMPLES_FILE}. You can set your own class labels
     // for your pose samples.
-    private static readonly String PUSHUPS_CLASS = "seated_march_left";
-    private static readonly String SQUATS_CLASS = "seated_march_right";
+    private static readonly String SEATED_MARCH_LEFT = "seated_march_left";
+    private static readonly String SEATED_MARCH_RIGHT = "seated_march_right";
+    private static readonly String SHOULDER_TOUCH = "Shoulder_touch";
+    private static readonly String SHOULDER_TOUCH_DOWN= "Touch_down";
+     private static readonly String LEFT_MARCH= "Left_march";
+      private static readonly String RIGHT_MARCH= "Right_march";
+
     private static readonly String[] POSE_CLASSES = {
-      PUSHUPS_CLASS, SQUATS_CLASS
+      SHOULDER_TOUCH,SHOULDER_TOUCH_DOWN,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT
     };
 
     private readonly bool isStreamMode;
@@ -133,12 +138,21 @@ namespace TensorFlowLite
 
       // Add maxConfidence class of current frame to result if pose is found.
       if (pose.joints.Count() != 0) {
-        String maxConfidenceClass = classification.getMaxConfidenceClass();
+       String maxConfidenceClass = classification.getMaxConfidenceClass();
         String maxConfidenceClassResult = maxConfidenceClass+" : "
         +classification.getClassConfidence(maxConfidenceClass)/ poseClassifier.confidenceRange()
         +" confidence";
                
         result.Add(maxConfidenceClassResult);
+        /* String conf1 = SHOULDER_TOUCH+" : "
+        +classification.getClassConfidence(SHOULDER_TOUCH)/ poseClassifier.confidenceRange()
+        +" confidence";
+        String conf2 = SHOULDER_TOUCH_DOWN+" : "
+        +classification.getClassConfidence(SHOULDER_TOUCH_DOWN)/ poseClassifier.confidenceRange()
+        +" confidence";
+        String conf= conf1+" ---- "+ conf2;
+        result.Add(conf);*/
+
       }
      
       foreach(String s in result)
