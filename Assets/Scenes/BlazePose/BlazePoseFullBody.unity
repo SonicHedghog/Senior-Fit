@@ -469,13 +469,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6c2ecddc84d4bfb931c1f8ad12eac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poseDetectionModelFile: mlkit/posedetector.tflite
-  poseLandmarkModelFile: mlkit/pose_39kp_lite.tflite
+  poseDetectionModelFile: ML Models/posedetector.tflite
+  poseLandmarkModelFile: ML Models/pose_39kp_lite.tflite
   mode: 1
   cameraView: {fileID: 2074584278}
   debugView: {fileID: 1302103928}
   useLandmarkFilter: 1
   filterVelocityScale: 10
+  runBackground: 0
 --- !u!4 &1453601107
 Transform:
   m_ObjectHideFlags: 0
