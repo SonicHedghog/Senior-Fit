@@ -2,8 +2,11 @@ using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 
+
+
 public class SceneChange : MonoBehaviour
 {
+    BlazePoseRunner blazePoseRunner;
     public void StartSeatedMarch()
     {
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
@@ -28,6 +31,7 @@ public class SceneChange : MonoBehaviour
             if (webCamPermission)
             {
                 SceneManager.LoadScene("BlazePoseTest");
+                //blazePoseRunner.filename="Shoulder_touch";
             }
         }
 

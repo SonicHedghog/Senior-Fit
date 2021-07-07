@@ -16,15 +16,15 @@ namespace TensorFlowLite
     // Specify classes for which we want rep counting.
     // These are the labels in the given {@code POSE_SAMPLES_FILE}. You can set your own class labels
     // for your pose samples.
-    private static readonly String SEATED_MARCH_LEFT = "seated_march_left";
-    private static readonly String SEATED_MARCH_RIGHT = "seated_march_right";
-    private static readonly String SHOULDER_TOUCH = "Shoulder_touch";
-    private static readonly String SHOULDER_TOUCH_DOWN= "Touch_down";
-     private static readonly String LEFT_MARCH= "Left_march";
-      private static readonly String RIGHT_MARCH= "Right_march";
+    private static readonly String SEATED_MARCH_LEFT = "Seated_March_Left";
+    private static readonly String SEATED_MARCH_RIGHT = "Seated_March_Right";
+    private static readonly String Sit_To_Stand_Sit = "Sit_To_Stand_Sit";
+    private static readonly String Sit_To_Stand_Stand= "Sit_To_Stand_Stand";
+     private static readonly String Single_Leg_Stance_Left= "Single_Leg_Stance_Left";
+      private static readonly String Single_Leg_Stance_Right= "Single_Leg_Stance_Right";
 
     private static readonly String[] POSE_CLASSES = {
-      SHOULDER_TOUCH,SHOULDER_TOUCH_DOWN,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT
+      Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT
     };
 
     private readonly bool isStreamMode;
@@ -36,6 +36,8 @@ namespace TensorFlowLite
 
     //@WorkerThread
     public PoseClassifierProcessor(string filename, bool isStreamMode) {
+
+      Debug.Log("File name "+ filename);
       // Preconditions.checkState(Looper.myLooper() != Looper.getMainLooper());
       this.isStreamMode = isStreamMode;
       if (isStreamMode) {
@@ -49,6 +51,8 @@ namespace TensorFlowLite
     }
 
     private void loadPoseSamples(string filename) {
+
+     
       string[] paths = {Application.streamingAssetsPath, "Samples", filename + ".csv"};
       List<string> fileLines;
       List<PoseSample> poseSamples = new List<PoseSample>();
@@ -102,7 +106,18 @@ namespace TensorFlowLite
     */
     //@WorkerThread
     public List<String> getPoseResult(PoseLandmarkDetect.Result pose) {
+
+      string coordinatevalue="";
+
+      foreach( Vector3 v in pose.joints)
+        {
+            coordinatevalue+=v+" ";
+        }
+      
+      
+      Debug.Log("Coordinate : "+ coordinatevalue);
       List<String> result = new List<String>();
+
     
      // Debug.Log(poseClassifier == null);
       ClassificationResult classification = poseClassifier.classify(pose);
@@ -143,7 +158,7 @@ namespace TensorFlowLite
         +classification.getClassConfidence(maxConfidenceClass)/ poseClassifier.confidenceRange()
         +" confidence";
                
-        result.Add(maxConfidenceClassResult);
+        //result.Add(maxConfidenceClassResult);
         /* String conf1 = SHOULDER_TOUCH+" : "
         +classification.getClassConfidence(SHOULDER_TOUCH)/ poseClassifier.confidenceRange()
         +" confidence";

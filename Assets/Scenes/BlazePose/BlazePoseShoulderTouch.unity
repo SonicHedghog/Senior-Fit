@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.5066322
+  m_AspectRatio: 1.1775324
 --- !u!114 &873252633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1058,7 +1058,8 @@ MonoBehaviour:
   ResultUI: {fileID: 238768802}
   exerciseName: {fileID: 1382960835}
   resultText: {fileID: 1503836763}
-  filename: Shoulder_touch
+  webcamTexture: {fileID: 0}
+  filename: Single_Leg_Stance
 --- !u!4 &1623120176
 Transform:
   m_ObjectHideFlags: 0

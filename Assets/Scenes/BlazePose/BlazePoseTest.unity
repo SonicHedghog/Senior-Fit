@@ -708,7 +708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1001378623
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1190,7 +1190,8 @@ MonoBehaviour:
   ResultUI: {fileID: 102554649}
   exerciseName: {fileID: 1001378624}
   resultText: {fileID: 1339143192}
-  filename: SeatedMarch
+  webcamTexture: {fileID: 0}
+  filename: new_SeatedMarch
 --- !u!4 &1453601107
 Transform:
   m_ObjectHideFlags: 0
@@ -1441,7 +1442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.5076936
+  m_AspectRatio: 1.1775324
 --- !u!114 &2074584281
 MonoBehaviour:
   m_ObjectHideFlags: 0

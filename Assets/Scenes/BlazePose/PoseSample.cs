@@ -50,12 +50,14 @@ public class PoseSample {
             new Vector3(
                 float.Parse(tokens[i]),
                 float.Parse(tokens[i + 1]),
-                float.Parse(tokens[i + 2])));
+                //float.Parse(tokens[i + 2])
+                0));
       } catch (Exception) {
         Debug.Log(TAG + "Invalid value " + tokens[i] + " for landmark position.");
         return null;
       }
     }
+    
     return new PoseSample(name, className, landmarks);
   }
 }

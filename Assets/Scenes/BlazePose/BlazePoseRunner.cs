@@ -32,8 +32,9 @@ public sealed class BlazePoseRunner : MonoBehaviour
      [SerializeField] private GameObject ResultUI = null;
     public Text exerciseName;
     public Text resultText;
+    [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
+    public int requestedFPS = 30;
 
-   
 
     WebCamTexture webcamTexture;
     PoseDetect poseDetect;
@@ -46,7 +47,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
     PoseLandmarkDetect.Result landmarkResult;
     UniTask<bool> task;
     CancellationToken cancellationToken;
-    public string filename="SeatedMarch";
+    public string filename="Sit_To_Stand";
+   // public string filenametest="Sit_To_Stand";
     PoseClassifierProcessor processor;
     
     
@@ -72,7 +74,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
         // Init camera 
         string cameraName = WebCamUtil.FindName();
-        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
+        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height,requestedFPS);
+        
         cameraView.texture = webcamTexture;
         webcamTexture.Play();
         Debug.Log($"Starting camera: {cameraName}");
@@ -115,6 +118,10 @@ public sealed class BlazePoseRunner : MonoBehaviour
         if (landmarkResult == null || landmarkResult.score < 0.2f) return;
         DrawCropMatrix(poseLandmark.CropMatrix);
         DrawJoints(landmarkResult.joints);
+
+        
+        
+
         List<string> poses = processor.getPoseResult(landmarkResult);
         foreach(string s in poses)
         {
@@ -122,15 +129,16 @@ public sealed class BlazePoseRunner : MonoBehaviour
         }
         
         resultText.text =poses[0];
-        exerciseName.text =poses[1];
+        //exerciseName.text =poses[1];
 
     }
 
     void DrawFrame(PoseDetect.Result pose)
     {
         Vector3 min = rtCorners[0];
+        
         Vector3 max = rtCorners[2];
-
+         
         draw.color = Color.green;
         draw.Rect(MathTF.Lerp(min, max, pose.rect, true), 0.02f, min.z);
 
