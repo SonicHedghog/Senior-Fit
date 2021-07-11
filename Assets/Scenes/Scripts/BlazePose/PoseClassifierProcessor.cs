@@ -158,7 +158,7 @@ namespace TensorFlowLite
         +classification.getClassConfidence(maxConfidenceClass)/ poseClassifier.confidenceRange()
         +" confidence";
                
-        //result.Add(maxConfidenceClassResult);
+        result.Add(maxConfidenceClassResult);
         /* String conf1 = SHOULDER_TOUCH+" : "
         +classification.getClassConfidence(SHOULDER_TOUCH)/ poseClassifier.confidenceRange()
         +" confidence";

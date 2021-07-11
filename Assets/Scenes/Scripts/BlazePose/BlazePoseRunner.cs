@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TensorFlowLite;
 using Cysharp.Threading.Tasks;
+using System;
 
 /// <summary>
 /// BlazePose form MediaPipe
@@ -20,6 +21,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
         UpperBody,
         FullBody,
     }
+
+    public int exercisenumber;
 
     [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
@@ -39,7 +42,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
     WebCamTexture webcamTexture;
     PoseDetect poseDetect;
     PoseLandmarkDetect poseLandmark;
-
+    private bool isFlipped = false;
     Vector3[] rtCorners = new Vector3[4]; // just cache for GetWorldCorners
     Vector3[] worldJoints;
     PrimitiveDraw draw;
@@ -47,9 +50,14 @@ public sealed class BlazePoseRunner : MonoBehaviour
     PoseLandmarkDetect.Result landmarkResult;
     UniTask<bool> task;
     CancellationToken cancellationToken;
-    public string filename="Sit_To_Stand";
+    public string filename;
+
+    public string filenametest;
+    
    // public string filenametest="Sit_To_Stand";
     PoseClassifierProcessor processor;
+    public int width;
+     public int height;
     
     
 
@@ -72,9 +80,13 @@ public sealed class BlazePoseRunner : MonoBehaviour
                 throw new System.NotSupportedException($"Mode: {mode} is not supported");
         }
 
+        
+
         // Init camera 
         string cameraName = WebCamUtil.FindName();
         webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height,requestedFPS);
+         height=Screen.height;
+        width= Screen.width;
         
         cameraView.texture = webcamTexture;
         webcamTexture.Play();
@@ -84,9 +96,23 @@ public sealed class BlazePoseRunner : MonoBehaviour
         worldJoints = new Vector3[poseLandmark.JointCount];
 
         cancellationToken = this.GetCancellationTokenOnDestroy();
+        exercisenumber= SceneChange.GetExerciseNumber();
+        Debug.Log("EXERCISE NUMBER: "+ exercisenumber);
+        switch(exercisenumber)
+        {
+            case 1:
+                filenametest="new_SeatedMarch";
+                break;
+            case 2:
+                filenametest="Single_Leg_Stance";
+                break;
+            default:
+                break;
+        }
+
 
         // Set up Pose Classifier Processor
-        processor = new PoseClassifierProcessor(filename, true);
+        processor = new PoseClassifierProcessor(filenametest, true);
     }
 
     void OnDestroy()
@@ -99,6 +125,46 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
     void Update()
     {
+        
+        if (SceneChange.GetIsFlipped() != isFlipped)
+        {
+            isFlipped = !isFlipped;
+            webcamTexture.Stop();
+            if(!isFlipped)
+            {
+                webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
+                Debug.Log("Flipped to " + webcamTexture.deviceName);
+                cameraView.texture = webcamTexture;
+        webcamTexture.Play();
+            }
+            else
+            {
+                try
+                {
+                    string frontCamName = null;
+                    var webCamDevices = WebCamTexture.devices;
+                    foreach(var camDevice in webCamDevices){ 
+                        if(camDevice.isFrontFacing){
+                            frontCamName = camDevice.name;
+                            break;
+                        }
+                    }
+                    webcamTexture = new WebCamTexture(frontCamName, width, height);
+                    Debug.Log("Flipped to " + webcamTexture.deviceName);
+                    cameraView.texture = webcamTexture;
+                    webcamTexture.Play();
+                }
+                catch (Exception e)
+                {  
+                    webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height); 
+                    cameraView.texture = webcamTexture;
+                    webcamTexture.Play();
+                    Debug.Log(e.Message);
+                }
+            }
+            cameraView.texture = webcamTexture;
+        }
+
         ResultUI.SetActive(true);
         if (runBackground)
         {

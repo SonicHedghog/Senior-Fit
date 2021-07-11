@@ -7,12 +7,16 @@ using UnityEngine.SceneManagement;
 public class SceneChange : MonoBehaviour
 {
     BlazePoseRunner blazePoseRunner;
+    private static bool isFlipped = false;
+    private static int exercisenumber=0;
     public void StartSeatedMarch()
     {
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
         #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
         #endif
+
+        exercisenumber=1;
         if (webCamPermission)
         {
             SceneManager.LoadScene("BlazePoseTest");
@@ -41,15 +45,31 @@ public class SceneChange : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+    public void FlipCamera()
+    {
+        isFlipped = !isFlipped;
+    }
+
+    public static bool GetIsFlipped()
+    {
+        return isFlipped;
+    }
+
+    public static int GetExerciseNumber()
+    {
+        return exercisenumber;
+    }
+
     public void StartShoulderTouch()
     {
+        exercisenumber=2;
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
         #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
         #endif
         if (webCamPermission)
         {
-            SceneManager.LoadScene("BlazePoseShoulderTouch");
+            SceneManager.LoadScene("BlazePoseTest");
         }
 
         else
@@ -64,7 +84,7 @@ public class SceneChange : MonoBehaviour
 
             if (webCamPermission)
             {
-                SceneManager.LoadScene("BlazePoseShoulderTouch");
+                SceneManager.LoadScene("BlazePoseTest");
             }
         }
 
