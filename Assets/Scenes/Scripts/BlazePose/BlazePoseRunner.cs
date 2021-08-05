@@ -7,6 +7,13 @@ using UnityEngine.UI;
 using TensorFlowLite;
 using Cysharp.Threading.Tasks;
 using System;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.CognitoIdentity;
+using Amazon.Runtime;
+using Amazon;
+
 
 /// <summary>
 /// BlazePose form MediaPipe
@@ -16,6 +23,16 @@ using System;
 public sealed class BlazePoseRunner : MonoBehaviour
 {
 
+    #if UNITY_ANDROID
+    public void UsedOnlyForAOTCodeGeneration() {
+        //Bug reported on github https://github.com/aws/aws-sdk-net/issues/477
+        //IL2CPP restrictions: https://docs.unity3d.com/Manual/ScriptingRestrictions.html
+        //Inspired workaround: https://docs.unity3d.com/ScriptReference/AndroidJavaObject.Get.html
+ 
+        AndroidJavaObject jo = new AndroidJavaObject("android.os.Message");
+        int valueString = jo.Get<int>("what");
+    }
+    #endif
     public enum Mode
     {
         UpperBody,
@@ -23,7 +40,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
     }
 
     public int exercisenumber;
-
+    public string Exercise;
+   
     [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField] Mode mode = Mode.FullBody;
@@ -36,7 +54,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
     public Text exerciseName;
     public Text resultText;
     [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
-    public int requestedFPS = 25;
+    public int requestedFPS;
 
 
     WebCamTexture webcamTexture;
@@ -57,13 +75,84 @@ public sealed class BlazePoseRunner : MonoBehaviour
    // public string filenametest="Sit_To_Stand";
     PoseClassifierProcessor processor;
     public int width;
-     public int height;
-    
-    
+    public int height;
+
+    // ***************AWS set up*******************************************
+    public string IdentityPoolId = "";
+    public string CognitoPoolRegion = RegionEndpoint.USEast2.SystemName;
+    public string DynamoRegion = RegionEndpoint.USEast2.SystemName;
+
+    private RegionEndpoint _CognitoPoolRegion
+    {
+        get { return RegionEndpoint.GetBySystemName(CognitoPoolRegion); }
+    }
+
+    private RegionEndpoint _DynamoRegion
+    {
+        get { return RegionEndpoint.GetBySystemName(DynamoRegion); }
+    }
+
+    private static IAmazonDynamoDB _ddbClient;
+    private DynamoDBContext _context;
+
+    private AWSCredentials _credentials;
+
+    private AWSCredentials Credentials
+    {
+        get
+        {
+            if (_credentials == null)
+                _credentials = new CognitoAWSCredentials(IdentityPoolId, _CognitoPoolRegion);
+            return _credentials;
+        }
+    }
+
+    protected IAmazonDynamoDB Client
+    {
+        get
+        {
+            if (_ddbClient == null)
+            {
+                _ddbClient = new AmazonDynamoDBClient(Credentials, _DynamoRegion);
+            }
+
+            return _ddbClient;
+        }
+    }
+
+    private DynamoDBContext Context
+    {
+        get
+        {
+            if (_context == null)
+                _context = new DynamoDBContext(Client);
+
+            return _context;
+        }
+    }
+
+    [DynamoDBTable("SeniorFitDemo")]
+    public class LoginInfo
+    {
+       [DynamoDBProperty]
+        public string FirstName { get; set; }
+        [DynamoDBProperty]
+        public int ContactNumber { get; set; }
+         [DynamoDBProperty]
+        public string ExerciseName { get; set; }
+        
+    }
+
+
+    //**********************************************************************
+
+
 
     void Start()
     {
         // Init model
+         UnityInitializer.AttachToGameObject(this.gameObject);
+         AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
         string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
         string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
         switch (mode)
@@ -83,6 +172,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         
 
         // Init camera 
+        requestedFPS=SceneChange.GetFPS();
         string cameraName = WebCamUtil.FindName();
         webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height,requestedFPS);
          height=Screen.height;
@@ -102,17 +192,61 @@ public sealed class BlazePoseRunner : MonoBehaviour
         {
             case 1:
                 filenametest="new_SeatedMarch";
+                Exercise="Seated March";
                 break;
             case 2:
                 filenametest="Single_Leg_Stance";
+                Exercise="Single Leg Stance";
+                break;
+            case 3:
+                filenametest="Shoulder_touch";
+                Exercise="Shoulder Touch";
                 break;
             default:
                 break;
         }
+        //filenametest="new_SeatedMarch";
 
 
         // Set up Pose Classifier Processor
         processor = new PoseClassifierProcessor(filenametest, true);
+
+        //************sending to dynamodbtable******************
+
+        userdata data = SaveUserData.LoadUser();
+
+        LoginInfo newUser = new LoginInfo
+        {
+            FirstName = data.name,
+            ContactNumber = data.contactno,
+            ExerciseName= Exercise
+        };
+        Context.SaveAsync(newUser, (result) =>
+        {
+            if (result.Exception == null)
+                Debug.Log("user saved");
+        });
+
+        var request = new DescribeTableRequest
+        {
+            TableName = @"SeniorFitDemo"
+        };
+        Client.DescribeTableAsync(request, (result) =>
+        {
+            if (result.Exception != null)
+            {
+               //resultText.text += result.Exception.Message;
+               Debug.Log(result.Exception);
+                return;
+            }
+            var response = result.Response;
+            TableDescription description = response.Table;
+            Debug.Log("Name: " + description.TableName + "\n");
+            Debug.Log("# of items: " + description.ItemCount + "\n");
+            
+
+        }, null);
+
     }
 
     void OnDestroy()
@@ -165,7 +299,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
             cameraView.texture = webcamTexture;
         }
 
-        ResultUI.SetActive(true);
+        if(ResultUI!=null) ResultUI.SetActive(true);
         if (runBackground)
         {
             if (task.Status.IsCompleted())
@@ -175,6 +309,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         }
         else
         {
+           //if(this.gameObject!=null)
             Invoke();
         }
 
@@ -195,7 +330,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         }
         
         resultText.text =poses[0];
-//        exerciseName.text =poses[1];
+        exerciseName.text =poses[1];
 
     }
 
@@ -312,4 +447,6 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
         return true;
     }
+
+    
 }

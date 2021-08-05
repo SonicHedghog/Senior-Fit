@@ -911,6 +911,7 @@ GameObject:
   - component: {fileID: 1051232097}
   - component: {fileID: 1051232096}
   - component: {fileID: 1051232095}
+  - component: {fileID: 1051232099}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1000,6 +1001,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1051232099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051232094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40904bcbe61fab84fb5f5513231e1651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1263944388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1246,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2074584281}
+      - m_Target: {fileID: 1051232099}
         m_MethodName: BackToMainMenu
         m_Mode: 1
         m_Arguments:
@@ -1391,6 +1404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exercisenumber: 0
+  Exercise: 
   poseDetectionModelFile: ML Models/posedetector_full.tflite
   poseLandmarkModelFile: ML Models/pose_39kp_full.tflite
   mode: 1
@@ -1406,6 +1420,9 @@ MonoBehaviour:
   filenametest: 
   width: 0
   height: 0
+  IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
+  CognitoPoolRegion: us-east-2
+  DynamoRegion: us-east-2
 --- !u!4 &1453601107
 Transform:
   m_ObjectHideFlags: 0
@@ -1657,7 +1674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.1761856
+  m_AspectRatio: 1.1835921
 --- !u!114 &2074584281
 MonoBehaviour:
   m_ObjectHideFlags: 0

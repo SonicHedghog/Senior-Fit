@@ -20,11 +20,13 @@ namespace TensorFlowLite
     private static readonly String SEATED_MARCH_RIGHT = "Seated_March_Right";
     private static readonly String Sit_To_Stand_Sit = "Sit_To_Stand_Sit";
     private static readonly String Sit_To_Stand_Stand= "Sit_To_Stand_Stand";
-     private static readonly String Single_Leg_Stance_Left= "Single_Leg_Stance_Left";
-      private static readonly String Single_Leg_Stance_Right= "Single_Leg_Stance_Right";
+    private static readonly String Single_Leg_Stance_Left= "Single_Leg_Stance_Left";
+    private static readonly String Single_Leg_Stance_Right= "Single_Leg_Stance_Right";
+    private static readonly String Shoulder_touch= "Shoulder_touch";
+    private static readonly String Touch_down= "Touch_down";
 
     private static readonly String[] POSE_CLASSES = {
-      Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT
+      Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT,Sit_To_Stand_Sit,Sit_To_Stand_Stand,Shoulder_touch,Touch_down
     };
 
     private readonly bool isStreamMode;

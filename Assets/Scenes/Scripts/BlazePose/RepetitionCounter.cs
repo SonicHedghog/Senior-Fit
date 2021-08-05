@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 public class RepetitionCounter {
-    private static  float DEFAULT_ENTER_THRESHOLD = 7f;
+    private static  float DEFAULT_ENTER_THRESHOLD =6f;
     private static  float DEFAULT_EXIT_THRESHOLD = 5f;
 
      private  String className;

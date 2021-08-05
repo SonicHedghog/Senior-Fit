@@ -1,0 +1,4 @@
+<aws correctForClockSkew="true" region="us-east-2">
+<logging logTo="UnityLogger" logResponses="Always" logMetrics="true" logMetricsFormat="JSON"/>
+<s3 useSignatureVersion4="true"/>
+</aws>
