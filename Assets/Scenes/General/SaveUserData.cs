@@ -5,6 +5,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveUserData 
 { 
+    
+
     public static void SaveUser(loginscript newlogin)
     {
         BinaryFormatter formatter =new BinaryFormatter();
@@ -17,6 +19,9 @@ public static class SaveUserData
         stream.Close();
 
     }
+
+    
+
 
     public static userdata LoadUser()
     {

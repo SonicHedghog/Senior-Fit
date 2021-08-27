@@ -22,6 +22,11 @@ public class SceneChange : MonoBehaviour
 
     }
 
+    public void Walk()
+    {
+        SceneManager.LoadScene("Walk");
+    }
+
 
     public void StartSeatedMarch()
     {

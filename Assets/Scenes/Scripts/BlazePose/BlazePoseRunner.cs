@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using TensorFlowLite;
 using Cysharp.Threading.Tasks;
@@ -13,6 +14,8 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 /// <summary>
@@ -41,6 +44,10 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
     public int exercisenumber;
     public string Exercise;
+    public string time;
+    public string fname;
+    public string lname;
+    public int contactno;
    
     [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
@@ -78,6 +85,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
     public int height;
 
     // ***************AWS set up*******************************************
+
+    
     public string IdentityPoolId = "";
     public string CognitoPoolRegion = RegionEndpoint.USEast2.SystemName;
     public string DynamoRegion = RegionEndpoint.USEast2.SystemName;
@@ -137,9 +146,13 @@ public sealed class BlazePoseRunner : MonoBehaviour
        [DynamoDBProperty]
         public string FirstName { get; set; }
         [DynamoDBProperty]
+        public string LastName { get; set; }
+        [DynamoDBProperty]
         public int ContactNumber { get; set; }
          [DynamoDBProperty]
         public string ExerciseName { get; set; }
+        [DynamoDBProperty]
+        public string time { get; set; }
         
     }
 
@@ -205,6 +218,15 @@ public sealed class BlazePoseRunner : MonoBehaviour
             default:
                 break;
         }
+        userdata data = SaveUserData.LoadUser();
+
+        fname=data.fname;
+        lname=data.lname;
+        contactno=data.contactno;
+        time= DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+        AppUse.SaveAppUse(this);
+
+        
         //filenametest="new_SeatedMarch";
 
 
@@ -212,14 +234,47 @@ public sealed class BlazePoseRunner : MonoBehaviour
         processor = new PoseClassifierProcessor(filenametest, true);
 
         //************sending to dynamodbtable******************
+        InvokeRepeating(nameof(updateAWSTable), 5.0f, 5.0f);
 
-        userdata data = SaveUserData.LoadUser();
+         
+
+        /*UnityWebRequest webrequest = UnityWebRequest.Get("https://www.google.com/");
+        webrequest.SendWebRequest();
+
+        if (webrequest.error == null)
+        {
+            //updateAWSTable();
+            //return false;
+            Debug.Log("No internet");
+        }
+        else
+        {
+           
+           Debug.LogWarning("No internet connection");
+        }*/
+
+        
+
+    }
+    
+    void updateAWSTable()
+    {
+        if(Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                Debug.Log("No internet");
+            }
+
+        else
+        {
+            AppUse newuse = AppUse.LoadAppUse();
 
         LoginInfo newUser = new LoginInfo
         {
-            FirstName = data.name,
-            ContactNumber = data.contactno,
-            ExerciseName= Exercise
+            FirstName = newuse.fname,
+            LastName=newuse.lname,
+            ContactNumber = newuse.contactno,
+            ExerciseName= newuse.exercise,
+            time=newuse.time
         };
         Context.SaveAsync(newUser, (result) =>
         {
@@ -246,6 +301,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
             
 
         }, null);
+        }
+        
 
     }
 
@@ -257,8 +314,12 @@ public sealed class BlazePoseRunner : MonoBehaviour
         draw?.Dispose();
     }
 
+   
+
     void Update()
     {
+        
+        
         
         if (SceneChange.GetIsFlipped() != isFlipped)
         {

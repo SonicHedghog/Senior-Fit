@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BlazePose/BlazePoseTest.unity
     guid: 6a052ab7311c17a47a3a2989756fea65
+  - enabled: 1
+    path: Assets/Scenes/General/Walk.unity
+    guid: a3bcdea643628ac44a50cc9fdb778d61
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000

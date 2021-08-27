@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -15,11 +16,14 @@ public class loginscript : MonoBehaviour
 {
     // Start is called before the first frame update
     public Button loginButton;
-    public Button load;
     public InputField firstname;
+    public InputField lastname;
+
     public InputField ContactNumber;
     public int contactno;
-    public string name;
+    public string fname;
+
+    public string lname;
     
 
      
@@ -29,7 +33,7 @@ public class loginscript : MonoBehaviour
     {
         //UnityInitializer.AttachToGameObject(this.gameObject);
         loginButton.onClick.AddListener(LoginButtonClick);
-        load.onClick.AddListener(loadUser);
+        //load.onClick.AddListener(loadUser);
 
         //AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
     }
@@ -39,7 +43,8 @@ public class loginscript : MonoBehaviour
     void LoginButtonClick()
     {
         contactno= int.Parse(ContactNumber.text);
-        name=firstname.text;
+        fname=firstname.text;
+        lname=lastname.text;
         SaveUserData.SaveUser(this);
         SceneManager.LoadScene("MainMenu");
         
@@ -49,7 +54,7 @@ public class loginscript : MonoBehaviour
     {
         userdata data = SaveUserData.LoadUser();
 
-        Debug.Log("Saved user name : "+ data.name+ " and number : "+ data.contactno);
+        Debug.Log("Saved user name : "+ data.fname+ " and number : "+ data.contactno);
     }
 
 
