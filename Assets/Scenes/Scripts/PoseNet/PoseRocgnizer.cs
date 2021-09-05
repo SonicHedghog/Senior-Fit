@@ -39,7 +39,7 @@ public class PoseRocgnizer : MonoBehaviour
         fileName = !isFlipped ? "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
                             : "posenet_mobilenet_v1_100_513x513_multi_kpt_stripped.tflite";
 
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
+        string path = Path.Combine(Application.streamingAssetsPath, "ML Models", fileName);
         poseNet = new PoseNet(path);
 
         // Init camera
