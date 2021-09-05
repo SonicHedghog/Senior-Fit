@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/PoseNet/Menu.unity
     guid: 2fe4011c254ba6f4c997cc4e154ebf9f
   - enabled: 0
-    path: Assets/Scenes/General/WorkoutSpace.unity
+    path: Assets/Scenes/General/PoseNetWorkoutSpace.unity
     guid: 338da8008aa764c05a72b5db18dc0d5c
   - enabled: 1
     path: Assets/Scenes/General/MainMenu.unity
