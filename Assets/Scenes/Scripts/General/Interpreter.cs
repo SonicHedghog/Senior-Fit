@@ -51,6 +51,12 @@ public class Interpreter
         }
     }
 
+    public Interpreter()
+    {
+        poses = new Queue<Poses.Pose>();
+        sceneCommands = new Queue<string>();
+    }
+
    public Poses.Pose AdvanceScript()
    {
        return poses.Dequeue();
@@ -59,6 +65,12 @@ public class Interpreter
    public string GetCommand()
    {
        return sceneCommands.Dequeue();
+   }
+   
+   public void AddCommand(string command)
+   {
+        Debug.Log(command.Split()[0] );
+        poses.Enqueue((Poses.Pose)Activator.CreateInstance(Type.GetType("Poses." + command.Split(' ')[0]), new System.Object[]{command.Split(' ')[1]}));
    }
 
    public bool isDone

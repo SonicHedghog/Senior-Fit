@@ -1,4 +1,4 @@
-using static TensorFlowLite.PoseNet;
+using TensorFlowLite;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
@@ -9,15 +9,16 @@ namespace Poses
     public abstract class Pose
     {
         private Text exerciseName;
-        public static Part[] required { get; }
+        public static int[] required { get; }
         
-        public static Part[] disabilities;
+        public static int[] disabilities;
         protected string name = "";
         protected float _repCount = 0;
 
         public Pose(string repCount) { _repCount = Int32.Parse(repCount);}
 
-        public abstract bool IsFinished(Result[] result, Text t);
+        public abstract bool IsFinished(PoseNet.Result[] result, Text t);
+        public abstract bool IsFinished(PoseLandmarkDetect.Result[] result, Text t);
         public bool IsPossiblePose()
         {
             return required.Any(el => disabilities.Contains(el));

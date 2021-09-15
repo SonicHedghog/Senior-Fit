@@ -74,6 +74,8 @@ namespace Poses
                             return false;
                         }
         }
+
+        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result[] result, Text t) { return false; }
     }
 
 }

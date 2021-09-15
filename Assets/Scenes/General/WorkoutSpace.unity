@@ -130,7 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 86521803}
-  - component: {fileID: 86521804}
+  - component: {fileID: 86521802}
   m_Layer: 0
   m_Name: PoseRecognizer
   m_TagString: Untagged
@@ -138,21 +138,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &86521803
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 86521801}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &86521804
+--- !u!114 &86521802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,7 +147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 86521801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07d88283111418d48adad456e09b99e8, type: 3}
+  m_Script: {fileID: 11500000, guid: e9414a68907964159b348c872eb35c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   exercisenumber: 0
@@ -178,6 +164,8 @@ MonoBehaviour:
   filterVelocityScale: 10
   runBackground: 0
   ResultUI: {fileID: 0}
+  file: test
+  videoPlayer: {fileID: 1548002578}
   exerciseName: {fileID: 931721158}
   resultText: {fileID: 1124019090793975663}
   requestedFPS: 30
@@ -188,6 +176,20 @@ MonoBehaviour:
   IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
   CognitoPoolRegion: us-east-2
   DynamoRegion: us-east-2
+--- !u!4 &86521803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86521801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &233249406
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.1467426
+  m_AspectRatio: 1.1591479
 --- !u!1 &278620183
 GameObject:
   m_ObjectHideFlags: 0
