@@ -39,6 +39,6 @@ namespace Poses
                 NoRepAction(t);
                 return false;
         }
-        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result[] result, Text t) { return false; }
+        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t) { return false; }
     }
 }

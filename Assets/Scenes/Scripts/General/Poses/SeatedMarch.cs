@@ -2,11 +2,15 @@ using static TensorFlowLite.PoseNet;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using TensorFlowLite;
+using System.Collections.Generic;
 
 namespace Poses
 {
     public class SeatedMarch : Pose
     {
+        PoseClassifierProcessor processor;
+        String lastExercise = "";
         public static new Part[] required 
         {
             get
@@ -24,7 +28,13 @@ namespace Poses
 
         bool legCheck = false;
 
-        public SeatedMarch(string repCount) : base(repCount) { name = "Seated March"; }
+        public SeatedMarch(string repCount) : base(repCount) 
+        { 
+            name = "Seated March";
+
+            // Set up Pose Classifier Processor
+            processor = new PoseClassifierProcessor("new_SeatedMarch", true);
+        }
         public override bool IsFinished(Result[] result, Text t)
         {
             float i = 0f;
@@ -75,7 +85,24 @@ namespace Poses
                         }
         }
 
-        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result[] result, Text t) { return false; }
+        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t)
+        {
+            if(result == null) return false;
+            List<string> poses = processor.getPoseResult(result);
+            foreach(string s in poses)
+            {
+                Debug.Log("Important: " + s);
+            }
+            
+            if(poses[0] != lastExercise)
+            {
+                RepAction(t);
+                _repCount --;
+                lastExercise = poses[0];
+            }
+            else NoRepAction(t);
+            return _repCount == 0;
+        }
     }
 
 }

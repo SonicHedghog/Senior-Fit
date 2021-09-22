@@ -18,7 +18,7 @@ namespace Poses
         public Pose(string repCount) { _repCount = Int32.Parse(repCount);}
 
         public abstract bool IsFinished(PoseNet.Result[] result, Text t);
-        public abstract bool IsFinished(PoseLandmarkDetect.Result[] result, Text t);
+        public abstract bool IsFinished(PoseLandmarkDetect.Result result, Text t);
         public bool IsPossiblePose()
         {
             return required.Any(el => disabilities.Contains(el));
