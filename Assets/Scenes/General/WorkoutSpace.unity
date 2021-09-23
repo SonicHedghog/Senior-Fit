@@ -166,8 +166,8 @@ MonoBehaviour:
   ResultUI: {fileID: 0}
   file: test
   videoPlayer: {fileID: 1548002578}
-  exerciseName: {fileID: 931721158}
-  resultText: {fileID: 1124019090793975663}
+  exerciseName: {fileID: 1124019090793975663}
+  resultText: {fileID: 931721158}
   requestedFPS: 30
   filename: new_SeatedMarch
   filenametest: 
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.1591479
+  m_AspectRatio: 1.2246226
 --- !u!1 &278620183
 GameObject:
   m_ObjectHideFlags: 0

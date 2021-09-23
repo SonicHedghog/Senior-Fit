@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/General/WorkoutSpace.unity
+    guid: d5473a7e6564e49c0b38285af9fc804d
   m_configObjects: {}
