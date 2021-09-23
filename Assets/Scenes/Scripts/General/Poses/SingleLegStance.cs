@@ -2,10 +2,12 @@ using static TensorFlowLite.PoseNet;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using TensorFlowLite;
+using System.Collections.Generic;
 
 namespace Poses
 {
-    public class OneLegStand : Pose
+    public class SingleLegStance : Pose
     {
         public static new Part[] required 
         {
@@ -20,14 +22,21 @@ namespace Poses
             }
         }
 
+        PoseClassifierProcessor processor;
+        String lastExercise = "";
         byte legCheck = 0;
         float setTime = 7;
         float waitTime = 3;
         int correctCounts = 0;
         int incorrectCounts = 0;
 
-        public OneLegStand(string repCount) : base(repCount) { name = "One Leg Stand"; }
-        public override bool IsFinished(Result[] result, Text t)
+        public SingleLegStance(string repCount) : base(repCount) 
+        { 
+            name = "Single Leg Stance";
+
+            // Set up Pose Classifier Processor
+            processor = new PoseClassifierProcessor("Single_Leg_Stance", true);
+        }        public override bool IsFinished(Result[] result, Text t)
         {
             float i = 0f;
             for(int x = 11; x < 17; x++){i+=result[x].confidence;}
@@ -162,7 +171,23 @@ namespace Poses
             return false;
         }
 
-        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t) { return false; }
-    }
+    public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t)
+        {
+            if(result == null) return false;
+            List<string> poses = processor.getPoseResult(result);
+            foreach(string s in poses)
+            {
+                Debug.Log("Important: " + s);
+            }
+            
+            if(poses[0] != lastExercise)
+            {
+                RepAction(t);
+                _repCount --;
+                lastExercise = poses[0];
+            }
+            else NoRepAction(t);
+            return _repCount == 0;
+        }    }
 
 }
