@@ -33,7 +33,7 @@ namespace Poses
         public void NoRepAction(Text t)
         {
             // t.text = "Exercise Name";
-            t.text = name + " x " + (int)_repCount;
+            t.text = name + " x " + Math.Abs((int)_repCount);
         }
 
         public string GetTutorialAddress()
