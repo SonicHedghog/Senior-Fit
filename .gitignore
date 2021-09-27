@@ -67,3 +67,5 @@ crashlytics-build.properties
 
 .DS_Store
 Packages/com.github.asus4.tflite/Plugins/iOS/TensorFlowLiteCMetal.framework/TensorFlowLiteCMetal
+Packages/com.github.asus4.tflite/Plugins/iOS/TensorFlowLiteC.framework/TensorFlowLiteC.meta
+Packages/com.github.asus4.tflite/Plugins/iOS/TensorFlowLiteCCoreML.framework/TensorFlowLiteCCoreML.meta
