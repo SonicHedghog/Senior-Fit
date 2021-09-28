@@ -26,7 +26,7 @@ namespace Poses
 
         public void RepAction(Text t)
         {
-            t.text = name + " x " + (int)_repCount;
+            t.text = name + " x " + Math.Abs((int)_repCount);
             Debug.Log(name);
         }
 
