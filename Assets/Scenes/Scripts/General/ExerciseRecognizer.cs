@@ -218,7 +218,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 script = new Interpreter();
                 script.AddCommand("ShoulderTouch -1");
                 break;
-            case -1:
+            case 0:
                 script = new Interpreter(file);
                 break;
             default:
