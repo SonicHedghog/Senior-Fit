@@ -75,11 +75,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     PoseLandmarkDetect.Result landmarkResult;
     UniTask<bool> task;
     CancellationToken cancellationToken;
-    public string filename;
-
-    public string filenametest;
-    
-   // public string filenametest="Sit_To_Stand";
     public int width;
     public int height;
 
@@ -115,7 +110,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         }
     }
 
-    protected IAmazonDynamoDB Client
+    private IAmazonDynamoDB Client
     {
         get
         {
