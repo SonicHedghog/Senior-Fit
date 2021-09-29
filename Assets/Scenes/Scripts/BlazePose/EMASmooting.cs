@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 public class EMASmoothing
 {
@@ -24,15 +21,12 @@ public class EMASmoothing
     {
         this.windowSize = windowSize;
         this.alpha = alpha;
-        
-        // this.window = new LinkedBlockingDeque<ClassificationResult>(windowSize);    //Couldn't find LinkedBlockingDeque in c#
-
     }
 
     public ClassificationResult getSmoothedResult(ClassificationResult classificationResult)
     {
         // If we are at window size, remove the last (oldest) result.
-            if (window.Count == windowSize)
+        if (window.Count == windowSize)
         {
             window.RemoveLast();
         }
@@ -44,7 +38,6 @@ public class EMASmoothing
         foreach (ClassificationResult result in window)
         {
             allClasses.UnionWith(result.getAllClasses());
-
         }
 
         ClassificationResult smoothedResult = new ClassificationResult();

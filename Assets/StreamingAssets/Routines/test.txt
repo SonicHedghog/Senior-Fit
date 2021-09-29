@@ -1,2 +1,1 @@
-SeatedMarch 10
-ArmCross 10
+ShoulderTouch -1

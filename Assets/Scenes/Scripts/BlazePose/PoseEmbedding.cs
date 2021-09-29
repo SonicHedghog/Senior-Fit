@@ -1,6 +1,5 @@
 using UnityEngine;
 using TensorFlowLite;
-using System.Collections;
 using System.Collections.Generic;
 /**
  * Generates embedding for given list of Pose landmarks.

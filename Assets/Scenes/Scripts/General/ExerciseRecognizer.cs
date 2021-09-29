@@ -50,7 +50,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField] Mode mode = Mode.FullBody;
     [SerializeField] RawImage cameraView = null;
-   // [SerializeField] RawImage debugView = null;
     [SerializeField] bool useLandmarkFilter = true;
     [SerializeField, Range(2f, 30f)] float filterVelocityScale = 10;
     [SerializeField] bool runBackground;
@@ -408,8 +407,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
         if(curPose!=null)
         {
-            // Debug.Log("Yes");
-
             completed = curPose.IsFinished(landmarkResult, exerciseName);
 
             if (!addedExercise)
@@ -505,7 +502,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         if (poseResult.score < 0) return;
 
         poseLandmark.Invoke(webcamTexture, poseResult);
-      //  debugView.texture = poseLandmark.inputTex;
 
         if (useLandmarkFilter)
         {
@@ -534,10 +530,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             cameraView.material = poseDetect.transformMat;
             cameraView.rectTransform.GetWorldCorners(rtCorners);
         }
-       /* if (debugView != null)
-        {
-            debugView.texture = poseLandmark.inputTex;
-        }*/
 
         return true;
     }

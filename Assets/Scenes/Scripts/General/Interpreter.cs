@@ -69,7 +69,7 @@ public class Interpreter
    
    public void AddCommand(string command)
    {
-        Debug.Log(command.Split()[0] );
+        Debug.Log(command.Split()[0]);
         poses.Enqueue((Poses.Pose)Activator.CreateInstance(Type.GetType("Poses." + command.Split(' ')[0]), new System.Object[]{command.Split(' ')[1]}));
    }
 

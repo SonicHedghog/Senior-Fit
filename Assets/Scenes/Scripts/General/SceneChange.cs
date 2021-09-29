@@ -8,18 +8,15 @@ public class SceneChange : MonoBehaviour
 {
     BlazePoseRunner blazePoseRunner;
     private static bool isFlipped = false;
-    private static int exercisenumber=0;
+    private static int exercisenumber = 0;
 
-    private static int req_fps=0;
+    private static int req_fps = 0;
 
     void Start()
     {
-
         userdata data = SaveUserData.LoadUser();
         if (data == null)
             SceneManager.LoadScene("LoginMenu");
-
-
     }
 
     public void Walk()
@@ -62,11 +59,6 @@ public class SceneChange : MonoBehaviour
                     //blazePoseRunner.filename="Shoulder_touch";
                 }
             }
-        
-        
-
-        
-
     }
 
     public void BackToMainMenu()

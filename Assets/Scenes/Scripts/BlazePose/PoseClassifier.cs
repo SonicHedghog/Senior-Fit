@@ -1,13 +1,11 @@
 using UnityEngine;
-using TensorFlowLite;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace TensorFlowLite
 {
-  public class PoseClassifier {
+    public class PoseClassifier {
     private static readonly String TAG = "PoseClassifier";
     private static readonly int MAX_DISTANCE_TOP_K = 30;
     private static readonly int MEAN_DISTANCE_TOP_K = 10;
@@ -108,10 +106,7 @@ namespace TensorFlowLite
         
         // We only want to retain top n so pop the highest distance.
         if (maxDistances.Count > maxDistanceTopK) {
-          
           maxDistances = maxDistances.OrderBy(i => i.Item2).Reverse().ToList();
-         /* Debug.Log("Removed: "+ maxDistances[0].Item1.getClassName()+ " "+ maxDistances[0].Item2);
-          Debug.Log("Top After Removed: "+maxDistances[1].Item1.getClassName()+ " "+ maxDistances[1].Item2);*/
           maxDistances.RemoveAt(0);
         }
       }
@@ -137,8 +132,6 @@ namespace TensorFlowLite
         // We only want to retain top k so pop the highest mean distance.
         if (meanDistances.Count > meanDistanceTopK) {
           meanDistances = meanDistances.OrderBy(i => i.Item2).Reverse().ToList();
-          /*Debug.Log("Removed: "+ meanDistances[0].Item1.getClassName()+ " "+ meanDistances[0].Item2);
-          Debug.Log("Top After Removed: "+meanDistances[1].Item1.getClassName()+ " "+ meanDistances[1].Item2);*/
           meanDistances.RemoveAt(0);
         }
       }

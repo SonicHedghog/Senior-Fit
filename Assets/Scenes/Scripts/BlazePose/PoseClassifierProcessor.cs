@@ -1,15 +1,12 @@
 using UnityEngine;
-using TensorFlowLite;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-//using System.Runtime.Remoting.Contexts;
 using System.Linq;
 using System.IO;
 
-namespace TensorFlowLite 
+namespace TensorFlowLite
 {
-  public class PoseClassifierProcessor {
+    public class PoseClassifierProcessor {
     private static readonly String TAG = "PoseClassifierProcessor";
     private static readonly String POSE_SAMPLES_FILE = "pose/fitness_pose_samples.csv";
 
@@ -109,12 +106,12 @@ namespace TensorFlowLite
     //@WorkerThread
     public List<String> getPoseResult(PoseLandmarkDetect.Result pose) {
 
-      string coordinatevalue="";
+      string coordinatevalue = "";
 
       foreach( Vector3 v in pose.joints)
-        {
-            coordinatevalue+=v+" ";
-        }
+      {
+          coordinatevalue+= v + " ";
+      }
       
       
       Debug.Log("Coordinate : "+ coordinatevalue);
@@ -145,7 +142,7 @@ namespace TensorFlowLite
             // Play a fun beep when rep counter updates.
             // 
             Debug.Log("BEEEEP");
-            lastRepResult=repCounter.getClassName()+" : "+repsAfter;
+            lastRepResult=repCounter.getClassName() + " : " + repsAfter;
             break;
           }
         }
@@ -156,32 +153,15 @@ namespace TensorFlowLite
       // Add maxConfidence class of current frame to result if pose is found.
       if (pose.joints.Count() != 0) {
        String maxConfidenceClass = classification.getMaxConfidenceClass();
-        String maxConfidenceClassResult = maxConfidenceClass+" : "
-        +classification.getClassConfidence(maxConfidenceClass)/ poseClassifier.confidenceRange()
-        +" confidence";
+        String maxConfidenceClassResult = maxConfidenceClass + " : "
+        +classification.getClassConfidence(maxConfidenceClass) / poseClassifier.confidenceRange()
+        + " confidence";
                
         result.Add(maxConfidenceClassResult);
-        /* String conf1 = SHOULDER_TOUCH+" : "
-        +classification.getClassConfidence(SHOULDER_TOUCH)/ poseClassifier.confidenceRange()
-        +" confidence";
-        String conf2 = SHOULDER_TOUCH_DOWN+" : "
-        +classification.getClassConfidence(SHOULDER_TOUCH_DOWN)/ poseClassifier.confidenceRange()
-        +" confidence";
-        String conf= conf1+" ---- "+ conf2;
-        result.Add(conf);*/
 
       }
-     
-      foreach(String s in result)
-      {
-        //Debug.Log(s);
-      }
-      
+
       return result;
-    
-      
     }
-
   }
-  
 }
