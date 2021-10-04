@@ -8,18 +8,15 @@ public class SceneChange : MonoBehaviour
 {
     BlazePoseRunner blazePoseRunner;
     private static bool isFlipped = false;
-    private static int exercisenumber=0;
+    private static int exercisenumber = 0;
 
-    private static int req_fps=0;
+    private static int req_fps = 0;
 
     void Start()
     {
-
         userdata data = SaveUserData.LoadUser();
         if (data == null)
             SceneManager.LoadScene("LoginMenu");
-
-
     }
 
     public void Walk()
@@ -43,7 +40,7 @@ public class SceneChange : MonoBehaviour
             req_fps = 25;
             if (webCamPermission)
             {
-                SceneManager.LoadScene("BlazePoseTest");
+                SceneManager.LoadScene("WorkoutSpace");
             }
 
             else
@@ -58,15 +55,10 @@ public class SceneChange : MonoBehaviour
 
                 if (webCamPermission)
                 {
-                    SceneManager.LoadScene("BlazePoseTest");
+                    SceneManager.LoadScene("WorkoutSpace");
                     //blazePoseRunner.filename="Shoulder_touch";
                 }
             }
-        
-        
-
-        
-
     }
 
     public void BackToMainMenu()
@@ -103,7 +95,7 @@ public class SceneChange : MonoBehaviour
         #endif
         if (webCamPermission)
         {
-            SceneManager.LoadScene("BlazePoseTest");
+            SceneManager.LoadScene("WorkoutSpace");
         }
 
         else
@@ -118,7 +110,7 @@ public class SceneChange : MonoBehaviour
 
             if (webCamPermission)
             {
-                SceneManager.LoadScene("BlazePoseTest");
+                SceneManager.LoadScene("WorkoutSpace");
             }
         }
 
@@ -135,7 +127,7 @@ public class SceneChange : MonoBehaviour
         req_fps=30;
         if (webCamPermission)
         {
-            SceneManager.LoadScene("BlazePoseTest");
+            SceneManager.LoadScene("WorkoutSpace");
         }
 
         else
@@ -150,7 +142,7 @@ public class SceneChange : MonoBehaviour
 
             if (webCamPermission)
             {
-                SceneManager.LoadScene("BlazePoseTest");
+                SceneManager.LoadScene("WorkoutSpace");
                 //blazePoseRunner.filename="Shoulder_touch";
             }
         }
