@@ -42,7 +42,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     public string time;
     public string fname;
     public string lname;
-    public int contactno;
+    public long contactno;
     private bool completed = true;
     bool addedExercise = false;
     private Poses.Pose curPose;   
@@ -142,7 +142,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         [DynamoDBProperty]
         public string LastName { get; set; }
         [DynamoDBProperty]
-        public int ContactNumber { get; set; }
+        public long ContactNumber { get; set; }
          [DynamoDBProperty]
         public string ExerciseName { get; set; }
         [DynamoDBProperty]
