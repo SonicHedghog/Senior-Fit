@@ -55,7 +55,7 @@ namespace TensorFlowLite
     private void loadPoseSamples(string filename) {
 
      
-      string[] paths = {Application.streamingAssetsPath, "Samples", filename + ".csv"};
+      string[] paths = {Application.streamingAssetsPath, "BlazePoseData", filename + ".csv"};
       List<string> fileLines;
       List<PoseSample> poseSamples = new List<PoseSample>();
       try 

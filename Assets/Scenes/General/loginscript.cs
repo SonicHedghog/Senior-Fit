@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 /*using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DataModel;
@@ -20,7 +21,7 @@ public class loginscript : MonoBehaviour
     public InputField lastname;
 
     public InputField ContactNumber;
-    public int contactno;
+    public long contactno;
     public string fname;
 
     public string lname;
@@ -42,7 +43,7 @@ public class loginscript : MonoBehaviour
 
     void LoginButtonClick()
     {
-        contactno= int.Parse(ContactNumber.text);
+        contactno= long.Parse(ContactNumber.text);
         fname=firstname.text;
         lname=lastname.text;
         SaveUserData.SaveUser(this);

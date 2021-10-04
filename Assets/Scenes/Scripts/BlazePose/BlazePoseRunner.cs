@@ -26,7 +26,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public sealed class BlazePoseRunner : MonoBehaviour
 {
 
-    #if UNITY_ANDROID
+#if UNITY_ANDROID
     public void UsedOnlyForAOTCodeGeneration() {
         //Bug reported on github https://github.com/aws/aws-sdk-net/issues/477
         //IL2CPP restrictions: https://docs.unity3d.com/Manual/ScriptingRestrictions.html
@@ -35,7 +35,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         AndroidJavaObject jo = new AndroidJavaObject("android.os.Message");
         int valueString = jo.Get<int>("what");
     }
-    #endif
+#endif
     public enum Mode
     {
         UpperBody,
@@ -47,17 +47,17 @@ public sealed class BlazePoseRunner : MonoBehaviour
     public string time;
     public string fname;
     public string lname;
-    public int contactno;
-   
+    public long contactno;
+
     [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
     [SerializeField] Mode mode = Mode.FullBody;
     [SerializeField] RawImage cameraView = null;
-   // [SerializeField] RawImage debugView = null;
+    // [SerializeField] RawImage debugView = null;
     [SerializeField] bool useLandmarkFilter = true;
     [SerializeField, Range(2f, 30f)] float filterVelocityScale = 10;
     [SerializeField] bool runBackground;
-     [SerializeField] private GameObject ResultUI = null;
+    [SerializeField] private GameObject ResultUI = null;
     public Text exerciseName;
     public Text resultText;
     [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
@@ -78,15 +78,15 @@ public sealed class BlazePoseRunner : MonoBehaviour
     public string filename;
 
     public string filenametest;
-    
-   // public string filenametest="Sit_To_Stand";
+
+    // public string filenametest="Sit_To_Stand";
     PoseClassifierProcessor processor;
     public int width;
     public int height;
 
     // ***************AWS set up*******************************************
 
-    
+
     public string IdentityPoolId = "";
     public string CognitoPoolRegion = RegionEndpoint.USEast2.SystemName;
     public string DynamoRegion = RegionEndpoint.USEast2.SystemName;
@@ -143,17 +143,19 @@ public sealed class BlazePoseRunner : MonoBehaviour
     [DynamoDBTable("SeniorFitDemo")]
     public class LoginInfo
     {
-       [DynamoDBProperty]
+        [DynamoDBProperty]
+        public string UserKey { get; set; }
+        [DynamoDBProperty]
         public string FirstName { get; set; }
         [DynamoDBProperty]
         public string LastName { get; set; }
         [DynamoDBProperty]
-        public int ContactNumber { get; set; }
-         [DynamoDBProperty]
+        public long ContactNumber { get; set; }
+        [DynamoDBProperty]
         public string ExerciseName { get; set; }
         [DynamoDBProperty]
         public string time { get; set; }
-        
+
     }
 
 
@@ -164,8 +166,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
     void Start()
     {
         // Init model
-         UnityInitializer.AttachToGameObject(this.gameObject);
-         AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
+        UnityInitializer.AttachToGameObject(this.gameObject);
+        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
         string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
         switch (mode)
@@ -182,51 +184,53 @@ public sealed class BlazePoseRunner : MonoBehaviour
                 throw new System.NotSupportedException($"Mode: {mode} is not supported");
         }
 
-        
+
 
         // Init camera 
-        requestedFPS=SceneChange.GetFPS();
+        requestedFPS = SceneChange.GetFPS();
         string cameraName = WebCamUtil.FindName();
-        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height,requestedFPS);
-         height=Screen.height;
-        width= Screen.width;
-        
+        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height, requestedFPS);
+        height = Screen.height;
+        width = Screen.width;
+
         cameraView.texture = webcamTexture;
         webcamTexture.Play();
         Debug.Log($"Starting camera: {cameraName}");
-       
+
         draw = new PrimitiveDraw(Camera.main, gameObject.layer);
         worldJoints = new Vector3[poseLandmark.JointCount];
 
         cancellationToken = this.GetCancellationTokenOnDestroy();
-        exercisenumber= SceneChange.GetExerciseNumber();
-        Debug.Log("EXERCISE NUMBER: "+ exercisenumber);
-        switch(exercisenumber)
+        exercisenumber = SceneChange.GetExerciseNumber();
+        Debug.Log("EXERCISE NUMBER: " + exercisenumber);
+        switch (exercisenumber)
         {
             case 1:
-                filenametest="new_SeatedMarch";
-                Exercise="Seated March";
+                filenametest = "Seated_March_CSV";
+                Exercise = "Seated March";
                 break;
             case 2:
-                filenametest="Single_Leg_Stance";
-                Exercise="Single Leg Stance";
+                filenametest = "Single_Leg_Stance";
+                Exercise = "Single Leg Stance";
                 break;
             case 3:
-                filenametest="Shoulder_touch";
-                Exercise="Shoulder Touch";
+                filenametest = "Shoulder_touch";
+                Exercise = "Shoulder Touch";
                 break;
             default:
                 break;
         }
         userdata data = SaveUserData.LoadUser();
 
-        fname=data.fname;
-        lname=data.lname;
-        contactno=data.contactno;
-        time= DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-        AppUse.SaveAppUse(this);
+        fname = data.fname;
+        lname = data.lname;
+        contactno = data.contactno;
+        time = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+        SaveData.SaveIntoJson(this);
 
-        
+        //AppUse.SaveAppUse(this);
+
+
         //filenametest="new_SeatedMarch";
 
 
@@ -236,7 +240,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         //************sending to dynamodbtable******************
         InvokeRepeating(nameof(updateAWSTable), 5.0f, 5.0f);
 
-         
+
 
         /*UnityWebRequest webrequest = UnityWebRequest.Get("https://www.google.com/");
         webrequest.SendWebRequest();
@@ -253,56 +257,64 @@ public sealed class BlazePoseRunner : MonoBehaviour
            Debug.LogWarning("No internet connection");
         }*/
 
-        
+
 
     }
-    
+
     void updateAWSTable()
     {
-        if(Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                Debug.Log("No internet");
-            }
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.Log("No internet");
+        }
 
         else
         {
-            AppUse newuse = AppUse.LoadAppUse();
+            UserList newuserlist = SaveData.LoadData();
 
-        LoginInfo newUser = new LoginInfo
-        {
-            FirstName = newuse.fname,
-            LastName=newuse.lname,
-            ContactNumber = newuse.contactno,
-            ExerciseName= newuse.exercise,
-            time=newuse.time
-        };
-        Context.SaveAsync(newUser, (result) =>
-        {
-            if (result.Exception == null)
-                Debug.Log("user saved");
-        });
-
-        var request = new DescribeTableRequest
-        {
-            TableName = @"SeniorFitDemo"
-        };
-        Client.DescribeTableAsync(request, (result) =>
-        {
-            if (result.Exception != null)
+            foreach (UserData newuse in newuserlist.alluserdata)
             {
-               //resultText.text += result.Exception.Message;
-               Debug.Log(result.Exception);
-                return;
-            }
-            var response = result.Response;
-            TableDescription description = response.Table;
-            Debug.Log("Name: " + description.TableName + "\n");
-            Debug.Log("# of items: " + description.ItemCount + "\n");
-            
+                //AppUse newuse = AppUse.LoadAppUse();
 
-        }, null);
+                LoginInfo newUser = new LoginInfo
+                {
+                    FirstName = newuse.fname,
+                    LastName = newuse.lname,
+                    ContactNumber = newuse.contactno,
+                    ExerciseName = newuse.exercise,
+                    time = newuse.time,
+                    UserKey = contactno.ToString()+newuse.time
+                };
+                Context.SaveAsync(newUser, (result) =>
+                {
+                    if (result.Exception == null)
+                        Debug.Log("user saved"+ newuse.exercise);
+                });
+
+                var request = new DescribeTableRequest
+                {
+                    TableName = @"SeniorFitDemo"
+                };
+                Client.DescribeTableAsync(request, (result) =>
+                {
+                    if (result.Exception != null)
+                    {
+                //resultText.text += result.Exception.Message;
+                Debug.Log(result.Exception);
+                        return;
+                    }
+                    var response = result.Response;
+                    TableDescription description = response.Table;
+                    Debug.Log("Name: " + description.TableName + "\n");
+                    Debug.Log("# of items: " + description.ItemCount + "\n");
+
+
+                }, null);
+
+            }
+
         }
-        
+
 
     }
 
@@ -314,23 +326,23 @@ public sealed class BlazePoseRunner : MonoBehaviour
         draw?.Dispose();
     }
 
-   
+
 
     void Update()
     {
-        
-        
-        
+
+
+
         if (SceneChange.GetIsFlipped() != isFlipped)
         {
             isFlipped = !isFlipped;
             webcamTexture.Stop();
-            if(!isFlipped)
+            if (!isFlipped)
             {
                 webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
                 Debug.Log("Flipped to " + webcamTexture.deviceName);
                 cameraView.texture = webcamTexture;
-        webcamTexture.Play();
+                webcamTexture.Play();
             }
             else
             {
@@ -338,8 +350,10 @@ public sealed class BlazePoseRunner : MonoBehaviour
                 {
                     string frontCamName = null;
                     var webCamDevices = WebCamTexture.devices;
-                    foreach(var camDevice in webCamDevices){ 
-                        if(camDevice.isFrontFacing){
+                    foreach (var camDevice in webCamDevices)
+                    {
+                        if (camDevice.isFrontFacing)
+                        {
                             frontCamName = camDevice.name;
                             break;
                         }
@@ -350,8 +364,8 @@ public sealed class BlazePoseRunner : MonoBehaviour
                     webcamTexture.Play();
                 }
                 catch (Exception e)
-                {  
-                    webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height); 
+                {
+                    webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
                     cameraView.texture = webcamTexture;
                     webcamTexture.Play();
                     Debug.Log(e.Message);
@@ -360,7 +374,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
             cameraView.texture = webcamTexture;
         }
 
-        if(ResultUI!=null) ResultUI.SetActive(true);
+        if (ResultUI != null) ResultUI.SetActive(true);
         if (runBackground)
         {
             if (task.Status.IsCompleted())
@@ -370,7 +384,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         }
         else
         {
-           //if(this.gameObject!=null)
+            //if(this.gameObject!=null)
             Invoke();
         }
 
@@ -381,26 +395,26 @@ public sealed class BlazePoseRunner : MonoBehaviour
         DrawCropMatrix(poseLandmark.CropMatrix);
         DrawJoints(landmarkResult.joints);
 
-        
-        
+
+
 
         List<string> poses = processor.getPoseResult(landmarkResult);
-        foreach(string s in poses)
+        foreach (string s in poses)
         {
             Debug.Log(s);
         }
-        
-        resultText.text =poses[0];
-        exerciseName.text =poses[1];
+
+        resultText.text = poses[0];
+        exerciseName.text = poses[1];
 
     }
 
     void DrawFrame(PoseDetect.Result pose)
     {
         Vector3 min = rtCorners[0];
-        
+
         Vector3 max = rtCorners[2];
-         
+
         draw.color = Color.green;
         draw.Rect(MathTF.Lerp(min, max, pose.rect, true), 0.02f, min.z);
 
@@ -472,7 +486,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         if (poseResult.score < 0) return;
 
         poseLandmark.Invoke(webcamTexture, poseResult);
-      //  debugView.texture = poseLandmark.inputTex;
+        //  debugView.texture = poseLandmark.inputTex;
 
         if (useLandmarkFilter)
         {
@@ -501,13 +515,13 @@ public sealed class BlazePoseRunner : MonoBehaviour
             cameraView.material = poseDetect.transformMat;
             cameraView.rectTransform.GetWorldCorners(rtCorners);
         }
-       /* if (debugView != null)
-        {
-            debugView.texture = poseLandmark.inputTex;
-        }*/
+        /* if (debugView != null)
+         {
+             debugView.texture = poseLandmark.inputTex;
+         }*/
 
         return true;
     }
 
-    
+
 }

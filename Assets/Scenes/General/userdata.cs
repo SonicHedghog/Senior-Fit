@@ -1,14 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 
 [System.Serializable]
 public class userdata 
 {
     public string fname;
     public string lname;
-    public int contactno;
+    public long contactno;
 
     public userdata(loginscript newlogin)
     {

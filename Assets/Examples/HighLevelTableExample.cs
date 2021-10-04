@@ -58,6 +58,7 @@ namespace AWSSDK.Examples
         
         private void PerformCreateOperation()
         {
+            
             Book myBook = new Book
             {
                 Id = bookID,

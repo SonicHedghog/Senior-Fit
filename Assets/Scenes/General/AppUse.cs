@@ -9,7 +9,7 @@ public class AppUse
 {
     public string fname;
     public string lname;
-    public int contactno;
+    public long contactno;
 
     public string time;
     public string exercise;
