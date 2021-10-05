@@ -226,7 +226,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         lname = data.lname;
         contactno = data.contactno;
         time = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-        SaveData.SaveIntoJson(this);
+        SaveData.SaveBlazePoseRunnerData(this);
 
         //AppUse.SaveAppUse(this);
 

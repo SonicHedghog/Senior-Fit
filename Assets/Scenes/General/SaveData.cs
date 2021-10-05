@@ -1,50 +1,3 @@
-/*using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-[System.Serializable]
-
-public class SaveData
-{
-    public string fname;
-    public string lname;
-    public long contactno;
-
-    public string time;
-    public string exercise;
-
-    public SaveData(BlazePoseRunner newuse)
-    {
-        fname = newuse.fname;
-        lname = newuse.lname;
-        contactno = newuse.contactno;
-        time = newuse.time;
-        exercise = newuse.Exercise;
-
-    }
- public static void SaveAppUse(BlazePoseRunner newappuse)
-    {
-        //BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/appuseinfo.json";
-        
-        SaveData data = new SaveData(newappuse);
-        
-            // Debug.Log("New data: "+ data.exercise+ "done by "+ data.fname);
-            
-            string json= JsonUtility.ToJson(data);
-            
-            System.IO.File.WriteAllText(path, json);
-            Debug.Log("DATA SAVED");
-
-
-
-
-
-    }
-
-    
-}*/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -57,7 +10,7 @@ public class SaveData
     public static List<UserData> AllUserInfo = new List<UserData>();
 
 
-    public static void SaveIntoJson(BlazePoseRunner newappuse)
+    public static void SaveIntoJson(ExerciseRecognizer newappuse)
     {
         //UserData data = new UserData(newappuse);
         string path = Application.persistentDataPath + "/UserData.json";
@@ -115,6 +68,69 @@ public class SaveData
 
 
     }
+
+    /********for BlazeposeRunner***/
+
+
+    public static void SaveBlazePoseRunnerData(BlazePoseRunner newappuse)
+    {
+        //UserData data = new UserData(newappuse);
+        string path = Application.persistentDataPath + "/UserData.json";
+        string fileContents;
+        UserList gameData = new UserList();
+
+        if (File.Exists(path))
+        {
+            fileContents = File.ReadAllText(path);
+            //Debug.Log("filecontent: "+ fileContents);           
+            if(fileContents.Length!=0)
+            {
+                gameData = JsonUtility.FromJson<UserList>(fileContents);
+            }
+            
+            gameData.alluserdata.Add(new UserData()
+            {
+                fname = newappuse.fname,
+                lname = newappuse.lname,
+                contactno = newappuse.contactno,
+                time = newappuse.time,
+                exercise = newappuse.Exercise
+            });
+
+
+
+
+
+            fileContents = JsonUtility.ToJson(gameData);
+
+            File.WriteAllText(path, fileContents);
+
+        }
+        else
+        {
+            
+            gameData.alluserdata.Add(new UserData()
+            {
+                fname = newappuse.fname,
+                lname = newappuse.lname,
+                contactno = newappuse.contactno,
+                time = newappuse.time,
+                exercise = newappuse.Exercise
+            });
+
+
+
+
+
+            fileContents = JsonUtility.ToJson(gameData);
+
+            File.WriteAllText(path, fileContents);
+        }
+
+
+
+    }
+
     public static void SaveGPSData(Walk newappuse)
     {
         string path = Application.persistentDataPath + "/GPSData.json";
@@ -255,13 +271,13 @@ public class GPSList
 [System.Serializable]
 public class GPSData
 {
-    public string latitudedata;
+    public float latitudedata;
      public string fname;
     public string lname;
     public long contactno;
 
     public string time;
-    public string longitudedata;
+    public float longitudedata;
 
 
 }

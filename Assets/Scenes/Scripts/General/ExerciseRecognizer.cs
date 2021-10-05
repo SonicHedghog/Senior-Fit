@@ -137,17 +137,19 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     [DynamoDBTable("SeniorFitDemo")]
     public class LoginInfo
     {
-       [DynamoDBProperty]
+        [DynamoDBProperty]
+        public string UserKey { get; set; }
+        [DynamoDBProperty]
         public string FirstName { get; set; }
         [DynamoDBProperty]
         public string LastName { get; set; }
         [DynamoDBProperty]
         public long ContactNumber { get; set; }
-         [DynamoDBProperty]
+        [DynamoDBProperty]
         public string ExerciseName { get; set; }
         [DynamoDBProperty]
         public string time { get; set; }
-        
+
     }
 
 
@@ -224,7 +226,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         lname=data.lname;
         contactno=data.contactno;
         time= DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-        // AppUse.SaveAppUse(this);
+        SaveData.SaveIntoJson(this);
+       
+
 
         
         //filenametest="";
@@ -254,52 +258,60 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     }
     
-    void updateAWSTable()
+     void updateAWSTable()
     {
-        if(Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                Debug.Log("No internet");
-            }
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.Log("No internet");
+        }
 
         else
         {
-            AppUse newuse = AppUse.LoadAppUse();
+            UserList newuserlist = SaveData.LoadData();
 
-        LoginInfo newUser = new LoginInfo
-        {
-            FirstName = newuse.fname,
-            LastName=newuse.lname,
-            ContactNumber = newuse.contactno,
-            ExerciseName= newuse.exercise,
-            time=newuse.time
-        };
-        Context.SaveAsync(newUser, (result) =>
-        {
-            if (result.Exception == null)
-                Debug.Log("user saved");
-        });
-
-        var request = new DescribeTableRequest
-        {
-            TableName = @"SeniorFitDemo"
-        };
-        Client.DescribeTableAsync(request, (result) =>
-        {
-            if (result.Exception != null)
+            foreach (UserData newuse in newuserlist.alluserdata)
             {
-               //resultText.text += result.Exception.Message;
-               Debug.Log(result.Exception);
-                return;
-            }
-            var response = result.Response;
-            TableDescription description = response.Table;
-            Debug.Log("Name: " + description.TableName + "\n");
-            Debug.Log("# of items: " + description.ItemCount + "\n");
-            
+                //AppUse newuse = AppUse.LoadAppUse();
 
-        }, null);
+                LoginInfo newUser = new LoginInfo
+                {
+                    FirstName = newuse.fname,
+                    LastName = newuse.lname,
+                    ContactNumber = newuse.contactno,
+                    ExerciseName = newuse.exercise,
+                    time = newuse.time,
+                    UserKey = contactno.ToString()+newuse.time
+                };
+                Context.SaveAsync(newUser, (result) =>
+                {
+                    if (result.Exception == null)
+                        Debug.Log("user saved"+ newuse.exercise);
+                });
+
+                var request = new DescribeTableRequest
+                {
+                    TableName = @"SeniorFitDemo"
+                };
+                Client.DescribeTableAsync(request, (result) =>
+                {
+                    if (result.Exception != null)
+                    {
+                //resultText.text += result.Exception.Message;
+                Debug.Log(result.Exception);
+                        return;
+                    }
+                    var response = result.Response;
+                    TableDescription description = response.Table;
+                    Debug.Log("Name: " + description.TableName + "\n");
+                    Debug.Log("# of items: " + description.ItemCount + "\n");
+
+
+                }, null);
+
+            }
+
         }
-        
+
 
     }
 

@@ -19,7 +19,7 @@ using System;
 
 public class Walk : MonoBehaviour
 {
-    #if UNITY_ANDROID
+#if UNITY_ANDROID
     public void UsedOnlyForAOTCodeGeneration() {
         //Bug reported on github https://github.com/aws/aws-sdk-net/issues/477
         //IL2CPP restrictions: https://docs.unity3d.com/Manual/ScriptingRestrictions.html
@@ -29,9 +29,9 @@ public class Walk : MonoBehaviour
         int valueString = jo.Get<int>("what");
     }
 #endif
-    public static Walk Instance {set; get; }
-    public string latitude;
-    public string longitude;
+    public static Walk Instance { set; get; }
+    public float latitude;
+    public float longitude;
     public Text Lat;
     public Text Long;
     public Text TotalDistance;
@@ -42,10 +42,10 @@ public class Walk : MonoBehaviour
     public string lname;
     public long contactno;
     public string time;
-    public int count=0;
+    public int count = 0;
 
-    
-    public double lat1,lat2,long1,long2,totaldistance=0.0;
+
+    public double lat1, lat2, long1, long2, totaldistance = 0.0;
 
     // ***************AWS set up*******************************************
 
@@ -115,9 +115,9 @@ public class Walk : MonoBehaviour
         [DynamoDBProperty]
         public long ContactNumber { get; set; }
         [DynamoDBProperty]
-        public string latitudeData { get; set; }
+        public float latitudeData { get; set; }
         [DynamoDBProperty]
-       public string longitudeData { get; set; }
+        public float longitudeData { get; set; }
         [DynamoDBProperty]
         public string Datetime { get; set; }
 
@@ -126,9 +126,9 @@ public class Walk : MonoBehaviour
 
     //**********************************************************************
 
-    
 
-    
+
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -142,17 +142,17 @@ public class Walk : MonoBehaviour
         lname = data.lname;
         contactno = data.contactno;
         //DontDestroyOnLoad(gameObject);
-        
+
         StartCoroutine(StartLocationService());
-        
- 
-       
- 
+
+
+
+
     }
 
-     private void Awake()
+    private void Awake()
     {
-        
+
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermission(Permission.FineLocation);
@@ -161,40 +161,40 @@ public class Walk : MonoBehaviour
 
     public void backbutton()
     {
-         SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     private IEnumerator StartLocationService()
     {
-        if(!Input.location.isEnabledByUser)
+        if (!Input.location.isEnabledByUser)
         {
             Debug.Log("GPS not enabled");
             yield break;
         }
 
         Input.location.Start();
-        int maxWait=20;
+        int maxWait = 20;
 
-        while(Input.location.status == LocationServiceStatus.Initializing && maxWait>0)
+        while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
             yield return new WaitForSeconds(1);
             maxWait--;
         }
 
-        if(maxWait <= 0)
+        if (maxWait <= 0)
         {
-            GPSStatus.text="Timed out";
+            GPSStatus.text = "Timed out";
             yield break;
         }
-        if(Input.location.status == LocationServiceStatus.Failed)
+        if (Input.location.status == LocationServiceStatus.Failed)
         {
-            GPSStatus.text="Unable to determine location";
+            GPSStatus.text = "Unable to determine location";
             //Debug.Log("Unable to determine location");
             yield break;
         }
         else
         {
-            InvokeRepeating("UpdateGPSData",0.5f,30f);
+            InvokeRepeating("UpdateGPSData", 0.5f, 30f);
         }
 
     }
@@ -202,73 +202,76 @@ public class Walk : MonoBehaviour
     private void UpdateGPSData()
     {
         count++;
-        if(Input.location.status == LocationServiceStatus.Running)
+        if (Input.location.status == LocationServiceStatus.Running)
         {
 
-            GPSStatus.text="Running";
-            Lat.text="Lat: "+ Input.location.lastData.latitude.ToString();
-            latitude=Lat.text;
+
+            Lat.text = "Lat: " + Input.location.lastData.latitude.ToString();
+            latitude = Input.location.lastData.latitude;
             //lat2=Convert.ToDouble(latitude);
-            Long.text="Long: "+ Input.location.lastData.longitude.ToString();
-            longitude=Long.text;
+            Long.text = "Long: " + Input.location.lastData.longitude.ToString();
+            longitude = Input.location.lastData.longitude;
             //long2=Convert.ToDouble(longitude);
-            timestamp.text="timestamp: "+Input.location.lastData.timestamp.ToString();
-            
-            updatecalled.text="Update called:" + count.ToString()+" times";
+            timestamp.text = "timestamp: " + Input.location.lastData.timestamp.ToString();
+
+            updatecalled.text = "Update called:" + count.ToString() + " times";
             time = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
 
             SaveData.SaveGPSData(this);
             UpdateAWSinfo();
 
-            if(count<=1)
+            if (count <= 1)
             {
-                lat1=Convert.ToDouble(latitude);
-                long1=Convert.ToDouble(longitude);
+                lat1 = Convert.ToDouble(latitude);
+                long1 = Convert.ToDouble(longitude);
+                lat2 = Convert.ToDouble(latitude);
+                long2 = Convert.ToDouble(longitude);
             }
             else
             {
-                lat2=Convert.ToDouble(latitude);
-                long2=Convert.ToDouble(longitude);
+                lat2 = Convert.ToDouble(latitude);
+                long2 = Convert.ToDouble(longitude);
             }
+            GPSStatus.text = "Running";
 
-            totaldistance=distance(lat1,lat2,long1,long2)*1000;
-            TotalDistance.text=totaldistance.ToString();
+            totaldistance = distance(lat1, lat2, long1, long2);
+            TotalDistance.text = totaldistance.ToString();
 
 
             //*******************************aws update****************************
 
-            
 
 
-             
+
+
         }
         else
         {
-            GPSStatus.text="Stop";
+            GPSStatus.text = "Stop";
         }
     }
 
     void UpdateAWSinfo()
     {
         if (Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                Debug.Log("No internet");
-            }
+        {
+            Debug.Log("No internet");
+        }
         else
-            {
-                GPSList newgpslist = SaveData.LoadGPSData();
+        {
+            GPSList newgpslist = SaveData.LoadGPSData();
 
-                foreach (GPSData newuse in newgpslist.allgpsdata)
-                {
+            foreach (GPSData newuse in newgpslist.allgpsdata)
+            {
                 GPSINFO newUser = new GPSINFO
                 {
                     FirstName = newuse.fname,
                     LastName = newuse.lname,
-                    ContactNumber = newuse.contactno,                 
-                    latitudeData=newuse.latitudedata,
-                    longitudeData=newuse.longitudedata,
-                    UserKey = contactno.ToString()+newuse.time,
-                    Datetime=newuse.time
+                    ContactNumber = newuse.contactno,
+                    latitudeData = newuse.latitudedata,
+                    longitudeData = newuse.longitudedata,
+                    UserKey = contactno.ToString() + newuse.time,
+                    Datetime = newuse.time
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {
@@ -280,52 +283,34 @@ public class Walk : MonoBehaviour
                 {
                     TableName = @"GPSINFO"
                 };
-                }
-                
-
             }
+
+
+        }
     }
 
-    static double toRadians(
-           double angleIn10thofaDegree)
-    {
-        // Angle in 10th
-        // of a degree
-        return (angleIn10thofaDegree * 
-                       Math.PI) / 180;
-    }
+
 
     static double distance(double lat1,
                            double lat2,
                            double lon1,
                            double lon2)
     {
- 
-        // The math module contains
-        // a function named toRadians
-        // which converts from degrees
-        // to radians.
-        lon1 = toRadians(lon1);
-        lon2 = toRadians(lon2);
-        lat1 = toRadians(lat1);
-        lat2 = toRadians(lat2);
- 
-        // Haversine formula
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.Pow(Math.Sin(dlat / 2), 2) +
-                   Math.Cos(lat1) * Math.Cos(lat2) *
-                   Math.Pow(Math.Sin(dlon / 2),2);
-             
+
+        double dLat = (Math.PI / 180) * (lat2 - lat1);
+        double dLon = (Math.PI / 180) * (lon2 - lon1);
+
+        // convert to radians
+        lat1 = (Math.PI / 180) * (lat1);
+        lat2 = (Math.PI / 180) * (lat2);
+
+        // apply formulae
+        double a = Math.Pow(Math.Sin(dLat / 2), 2) +
+                   Math.Pow(Math.Sin(dLon / 2), 2) *
+                   Math.Cos(lat1) * Math.Cos(lat2);
+        double rad = 6371;
         double c = 2 * Math.Asin(Math.Sqrt(a));
- 
-        // Radius of earth in
-        // kilometers. Use 3956
-        // for miles
-        double r = 6371;
- 
-        // calculate the result
-        return (c * r);
+        return rad * c;
     }
 
 
