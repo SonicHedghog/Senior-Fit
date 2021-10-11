@@ -45,7 +45,7 @@ public class Walk : MonoBehaviour
     public int count = 0;
 
 
-    public double lat1, lat2, long1, long2, totaldistance = 0.0;
+    public double lat1, lat2, long1, long2, totaldistance = 0.0,currentdistance=0.0;
 
     // ***************AWS set up*******************************************
 
@@ -229,13 +229,19 @@ public class Walk : MonoBehaviour
             }
             else
             {
+                lat1=lat2;
+                long1=long2;
                 lat2 = Convert.ToDouble(latitude);
                 long2 = Convert.ToDouble(longitude);
             }
-            GPSStatus.text = "Running";
+            
 
-            totaldistance = distance(lat1, lat2, long1, long2);
-            TotalDistance.text = totaldistance.ToString();
+            currentdistance=distance(lat1, lat2, long1, long2);
+            GPSStatus.text = "Current :"+ (currentdistance*0.621371)+" miles";
+
+            totaldistance += currentdistance;
+
+            TotalDistance.text = "distance: "+(totaldistance*0.621371).ToString()+ " miles";
 
 
             //*******************************aws update****************************
