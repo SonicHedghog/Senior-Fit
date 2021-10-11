@@ -557,7 +557,7 @@ PlayerSettings:
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
   cameraUsageDescription: Using in TF Lite
-  locationUsageDescription: 
+  locationUsageDescription: Used to track user's walking and transportation routes.
   microphoneUsageDescription: Using in TF Lite
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
