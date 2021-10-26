@@ -124,9 +124,14 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.5
+  bundleVersion: 0.7
   preloadedAssets:
   - {fileID: 0}
+<<<<<<< HEAD
+  - {fileID: 0}
+  - {fileID: 0}
+=======
+>>>>>>> 4950aaf0024767f6c94da7d710da5320b1a3d807
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -552,7 +557,7 @@ PlayerSettings:
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
   cameraUsageDescription: Using in TF Lite
-  locationUsageDescription: 
+  locationUsageDescription: Used to track user's walking and transportation routes.
   microphoneUsageDescription: Using in TF Lite
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
