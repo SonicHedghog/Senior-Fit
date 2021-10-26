@@ -33,7 +33,7 @@ namespace Poses
             name = "Seated March";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("new_SeatedMarch", true);
+            processor = new PoseClassifierProcessor("new_SeatedMarch", true,7f,6f);
         }
         public override bool IsFinished(Result[] result, Text t)
         {

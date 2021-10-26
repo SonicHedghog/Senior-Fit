@@ -27,7 +27,7 @@ namespace Poses
             name = "Shoulder Touch";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Shoulder_touch", true);
+            processor = new PoseClassifierProcessor("Shoulder_touch", true,8f,7f);
         }
         public override bool IsFinished(Result result, Text t)
         {

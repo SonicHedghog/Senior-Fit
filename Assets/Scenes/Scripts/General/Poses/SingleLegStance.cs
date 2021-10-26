@@ -35,7 +35,7 @@ namespace Poses
             name = "Single Leg Stance";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Single_Leg_Stance", true);
+            processor = new PoseClassifierProcessor("Single_Leg_Stance", true,7.5f,6.5f);
         }        public override bool IsFinished(Result[] result, Text t)
         {
             float i = 0f;

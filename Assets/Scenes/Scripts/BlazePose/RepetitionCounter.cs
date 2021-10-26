@@ -31,6 +31,7 @@ public class RepetitionCounter {
     public int addClassificationResult(ClassificationResult classificationResult) {
         float poseConfidence = classificationResult.getClassConfidence(className);
         Debug.Log(className + " : " + poseConfidence);
+        Debug.Log("Thresholds: "+ enterThreshold+" "+exitThreshold);
 
         if (!poseEntered) {
             poseEntered = poseConfidence > enterThreshold;

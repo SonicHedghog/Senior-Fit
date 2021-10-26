@@ -50,7 +50,7 @@ namespace TensorFlowLite
         repCounters = new List<RepetitionCounter>();
         lastRepResult = "";
       }
-      loadPoseSamples(filename);
+      loadPoseSamples(filename,ENTER_THRESHOLD,EXIT_THRESHOLD);
      
     }
 
@@ -63,13 +63,15 @@ namespace TensorFlowLite
         repCounters = new List<RepetitionCounter>();
         lastRepResult = "";
       }
-      loadPoseSamples(filename);
+     
      
       ENTER_THRESHOLD = enterThreshold;
       EXIT_THRESHOLD = exitThreshold;
+      loadPoseSamples(filename,ENTER_THRESHOLD,EXIT_THRESHOLD);
+
     }
 
-    private void loadPoseSamples(string filename) {
+    private void loadPoseSamples(string filename,float enterThreshold, float exitThreshold) {
 
      
       string[] paths = {Application.streamingAssetsPath, "BlazePoseData", filename + ".csv"};
@@ -109,8 +111,9 @@ namespace TensorFlowLite
       poseClassifier = new PoseClassifier(poseSamples);
       if (isStreamMode) {
         foreach (String className in POSE_CLASSES) {
-          if(EXIT_THRESHOLD == 0) repCounters.Add(new RepetitionCounter(className));
-          else repCounters.Add(new RepetitionCounter(className, ENTER_THRESHOLD, EXIT_THRESHOLD));
+          //if(EXIT_THRESHOLD == 0) repCounters.Add(new RepetitionCounter(className));
+          //else
+           repCounters.Add(new RepetitionCounter(className, enterThreshold, exitThreshold));
         }
       }
       
