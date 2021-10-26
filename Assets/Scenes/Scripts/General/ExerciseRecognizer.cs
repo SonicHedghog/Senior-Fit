@@ -214,6 +214,12 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 script = new Interpreter();
                 script.AddCommand("ShoulderTouch -1");
                 break;
+            case 4:
+                Exercise="Seated Hamstring Stretch";
+                script = new Interpreter();
+                script.AddCommand("Seated Hamstring Stretch -1");
+                break;
+
             case 0:
                 script = new Interpreter(file);
                 break;

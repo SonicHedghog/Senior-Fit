@@ -169,8 +169,6 @@ MonoBehaviour:
   exerciseName: {fileID: 1124019090793975663}
   resultText: {fileID: 931721158}
   requestedFPS: 30
-  filename: new_SeatedMarch
-  filenametest: 
   width: 0
   height: 0
   IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
@@ -349,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.90032095
+  m_AspectRatio: 0.9003211
 --- !u!1 &278620183
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,10 @@ public class SceneChange : MonoBehaviour
         SceneManager.LoadScene("Walk");
     }
 
+    public void QuitTheGame() {
+        Application.Quit();
+    }
+
 
     public void StartSeatedMarch()
     {
@@ -147,6 +151,42 @@ public class SceneChange : MonoBehaviour
             }
         }
 
+    }
+
+    public void StartSeatedHamstring()
+    {
+        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+        #if PLATFORM_ANDROID
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+        #endif
+
+        //userdata data = SaveUserData.LoadUser();
+
+        
+
+            exercisenumber = 1;
+            req_fps = 25;
+            if (webCamPermission)
+            {
+                SceneManager.LoadScene("WorkoutSpace");
+            }
+
+            else
+            {
+                Application.RequestUserAuthorization(UserAuthorization.WebCam);
+                webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+
+#if PLATFORM_ANDROID
+                Permission.RequestUserPermission(Permission.Camera);
+                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+                if (webCamPermission)
+                {
+                    SceneManager.LoadScene("WorkoutSpace");
+                    //blazePoseRunner.filename="Shoulder_touch";
+                }
+            }
     }
 
 
