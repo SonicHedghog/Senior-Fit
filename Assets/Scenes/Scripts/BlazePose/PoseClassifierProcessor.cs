@@ -109,12 +109,8 @@ namespace TensorFlowLite
       poseClassifier = new PoseClassifier(poseSamples);
       if (isStreamMode) {
         foreach (String className in POSE_CLASSES) {
-<<<<<<< HEAD
           if(EXIT_THRESHOLD == 0) repCounters.Add(new RepetitionCounter(className));
           else repCounters.Add(new RepetitionCounter(className, ENTER_THRESHOLD, EXIT_THRESHOLD));
-=======
-          repCounters.Add(new RepetitionCounter(className,6f,5f));
->>>>>>> 84ce08198484c44a029fbcbc43cb0779abec9ced
         }
       }
       
