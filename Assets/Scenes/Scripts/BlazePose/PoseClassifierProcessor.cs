@@ -33,6 +33,9 @@ namespace TensorFlowLite
     private PoseClassifier poseClassifier;
     private String lastRepResult;
 
+    private float ENTER_THRESHOLD = 0;
+    private float EXIT_THRESHOLD = 0;
+
     //@WorkerThread
     public PoseClassifierProcessor(string filename, bool isStreamMode) {
 
@@ -45,8 +48,22 @@ namespace TensorFlowLite
         lastRepResult = "";
       }
       loadPoseSamples(filename);
-      
      
+    }
+
+    public PoseClassifierProcessor(string filename, bool isStreamMode, float enterThreshold, float exitThreshold) {
+      Debug.Log("File name "+ filename);
+      // Preconditions.checkState(Looper.myLooper() != Looper.getMainLooper());
+      this.isStreamMode = isStreamMode;
+      if (isStreamMode) {
+        emaSmoothing = new EMASmoothing();
+        repCounters = new List<RepetitionCounter>();
+        lastRepResult = "";
+      }
+      loadPoseSamples(filename);
+     
+      ENTER_THRESHOLD = enterThreshold;
+      EXIT_THRESHOLD = exitThreshold;
     }
 
     private void loadPoseSamples(string filename) {
@@ -89,7 +106,8 @@ namespace TensorFlowLite
       poseClassifier = new PoseClassifier(poseSamples);
       if (isStreamMode) {
         foreach (String className in POSE_CLASSES) {
-          repCounters.Add(new RepetitionCounter(className));
+          if(EXIT_THRESHOLD == 0) repCounters.Add(new RepetitionCounter(className));
+          else repCounters.Add(new RepetitionCounter(className, ENTER_THRESHOLD, EXIT_THRESHOLD));
         }
       }
       
