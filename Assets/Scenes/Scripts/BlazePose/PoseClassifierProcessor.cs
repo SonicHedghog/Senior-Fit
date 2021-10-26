@@ -21,9 +21,12 @@ namespace TensorFlowLite
     private static readonly String Single_Leg_Stance_Right= "Single_Leg_Stance_Right";
     private static readonly String Shoulder_touch= "Shoulder_touch";
     private static readonly String Touch_down= "Touch_down";
+    private static readonly String Seated_Hamstring_Stretch_Right= "Seated_Hamstring_Stretch_Right";
+    private static readonly String Seated_Hamstring_Stretch_Left= "Seated_Hamstring_Stretch_Left";
+
 
     private static readonly String[] POSE_CLASSES = {
-      Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT,Sit_To_Stand_Sit,Sit_To_Stand_Stand,Shoulder_touch,Touch_down
+      Seated_Hamstring_Stretch_Right,Seated_Hamstring_Stretch_Left,Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT,Sit_To_Stand_Sit,Sit_To_Stand_Stand,Shoulder_touch,Touch_down
     };
 
     private readonly bool isStreamMode;
@@ -89,7 +92,7 @@ namespace TensorFlowLite
       poseClassifier = new PoseClassifier(poseSamples);
       if (isStreamMode) {
         foreach (String className in POSE_CLASSES) {
-          repCounters.Add(new RepetitionCounter(className));
+          repCounters.Add(new RepetitionCounter(className,6f,5f));
         }
       }
       
