@@ -342,6 +342,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
                 Debug.Log("Flipped to " + webcamTexture.deviceName);
                 cameraView.texture = webcamTexture;
+                if(Application.platform == RuntimePlatform.IPhonePlayer)
+                {
+                    cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                }
                 webcamTexture.Play();
             }
             else
@@ -359,6 +363,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     webcamTexture = new WebCamTexture(frontCamName, width, height);
                     Debug.Log("Flipped to " + webcamTexture.deviceName);
                     cameraView.texture = webcamTexture;
+                    if(Application.platform == RuntimePlatform.IPhonePlayer)
+                    {
+                        cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                    }
                     webcamTexture.Play();
                 }
                 catch (Exception e)
@@ -476,6 +484,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     {
         // Apply webcam rotation to draw landmarks correctly
         Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
+        if(Application.platform == RuntimePlatform.IPhonePlayer && isFlipped) 
+        {
+            mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, true, webcamTexture.videoVerticallyMirrored);
+        }
         Vector3 min = rtCorners[0];
         Vector3 max = rtCorners[2];
 
@@ -510,6 +522,16 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         poseDetect.Invoke(webcamTexture);
         cameraView.material = poseDetect.transformMat;
         cameraView.rectTransform.GetWorldCorners(rtCorners);
+        Debug.Log("The World: " + rtCorners[0].x + " "  + rtCorners[3].x);
+        if(Application.platform == RuntimePlatform.IPhonePlayer && isFlipped)
+        {
+            Vector3 pivot = new Vector3(0f,.5f,90f);
+ 
+            rtCorners[0] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[0] - pivot)) + pivot;
+            rtCorners[1] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[1] - pivot)) + pivot;
+            rtCorners[2] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[2] - pivot)) + pivot;
+            rtCorners[3] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[3] - pivot)) + pivot;
+        }
 
         poseResult = poseDetect.GetResults(0.7f, 0.3f);
         if (poseResult.score < 0) return;
