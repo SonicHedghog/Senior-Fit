@@ -1,18 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
-using System.IO;
 using System;
 
 
@@ -134,8 +131,8 @@ public class Walk : MonoBehaviour
     {
         UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
-        InputSystem.EnableDevice(StepCounter.current);
-        InputSystem.AddDevice<StepCounter>();
+        // InputSystem.EnableDevice(StepCounter.current);
+        // InputSystem.AddDevice<StepCounter>();
         userdata data = SaveUserData.LoadUser();
 
         fname = data.fname;
@@ -144,9 +141,6 @@ public class Walk : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
 
         StartCoroutine(StartLocationService());
-
-
-
 
     }
 
