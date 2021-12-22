@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using System.IO;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
+using TensorFlowLite;
 using UnityEngine;
 using UnityEngine.UI;
-using TensorFlowLite;
-using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// BlazePose form MediaPipe
@@ -14,62 +11,140 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 public sealed class BlazePoseSample : MonoBehaviour
 {
-    public enum Mode
-    {
-        UpperBody,
-        FullBody,
-    }
+    public bool DrawStickFigure { get { return _drawStickFigure; } set { _drawStickFigure = value; } }
 
-    [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "coco_ssd_mobilenet_quant.tflite";
-    [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "coco_ssd_mobilenet_quant.tflite";
-    [SerializeField] Mode mode = Mode.UpperBody;
-    [SerializeField] RawImage cameraView = null;
-    [SerializeField] RawImage debugView = null;
+    [Header("Model files")]
+    [SerializeField, FilePopup("*.tflite")] string poseDetectionModelFile = "mediapipe/pose_detection.tflie";
+    [SerializeField, FilePopup("*.tflite")] string poseLandmarkModelFile = "mediapipe/pose_landmarks.tflite";
+
+	[Header("Camera Settings")]
+	[Tooltip("Used when running on phones or tablets")]
+	[SerializeField] bool useFrontFacingCamera;
+	[Tooltip("example: FaceTime HD Camera (Built-in) " )]
+	[SerializeField] string customCameraName;
+	[SerializeField] int resolutionW = 1280;
+	[SerializeField] int resolutionH = 720;
+	[SerializeField] int frameRate = 30;
+
+
+	[Header("Skeletal objects")]
+	[SerializeField] GameObject nose;
+
+	[SerializeField] GameObject leftEyeInner;
+    [SerializeField] GameObject leftEye;
+	[SerializeField] GameObject leftEyeOuter;
+
+    [SerializeField] GameObject rightEyeInner;
+    [SerializeField] GameObject rightEye;
+    [SerializeField] GameObject rightEyeOuter;
+
+    [SerializeField] GameObject leftEar;
+    [SerializeField] GameObject rightEar;
+
+    [SerializeField] GameObject leftMouth;
+    [SerializeField] GameObject rightMouth;
+
+	[SerializeField] GameObject leftShoulder;
+    [SerializeField] GameObject rightShoulder;
+
+    [SerializeField] GameObject leftElbow;
+    [SerializeField] GameObject rightElbow;
+
+    [SerializeField] GameObject leftWrist;
+    [SerializeField] GameObject rightWrist;
+
+	[SerializeField] GameObject leftPinky;
+	[SerializeField] GameObject rightPinky;
+
+    [SerializeField] GameObject leftIndex;
+    [SerializeField] GameObject rightIndex;
+
+    [SerializeField] GameObject leftThumb;
+    [SerializeField] GameObject rightThumb;
+
+    [SerializeField] GameObject leftHip;
+    [SerializeField] GameObject rightHip;
+
+    [SerializeField] GameObject leftKnee;
+    [SerializeField] GameObject rightKnee;
+
+    [SerializeField] GameObject leftAnkle;
+    [SerializeField] GameObject rightAnkle;
+
+    [SerializeField] GameObject leftHeel;
+    [SerializeField] GameObject rightHeel;
+
+    [SerializeField] GameObject leftFootIndex;
+    [SerializeField] GameObject rightFootIndex;
+
+
+
+
+    // [SerializeField] // for debug raw data
+    public Vector4[] worldJoints;
+
+	[Header("GUI Settings")]
+	[SerializeField] private bool _drawStickFigure = true;
+	[SerializeField] RawImage cameraView = null;
+    [SerializeField] Canvas canvas = null;
+      [SerializeField] Text infoText = null;
+
+
+	[Header("Other Settings")]
     [SerializeField] bool useLandmarkFilter = true;
-    [SerializeField, Range(2f, 30f)] float filterVelocityScale = 10;
+    [SerializeField] Vector3 filterVelocityScale = Vector3.one * 10;
     [SerializeField] bool runBackground;
+    [SerializeField, Range(0f, 1f)] float visibilityThreshold = 0.5f;
+
+
 
     WebCamTexture webcamTexture;
     PoseDetect poseDetect;
     PoseLandmarkDetect poseLandmark;
 
     Vector3[] rtCorners = new Vector3[4]; // just cache for GetWorldCorners
-    Vector3[] worldJoints;
+
     PrimitiveDraw draw;
     PoseDetect.Result poseResult;
     PoseLandmarkDetect.Result landmarkResult;
     UniTask<bool> task;
     CancellationToken cancellationToken;
 
+    bool NeedsDetectionUpdate => poseResult == null || poseResult.score < 0.5f;
 
     void Start()
     {
-        // Init model
-        string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
-        string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
-        switch (mode)
-        {
-            case Mode.UpperBody:
-                poseDetect = new PoseDetectUpperBody(detectionPath);
-                poseLandmark = new PoseLandmarkDetectUpperBody(landmarkPath);
-                break;
-            case Mode.FullBody:
-                poseDetect = new PoseDetectFullBody(detectionPath);
-                poseLandmark = new PoseLandmarkDetectFullBody(landmarkPath);
-                break;
-            default:
-                throw new System.NotSupportedException($"Mode: {mode} is not supported");
-        }
 
-        // Init camera 
-        string cameraName = WebCamUtil.FindName();
-        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
+        infoText.text =  "Starting";
+
+
+        // Init camera
+        string cameraName = WebCamUtil.FindName(new WebCamUtil.PreferSpec()
+        {
+            isFrontFacing = useFrontFacingCamera,
+            kind = WebCamKind.WideAngle,
+        });
+          infoText.text = "Camera: " + cameraName;
+
+
+		if (customCameraName != null) {
+		webcamTexture = new WebCamTexture(customCameraName, resolutionW, resolutionH, frameRate);
+		} else {
+	 	webcamTexture = new WebCamTexture(cameraName, resolutionW, resolutionH, frameRate);
+		}
+
+
         cameraView.texture = webcamTexture;
         webcamTexture.Play();
         Debug.Log($"Starting camera: {cameraName}");
 
+        // Init model
+        poseDetect = new PoseDetect(poseDetectionModelFile);
+        poseLandmark = new PoseLandmarkDetect(poseLandmarkModelFile);
+
+        infoText.text = "Camera: " + cameraName + "PosesInitied";
         draw = new PrimitiveDraw(Camera.main, gameObject.layer);
-        worldJoints = new Vector3[poseLandmark.JointCount];
+        worldJoints = new Vector4[PoseLandmarkDetect.JointCount];
 
         cancellationToken = this.GetCancellationTokenOnDestroy();
     }
@@ -96,13 +171,27 @@ public sealed class BlazePoseSample : MonoBehaviour
             Invoke();
         }
 
-        if (poseResult == null || poseResult.score < 0f) return;
-        DrawFrame(poseResult);
+        if (poseResult != null && poseResult.score > 0f)
+        {
+            DrawFrame(poseResult);
+			Debug.Log("Pose results" + poseResult);
+        }
 
-        if (landmarkResult == null || landmarkResult.score < 0.2f) return;
-        DrawCropMatrix(poseLandmark.CropMatrix);
-        DrawJoints(landmarkResult.joints);
+        if (landmarkResult != null && landmarkResult.score > 0.2f)
+        {
+            DrawCropMatrix(poseLandmark.CropMatrix);
+            DrawJoints(landmarkResult.joints);
 
+        }
+    }
+
+
+    private Vector3 GetPoseFor(int jointId) {
+        if (worldJoints != null) {
+            return new Vector3(worldJoints[jointId][0], worldJoints[jointId][1], worldJoints[jointId][2]);
+        }
+
+        return Vector3.zero;
     }
 
     void DrawFrame(PoseDetect.Result pose)
@@ -138,64 +227,118 @@ public sealed class BlazePoseSample : MonoBehaviour
         draw.Apply();
     }
 
-    void DrawJoints(Vector3[] joints)
+    void DrawJoints(Vector4[] joints)
     {
-        // Apply webcam rotation to draw landmarks correctly
-        Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
-        Vector3 min = rtCorners[0];
-        Vector3 max = rtCorners[2];
-
         draw.color = Color.blue;
 
-        // Update world joints
-        for (int i = 0; i < joints.Length; i++)
+        // Vector3 min = rtCorners[0];
+        // Vector3 max = rtCorners[2];
+        // Debug.Log($"rtCorners min: {min}, max: {max}");
+
+        // Apply webcam rotation to draw landmarks correctly
+        Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
+
+        // float zScale = (max.x - min.x) / 2;
+        float zScale = 1;
+        float zOffset = canvas.planeDistance;
+        float aspect = (float)Screen.width / (float)Screen.height;
+        Vector3 scale, offset;
+        if (aspect > 1)
         {
-            var p = mtx.MultiplyPoint3x4(joints[i]);
-            p = MathTF.Lerp(min, max, p);
-            worldJoints[i] = p;
+            scale = new Vector3(1f / aspect, 1f, zScale);
+            offset = new Vector3((1 - 1f / aspect) / 2, 0, zOffset);
+        }
+        else
+        {
+            scale = new Vector3(1f, aspect, zScale);
+            offset = new Vector3(0, (1 - aspect) / 2, zOffset);
         }
 
-        // Draw
+        // Update world joints
+        var camera = canvas.worldCamera;
+        for (int i = 0; i < joints.Length; i++)
+        {
+            Vector3 p = mtx.MultiplyPoint3x4((Vector3)joints[i]);
+            p = Vector3.Scale(p, scale) + offset;
+            p = camera.ViewportToWorldPoint(p);
+
+            // w is visibility
+            worldJoints[i] = new Vector4(p.x, p.y, p.z, joints[i].w);
+        }
+
+
+
+		// Draw
+		if (_drawStickFigure){
         for (int i = 0; i < worldJoints.Length; i++)
         {
-            draw.Cube(worldJoints[i], 0.2f);
+            Vector4 p = worldJoints[i];
+            if (p.w > visibilityThreshold)
+            {
+                draw.Cube(p, 0.2f);
+            }
         }
-        var connections = poseLandmark.Connections;
+        var connections = PoseLandmarkDetect.Connections;
         for (int i = 0; i < connections.Length; i += 2)
         {
-            draw.Line3D(
-                worldJoints[connections[i]],
-                worldJoints[connections[i + 1]],
-                0.05f);
+            var a = worldJoints[connections[i]];
+            var b = worldJoints[connections[i + 1]];
+            if (a.w > visibilityThreshold || b.w > visibilityThreshold)
+            {
+                draw.Line3D(a, b, 0.05f);
+            }
         }
+		}
         draw.Apply();
     }
 
     void Invoke()
     {
-        poseDetect.Invoke(webcamTexture);
-        cameraView.material = poseDetect.transformMat;
-        cameraView.rectTransform.GetWorldCorners(rtCorners);
-
-        poseResult = poseDetect.GetResults(0.7f, 0.3f);
-        if (poseResult.score < 0) return;
-
+        if (NeedsDetectionUpdate)
+        {
+            poseDetect.Invoke(webcamTexture);
+            cameraView.material = poseDetect.transformMat;
+            cameraView.rectTransform.GetWorldCorners(rtCorners);
+            poseResult = poseDetect.GetResults(0.7f, 0.3f);
+        }
+        if (poseResult.score < 0)
+        {
+            poseResult = null;
+            landmarkResult = null;
+            return;
+        }
         poseLandmark.Invoke(webcamTexture, poseResult);
-        debugView.texture = poseLandmark.inputTex;
+
 
         if (useLandmarkFilter)
         {
             poseLandmark.FilterVelocityScale = filterVelocityScale;
         }
         landmarkResult = poseLandmark.GetResult(useLandmarkFilter);
+
+        if (landmarkResult.score < 0.3f)
+        {
+            poseResult.score = landmarkResult.score;
+        }
+        else
+        {
+            poseResult = PoseLandmarkDetect.LandmarkToDetection(landmarkResult);
+        }
     }
 
     async UniTask<bool> InvokeAsync()
     {
-        // Note: `await` changes PlayerLoopTiming from Update to FixedUpdate.
-        poseResult = await poseDetect.InvokeAsync(webcamTexture, cancellationToken, PlayerLoopTiming.FixedUpdate);
-
-        if (poseResult.score < 0) return false;
+        if (NeedsDetectionUpdate)
+        {
+            // Note: `await` changes PlayerLoopTiming from Update to FixedUpdate.
+            poseResult = await poseDetect.InvokeAsync(webcamTexture, cancellationToken, PlayerLoopTiming.FixedUpdate);
+        }
+        if (poseResult.score < 0)
+        {
+            poseResult = null;
+            landmarkResult = null;
+            return false;
+        }
 
         if (useLandmarkFilter)
         {
@@ -203,15 +346,22 @@ public sealed class BlazePoseSample : MonoBehaviour
         }
         landmarkResult = await poseLandmark.InvokeAsync(webcamTexture, poseResult, useLandmarkFilter, cancellationToken, PlayerLoopTiming.Update);
 
-        // Back to the update timing from now on 
+        // Back to the update timing from now on
         if (cameraView != null)
         {
             cameraView.material = poseDetect.transformMat;
             cameraView.rectTransform.GetWorldCorners(rtCorners);
         }
-        if (debugView != null)
+
+
+        // Generate poseResult from landmarkResult
+        if (landmarkResult.score < 0.3f)
         {
-            debugView.texture = poseLandmark.inputTex;
+            poseResult.score = landmarkResult.score;
+        }
+        else
+        {
+            poseResult = PoseLandmarkDetect.LandmarkToDetection(landmarkResult);
         }
 
         return true;
