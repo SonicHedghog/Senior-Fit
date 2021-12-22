@@ -9,15 +9,17 @@ namespace Poses
 {
     public class SingleLegStance : Pose
     {
-        public static new Part[] required 
+        public static new int[] required
         {
             get
             {
-                return new Part[] {
-                    Part.LEFT_KNEE,
-                    Part.RIGHT_KNEE,
-                    Part.LEFT_ANKLE,
-                    Part.RIGHT_ANKLE,
+                return new int[] {
+                    PoseLandmarkDetect.LEFT_HIP,
+                    PoseLandmarkDetect.RIGHT_HIP,
+                    PoseLandmarkDetect.LEFT_KNEE,
+                    PoseLandmarkDetect.RIGHT_KNEE,
+                    PoseLandmarkDetect.LEFT_ANKLE,
+                    PoseLandmarkDetect.RIGHT_ANKLE
                 };
             }
         }
@@ -174,6 +176,11 @@ namespace Poses
     public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t)
         {
             if(result == null) return false;
+            foreach (int x in required)
+            {
+                if(result.joints[x].w < .5f) return false;
+            }
+            
             List<string> poses = processor.getPoseResult(result);
             foreach(string s in poses)
             {
