@@ -151,9 +151,11 @@ public class SaveData
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                time = newappuse.time,
+                start_time = newappuse.start_time,
                 longitudedata = newappuse.longitude,
-                latitudedata=newappuse.latitude
+                latitudedata=newappuse.latitude,
+                current_time = newappuse.current_time,
+                current_date=newappuse.current_date
             });
 
 
@@ -173,9 +175,11 @@ public class SaveData
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                time = newappuse.time,
+                start_time = newappuse.start_time,
                 longitudedata = newappuse.longitude,
-                latitudedata=newappuse.latitude
+                latitudedata=newappuse.latitude,
+                current_time = newappuse.current_time,
+                current_date=newappuse.current_date
             });
 
 
@@ -275,8 +279,10 @@ public class GPSData
      public string fname;
     public string lname;
     public long contactno;
+    public string position_lat,position_long;
+    public string current_date;
 
-    public string time;
+    public string start_time,current_time;
     public float longitudedata;
 
 

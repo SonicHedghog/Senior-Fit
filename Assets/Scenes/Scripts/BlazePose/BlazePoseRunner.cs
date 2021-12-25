@@ -203,7 +203,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
         cancellationToken = this.GetCancellationTokenOnDestroy();
         exercisenumber = SceneChange.GetExerciseNumber();
         Debug.Log("EXERCISE NUMBER: " + exercisenumber);
-        switch (exercisenumber)
+        switch (3)
         {
             case 1:
                 filenametest = "Seated_March_CSV";

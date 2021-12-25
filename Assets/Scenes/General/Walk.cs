@@ -29,6 +29,7 @@ public class Walk : MonoBehaviour
     public static Walk Instance { set; get; }
     public float latitude;
     public float longitude;
+   
     public Text Lat;
     public Text Long;
     public Text TotalDistance;
@@ -38,11 +39,12 @@ public class Walk : MonoBehaviour
     public string fname;
     public string lname;
     public long contactno;
-    public string time;
+    public string current_date, start_time, current_time;
     public int count = 0;
 
+    public float time1=0, time2=0;
 
-    public double lat1, lat2, long1, long2, totaldistance = 0.0,currentdistance=0.0;
+    public double lat1, lat2, long1, long2, totaldistance = 0.0, currentdistance = 0.0, new_lat, new_long;
 
     // ***************AWS set up*******************************************
 
@@ -116,7 +118,12 @@ public class Walk : MonoBehaviour
         [DynamoDBProperty]
         public float longitudeData { get; set; }
         [DynamoDBProperty]
-        public string Datetime { get; set; }
+        public string Date { get; set; }
+        [DynamoDBProperty]
+        public string StartTime { get; set; }
+        [DynamoDBProperty]
+        public string CurrentTime { get; set; }
+        
 
     }
 
@@ -141,6 +148,9 @@ public class Walk : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
 
         StartCoroutine(StartLocationService());
+        Debug.Log(DateTime.Now.ToString("HH:mm:ss"));
+
+
 
     }
 
@@ -188,6 +198,8 @@ public class Walk : MonoBehaviour
         }
         else
         {
+            
+            
             InvokeRepeating("UpdateGPSData", 0.5f, 30f);
         }
 
@@ -195,6 +207,7 @@ public class Walk : MonoBehaviour
 
     private void UpdateGPSData()
     {
+
         count++;
         if (Input.location.status == LocationServiceStatus.Running)
         {
@@ -206,16 +219,20 @@ public class Walk : MonoBehaviour
             Long.text = "Long: " + Input.location.lastData.longitude.ToString();
             longitude = Input.location.lastData.longitude;
             //long2=Convert.ToDouble(longitude);
-            timestamp.text = "timestamp: " + Input.location.lastData.timestamp.ToString();
+            //timestamp.text = "timestamp: " + Time.time.ToString();
 
             updatecalled.text = "Update called:" + count.ToString() + " times";
-            time = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+          
 
             SaveData.SaveGPSData(this);
             UpdateAWSinfo();
 
             if (count <= 1)
             {
+                current_date = DateTime.Now.ToString("yyyy/MM/dd");
+                start_time = DateTime.Now.ToString("HH:mm:ss");
+                current_time=start_time;
+                time1 = Time.time;
                 lat1 = Convert.ToDouble(latitude);
                 long1 = Convert.ToDouble(longitude);
                 lat2 = Convert.ToDouble(latitude);
@@ -223,19 +240,31 @@ public class Walk : MonoBehaviour
             }
             else
             {
-                lat1=lat2;
-                long1=long2;
-                lat2 = Convert.ToDouble(latitude);
-                long2 = Convert.ToDouble(longitude);
+                current_time=DateTime.Now.ToString("HH:mm:ss");
+                time2 = Time.time;
+                lat1 = lat2;
+                long1 = long2;
+                new_lat = Convert.ToDouble(latitude);
+                new_long = Convert.ToDouble(longitude);
+
+                if (lat1 != new_lat || new_long != new_long)
+                {
+                    lat2 = new_lat;
+                    long2 = new_long;
+                }
             }
             
+            if((time2-time1)>0)
+                timestamp.text = "Total time: " + (time2 - time1).ToString() + " seconds";
+            else
+                timestamp.text = "Total time: 0 seconds";
 
-            currentdistance=distance(lat1, lat2, long1, long2);
-            GPSStatus.text = "Current :"+ (currentdistance*0.621371)+" miles";
+            currentdistance = distance(lat1, lat2, long1, long2);
+            GPSStatus.text = "Running";
 
             totaldistance += currentdistance;
 
-            TotalDistance.text = "distance: "+(totaldistance*0.621371).ToString()+ " miles";
+            TotalDistance.text = "distance: " + (totaldistance * 0.621371).ToString() + " miles";
 
 
             //*******************************aws update****************************
@@ -263,6 +292,8 @@ public class Walk : MonoBehaviour
 
             foreach (GPSData newuse in newgpslist.allgpsdata)
             {
+               
+
                 GPSINFO newUser = new GPSINFO
                 {
                     FirstName = newuse.fname,
@@ -270,8 +301,10 @@ public class Walk : MonoBehaviour
                     ContactNumber = newuse.contactno,
                     latitudeData = newuse.latitudedata,
                     longitudeData = newuse.longitudedata,
-                    UserKey = contactno.ToString() + newuse.time,
-                    Datetime = newuse.time
+                    UserKey =  newuse.fname+newuse.current_date+newuse.current_time ,                    
+                    Date = newuse.current_date,
+                    StartTime = newuse.start_time,
+                    CurrentTime=newuse.current_time
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {
@@ -283,6 +316,58 @@ public class Walk : MonoBehaviour
                 {
                     TableName = @"GPSINFO"
                 };
+
+
+                /****************************update****************************
+
+                GPSINFO GPSRetrieved = null;
+
+                
+                Context.LoadAsync<GPSINFO>(user_key, (result) =>
+                 {
+                     if (result.Exception == null)
+                     {
+                         GPSRetrieved = result.Result as GPSINFO;
+                         // Update few properties.
+                         GPSRetrieved.Position_Lat = position_lat;
+                         GPSRetrieved.Position_Long = position_long;
+                         // Replace existing authors list with this
+
+                         Context.SaveAsync<GPSINFO>(GPSRetrieved, (res) =>
+             {
+                 if (res.Exception == null)
+                     Debug.Log("\nTable updated");
+             });
+                     }
+                     else
+                     {
+                         GPSINFO newUser = new GPSINFO
+                {
+                    FirstName = newuse.fname,
+                    LastName = newuse.lname,
+                    ContactNumber = newuse.contactno,
+                    latitudeData = newuse.latitudedata,
+                    longitudeData = newuse.longitudedata,
+                    UserKey = user_key,
+                    Position_Lat = position_lat,
+                    Position_Long = position_long,
+                    //Datetime = newuse.time
+                    Date = newuse.current_date,
+                    StartTime = newuse.start_time
+                };
+                Context.SaveAsync(newUser, (save_result) =>
+                {
+                    if (save_result.Exception == null)
+                        Debug.Log("GPS saved");
+                });
+
+                var request = new DescribeTableRequest
+                {
+                    TableName = @"GPSINFO"
+                };
+
+                     }
+                 });*/
             }
 
 
