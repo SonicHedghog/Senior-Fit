@@ -156,19 +156,22 @@ MonoBehaviour:
   fname: 
   lname: 
   contactno: 0
-  poseDetectionModelFile: ML Models/posedetector_full.tflite
-  poseLandmarkModelFile: ML Models/pose_39kp_full.tflite
+  poseDetectionModelFile: ML Models/pose_detection.tflite
+  poseLandmarkModelFile: ML Models/pose_landmark_lite.tflite
   mode: 1
   cameraView: {fileID: 237587965}
   useLandmarkFilter: 1
-  filterVelocityScale: 10
+  filterVelocityScale: {x: 10, y: 10, z: 10}
   runBackground: 0
+  canvas: {fileID: 722281680}
+  _drawStickFigure: 1
   ResultUI: {fileID: 0}
   file: test
   videoPlayer: {fileID: 1548002578}
   exerciseName: {fileID: 1124019090793975663}
   resultText: {fileID: 931721158}
   requestedFPS: 30
+  visibilityThreshold: 0.5
   width: 0
   height: 0
   IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
@@ -297,9 +300,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 315.94, y: 0}
+  m_AnchoredPosition: {x: 625.5571, y: 0}
   m_SizeDelta: {x: -631.87195, y: -0.11444092}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.01, y: 0.5}
 --- !u!114 &237587965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.9003211
+  m_AspectRatio: 0.90032095
 --- !u!1 &278620183
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public sealed class BlazePoseTest : MonoBehaviour
     [SerializeField] RawImage cameraView = null;
    // [SerializeField] RawImage debugView = null;
     [SerializeField] bool useLandmarkFilter = true;
-    [SerializeField, Range(2f, 30f)] float filterVelocityScale = 10;
+    [SerializeField] Vector3 filterVelocityScale = Vector3.one * 10;
     [SerializeField] bool runBackground;
      [SerializeField] private GameObject ResultUI = null;
     public Text exerciseName;
@@ -40,7 +40,7 @@ public sealed class BlazePoseTest : MonoBehaviour
     PoseLandmarkDetect poseLandmark;
 
     Vector3[] rtCorners = new Vector3[4]; // just cache for GetWorldCorners
-    Vector3[] worldJoints;
+    Vector4[] worldJoints;
     private Interpreter script;
     UnityEngine.Video.VideoPlayer videoPlayer;
     PrimitiveDraw draw;
@@ -62,19 +62,10 @@ public sealed class BlazePoseTest : MonoBehaviour
         // Init model
         string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
         string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
-        switch (mode)
-        {
-            case Mode.UpperBody:
-                poseDetect = new PoseDetectUpperBody(detectionPath);
-                poseLandmark = new PoseLandmarkDetectUpperBody(landmarkPath);
-                break;
-            case Mode.FullBody:
-                poseDetect = new PoseDetectFullBody(detectionPath);
-                poseLandmark = new PoseLandmarkDetectFullBody(landmarkPath);
-                break;
-            default:
-                throw new System.NotSupportedException($"Mode: {mode} is not supported");
-        }
+        
+        // Init model
+        poseDetect = new PoseDetect(poseDetectionModelFile);
+        poseLandmark = new PoseLandmarkDetect(poseLandmarkModelFile);
 
         // Init camera 
         videoPlayer = camera.AddComponent<UnityEngine.Video.VideoPlayer>();
@@ -85,7 +76,7 @@ public sealed class BlazePoseTest : MonoBehaviour
         
        
         draw = new PrimitiveDraw(Camera.main, gameObject.layer);
-        worldJoints = new Vector3[poseLandmark.JointCount];
+        worldJoints = new Vector4[PoseLandmarkDetect.JointCount];
 
         cancellationToken = this.GetCancellationTokenOnDestroy();
 

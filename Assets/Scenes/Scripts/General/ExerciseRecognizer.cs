@@ -51,9 +51,11 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     [SerializeField] Mode mode = Mode.FullBody;
     [SerializeField] RawImage cameraView = null;
     [SerializeField] bool useLandmarkFilter = true;
-    [SerializeField, Range(2f, 30f)] float filterVelocityScale = 10;
+    [SerializeField] Vector3 filterVelocityScale = Vector3.one * 10;
     [SerializeField] bool runBackground;
-     [SerializeField] private GameObject ResultUI = null;
+    [SerializeField] Canvas canvas = null;
+    [SerializeField] private bool _drawStickFigure = true;
+    [SerializeField] private GameObject ResultUI = null;
     [SerializeField] string file = "test";
     public UnityEngine.Video.VideoPlayer videoPlayer;
     private bool menu = false;
@@ -64,12 +66,14 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     private Interpreter script;
 
+    [SerializeField, Range(0f, 1f)] float visibilityThreshold = 0.5f;
+
     WebCamTexture webcamTexture;
     PoseDetect poseDetect;
     PoseLandmarkDetect poseLandmark;
     private bool isFlipped = false;
     Vector3[] rtCorners = new Vector3[4]; // just cache for GetWorldCorners
-    Vector3[] worldJoints;
+    Vector4[] worldJoints;
     PrimitiveDraw draw;
     PoseDetect.Result poseResult;
     PoseLandmarkDetect.Result landmarkResult;
@@ -164,20 +168,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
         string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
         string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
-        switch (mode)
-        {
-            case Mode.UpperBody:
-                poseDetect = new PoseDetectUpperBody(detectionPath);
-                poseLandmark = new PoseLandmarkDetectUpperBody(landmarkPath);
-                break;
-            case Mode.FullBody:
-                poseDetect = new PoseDetectFullBody(detectionPath);
-                poseLandmark = new PoseLandmarkDetectFullBody(landmarkPath);
-                break;
-            default:
-                throw new System.NotSupportedException($"Mode: {mode} is not supported");
-        }
-
+         
+        // Init model
+        poseDetect = new PoseDetect(poseDetectionModelFile);
+        poseLandmark = new PoseLandmarkDetect(poseLandmarkModelFile);
         
 
         // Init camera 
@@ -192,7 +186,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         Debug.Log($"Starting camera: {cameraName}");
        
         draw = new PrimitiveDraw(Camera.main, gameObject.layer);
-        worldJoints = new Vector3[poseLandmark.JointCount];
+        worldJoints = new Vector4[PoseLandmarkDetect.JointCount];
 
         cancellationToken = this.GetCancellationTokenOnDestroy();
         exercisenumber= SceneChange.GetExerciseNumber();
@@ -342,6 +336,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
                 Debug.Log("Flipped to " + webcamTexture.deviceName);
                 cameraView.texture = webcamTexture;
+                if(Application.platform == RuntimePlatform.IPhonePlayer)
+                {
+                    cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                }
                 webcamTexture.Play();
             }
             else
@@ -359,6 +357,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     webcamTexture = new WebCamTexture(frontCamName, width, height);
                     Debug.Log("Flipped to " + webcamTexture.deviceName);
                     cameraView.texture = webcamTexture;
+                    if(Application.platform == RuntimePlatform.IPhonePlayer)
+                    {
+                        cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                    }
                     webcamTexture.Play();
                 }
                 catch (Exception e)
@@ -472,36 +474,68 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         draw.Apply();
     }
 
-    void DrawJoints(Vector3[] joints)
+    void DrawJoints(Vector4[] joints)
     {
-        // Apply webcam rotation to draw landmarks correctly
-        Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
-        Vector3 min = rtCorners[0];
-        Vector3 max = rtCorners[2];
-
         draw.color = Color.blue;
 
-        // Update world joints
-        for (int i = 0; i < joints.Length; i++)
+        // Vector3 min = rtCorners[0];
+        // Vector3 max = rtCorners[2];
+        // Debug.Log($"rtCorners min: {min}, max: {max}");
+
+        // Apply webcam rotation to draw landmarks correctly
+        Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
+
+        // float zScale = (max.x - min.x) / 2;
+        float zScale = 1;
+        float zOffset = canvas.planeDistance;
+        float aspect = (float)Screen.width / (float)Screen.height;
+        Vector3 scale, offset;
+        if (aspect > 1)
         {
-            var p = mtx.MultiplyPoint3x4(joints[i]);
-            p = MathTF.Lerp(min, max, p);
-            worldJoints[i] = p;
+            scale = new Vector3(1f / aspect, 1f, zScale);
+            offset = new Vector3((1 - 1f / aspect) / 2, 0, zOffset);
+        }
+        else
+        {
+            scale = new Vector3(1f, aspect, zScale);
+            offset = new Vector3(0, (1 - aspect) / 2, zOffset);
         }
 
-        // Draw
+        // Update world joints
+        var camera = canvas.worldCamera;
+        for (int i = 0; i < joints.Length; i++)
+        {
+            Vector3 p = mtx.MultiplyPoint3x4((Vector3)joints[i]);
+            p = Vector3.Scale(p, scale) + offset;
+            p = camera.ViewportToWorldPoint(p);
+
+            // w is visibility
+            worldJoints[i] = new Vector4(p.x, p.y, p.z, joints[i].w);
+        }
+
+
+
+		// Draw
+		if (_drawStickFigure){
         for (int i = 0; i < worldJoints.Length; i++)
         {
-            draw.Cube(worldJoints[i], 0.2f);
+            Vector4 p = worldJoints[i];
+            if (p.w > visibilityThreshold)
+            {
+                draw.Cube(p, 0.2f);
+            }
         }
-        var connections = poseLandmark.Connections;
+        var connections = PoseLandmarkDetect.Connections;
         for (int i = 0; i < connections.Length; i += 2)
         {
-            draw.Line3D(
-                worldJoints[connections[i]],
-                worldJoints[connections[i + 1]],
-                0.5f);
+            var a = worldJoints[connections[i]];
+            var b = worldJoints[connections[i + 1]];
+            if (a.w > visibilityThreshold || b.w > visibilityThreshold)
+            {
+                draw.Line3D(a, b, 0.5f);
+            }
         }
+		}
         draw.Apply();
     }
 
@@ -510,6 +544,16 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         poseDetect.Invoke(webcamTexture);
         cameraView.material = poseDetect.transformMat;
         cameraView.rectTransform.GetWorldCorners(rtCorners);
+        Debug.Log("The World: " + rtCorners[0].x + " "  + rtCorners[3].x);
+        if(Application.platform == RuntimePlatform.IPhonePlayer && isFlipped)
+        {
+            Vector3 pivot = new Vector3(0f,.5f,90f);
+ 
+            rtCorners[0] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[0] - pivot)) + pivot;
+            rtCorners[1] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[1] - pivot)) + pivot;
+            rtCorners[2] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[2] - pivot)) + pivot;
+            rtCorners[3] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[3] - pivot)) + pivot;
+        }
 
         poseResult = poseDetect.GetResults(0.7f, 0.3f);
         if (poseResult.score < 0) return;

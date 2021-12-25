@@ -11,14 +11,21 @@ namespace Poses
     {
         PoseClassifierProcessor processor;
         String lastExercise = "";
-        // public static new Part[] required 
-        // {
-        //     get
-        //     {
-        //         return new Part[] {
-        //         };
-        //     }
-        // }
+        
+        public static new int[] required
+        {
+            get
+            {
+                return new int[] {
+                    PoseLandmarkDetect.LEFT_SHOULDER,
+                    PoseLandmarkDetect.RIGHT_SHOULDER,
+                    PoseLandmarkDetect.LEFT_ELBOW,
+                    PoseLandmarkDetect.RIGHT_ELBOW,
+                    PoseLandmarkDetect.LEFT_WRIST,
+                    PoseLandmarkDetect.RIGHT_WRIST
+                };
+            }
+        }
 
         bool legCheck = false;
 
@@ -32,6 +39,11 @@ namespace Poses
         public override bool IsFinished(Result result, Text t)
         {
             if(result == null) return false;
+            foreach (int x in required)
+            {
+                if(result.joints[x].w < .5f) return false;
+            }
+
             List<string> poses = processor.getPoseResult(result);
             foreach(string s in poses)
             {
