@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exercisenumber: 0
   Exercise: 
+  date: 
   time: 
   fname: 
   lname: 
@@ -350,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.90032095
+  m_AspectRatio: 0.3038264
 --- !u!1 &278620183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2524,6 +2525,7 @@ GameObject:
   - component: {fileID: 1889489330}
   - component: {fileID: 1889489329}
   - component: {fileID: 1889489332}
+  - component: {fileID: 1889489333}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2606,6 +2608,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21904005fdc262947b35d70e40754939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1889489333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889489328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c868d88eebeec847886c0c4c197cfdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2007105566

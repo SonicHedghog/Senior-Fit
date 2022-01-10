@@ -11,7 +11,7 @@ using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
 using System;
-
+using System.IO;
 
 
 public class Walk : MonoBehaviour
@@ -29,7 +29,7 @@ public class Walk : MonoBehaviour
     public static Walk Instance { set; get; }
     public float latitude;
     public float longitude;
-   
+
     public Text Lat;
     public Text Long;
     public Text TotalDistance;
@@ -42,9 +42,11 @@ public class Walk : MonoBehaviour
     public string current_date, start_time, current_time;
     public int count = 0;
 
-    public float time1=0, time2=0;
+    public float time1 = 0, time2 = 0;
+    public int minute, second;
 
     public double lat1, lat2, long1, long2, totaldistance = 0.0, currentdistance = 0.0, new_lat, new_long;
+    string[] lines ;
 
     // ***************AWS set up*******************************************
 
@@ -123,7 +125,7 @@ public class Walk : MonoBehaviour
         public string StartTime { get; set; }
         [DynamoDBProperty]
         public string CurrentTime { get; set; }
-        
+
 
     }
 
@@ -138,6 +140,7 @@ public class Walk : MonoBehaviour
     {
         UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
+        Screen.orientation = ScreenOrientation.Portrait;
         // InputSystem.EnableDevice(StepCounter.current);
         // InputSystem.AddDevice<StepCounter>();
         userdata data = SaveUserData.LoadUser();
@@ -149,9 +152,32 @@ public class Walk : MonoBehaviour
 
         StartCoroutine(StartLocationService());
         Debug.Log(DateTime.Now.ToString("HH:mm:ss"));
+        LoadMessages();
+        
 
 
 
+    }
+
+    private void LoadMessages()
+    {
+        string[] paths = {Application.streamingAssetsPath, "Routines",  "messages.txt"};
+        
+        
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+            www.SendWebRequest();
+            while (!www.isDone)
+            {
+            }
+            lines = www.downloadHandler.text.Split('\n');
+            Debug.Log(www.downloadHandler.text);
+        }
+        else
+        {
+            lines = File.ReadAllLines(Application.streamingAssetsPath + "/Routines/" +  "messages.txt");
+        }
     }
 
     private void Awake()
@@ -161,7 +187,9 @@ public class Walk : MonoBehaviour
         {
             Permission.RequestUserPermission(Permission.FineLocation);
         }
+        Application.runInBackground=true;
     }
+   
 
     public void backbutton()
     {
@@ -198,8 +226,8 @@ public class Walk : MonoBehaviour
         }
         else
         {
-            
-            
+
+
             InvokeRepeating("UpdateGPSData", 0.5f, 30f);
         }
 
@@ -208,12 +236,14 @@ public class Walk : MonoBehaviour
     private void UpdateGPSData()
     {
 
+
+
         count++;
         if (Input.location.status == LocationServiceStatus.Running)
         {
 
 
-            Lat.text = "Lat: " + Input.location.lastData.latitude.ToString();
+            //Lat.text = "Lat: " + Input.location.lastData.latitude.ToString();
             latitude = Input.location.lastData.latitude;
             //lat2=Convert.ToDouble(latitude);
             Long.text = "Long: " + Input.location.lastData.longitude.ToString();
@@ -222,7 +252,7 @@ public class Walk : MonoBehaviour
             //timestamp.text = "timestamp: " + Time.time.ToString();
 
             updatecalled.text = "Update called:" + count.ToString() + " times";
-          
+
 
             SaveData.SaveGPSData(this);
             UpdateAWSinfo();
@@ -231,7 +261,7 @@ public class Walk : MonoBehaviour
             {
                 current_date = DateTime.Now.ToString("yyyy/MM/dd");
                 start_time = DateTime.Now.ToString("HH:mm:ss");
-                current_time=start_time;
+                current_time = start_time;
                 time1 = Time.time;
                 lat1 = Convert.ToDouble(latitude);
                 long1 = Convert.ToDouble(longitude);
@@ -240,7 +270,7 @@ public class Walk : MonoBehaviour
             }
             else
             {
-                current_time=DateTime.Now.ToString("HH:mm:ss");
+                current_time = DateTime.Now.ToString("HH:mm:ss");
                 time2 = Time.time;
                 lat1 = lat2;
                 long1 = long2;
@@ -253,18 +283,49 @@ public class Walk : MonoBehaviour
                     long2 = new_long;
                 }
             }
-            
-            if((time2-time1)>0)
-                timestamp.text = "Total time: " + (time2 - time1).ToString() + " seconds";
+
+            if ((time2 - time1) > 0)
+            {
+                minute = (int)((time2 - time1) / 60);
+                second = (int)((time2 - time1) % 60);
+
+                if (minute > 0)
+                    timestamp.text = "Total time: " + minute.ToString() + " minute " + second.ToString() + " seconds";
+                else
+                    timestamp.text = "Total time: " + second.ToString() + " seconds";
+
+
+
+                if (minute % 5 == 0)
+                {
+                    var r = new System.Random();
+                    var randomLineNumber = r.Next(0, lines.Length - 1);
+
+                    string line = lines[randomLineNumber];
+                    GPSStatus.text = line;
+
+                }
+
+
+
+            }
+
             else
+            {
                 timestamp.text = "Total time: 0 seconds";
+                GPSStatus.text = "Let's get started!!";
+
+            }
+
 
             currentdistance = distance(lat1, lat2, long1, long2);
-            GPSStatus.text = "Running";
+            //GPSStatus.text = "Running";
+            Lat.text = "Cuurent time " + current_time.ToString();
 
             totaldistance += currentdistance;
+            totaldistance=(float)Math.Round(totaldistance * 100) / 100;
 
-            TotalDistance.text = "distance: " + (totaldistance * 0.621371).ToString() + " miles";
+            TotalDistance.text = "distance: " + (totaldistance * 0.62).ToString() + " miles";
 
 
             //*******************************aws update****************************
@@ -292,7 +353,7 @@ public class Walk : MonoBehaviour
 
             foreach (GPSData newuse in newgpslist.allgpsdata)
             {
-               
+
 
                 GPSINFO newUser = new GPSINFO
                 {
@@ -301,10 +362,10 @@ public class Walk : MonoBehaviour
                     ContactNumber = newuse.contactno,
                     latitudeData = newuse.latitudedata,
                     longitudeData = newuse.longitudedata,
-                    UserKey =  newuse.fname+newuse.current_date+newuse.current_time ,                    
+                    UserKey = newuse.contactno + newuse.current_date + newuse.current_time,
                     Date = newuse.current_date,
                     StartTime = newuse.start_time,
-                    CurrentTime=newuse.current_time
+                    CurrentTime = newuse.current_time
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {

@@ -39,7 +39,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     public int exercisenumber;
     public string Exercise;
-    public string time;
+    public string date,time;
     public string fname;
     public string lname;
     public long contactno;
@@ -152,7 +152,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         [DynamoDBProperty]
         public string ExerciseName { get; set; }
         [DynamoDBProperty]
+        public string date { get; set; }
+        [DynamoDBProperty]
         public string time { get; set; }
+
 
     }
 
@@ -225,7 +228,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         fname=data.fname;
         lname=data.lname;
         contactno=data.contactno;
-        time= DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+        date=DateTime.Now.ToString("yyyy/MM/dd");
+        time= DateTime.Now.ToString("HH:mm:ss");
         SaveData.SaveIntoJson(this);
        
 
@@ -279,8 +283,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     LastName = newuse.lname,
                     ContactNumber = newuse.contactno,
                     ExerciseName = newuse.exercise,
+                    date=newuse.date,
                     time = newuse.time,
-                    UserKey = contactno.ToString()+newuse.time
+                    UserKey = contactno.ToString()+newuse.date+newuse.time
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {

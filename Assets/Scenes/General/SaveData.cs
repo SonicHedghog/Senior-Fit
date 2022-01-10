@@ -31,6 +31,7 @@ public class SaveData
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
+                date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise
             });
@@ -52,6 +53,7 @@ public class SaveData
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
+                date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise
             });
@@ -93,6 +95,7 @@ public class SaveData
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
+                date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise
             });
@@ -114,6 +117,7 @@ public class SaveData
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
+                date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise
             });
@@ -255,7 +259,7 @@ public class UserData
     public string lname;
     public long contactno;
 
-    public string time;
+    public string date,time;
     public string exercise;
 }
 
