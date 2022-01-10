@@ -483,15 +483,19 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     {
         draw.color = Color.blue;
 
-        // Vector3 min = rtCorners[0];
-        // Vector3 max = rtCorners[2];
-        // Debug.Log($"rtCorners min: {min}, max: {max}");
+        Vector3 min = rtCorners[0];
+        Vector3 max = rtCorners[2];
+        Debug.Log($"rtCorners min: {min}, max: {max}");
 
         // Apply webcam rotation to draw landmarks correctly
         Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
+        if(Application.platform == RuntimePlatform.IPhonePlayer && isFlipped) 
+        {
+            mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, true, webcamTexture.videoVerticallyMirrored);
+        }
 
-        // float zScale = (max.x - min.x) / 2;
-        float zScale = 1;
+        float zScale = (max.x - min.x) / 2;
+        // float zScale = 1;
         float zOffset = canvas.planeDistance;
         float aspect = (float)Screen.width / (float)Screen.height;
         Vector3 scale, offset;
@@ -511,8 +515,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         for (int i = 0; i < joints.Length; i++)
         {
             Vector3 p = mtx.MultiplyPoint3x4((Vector3)joints[i]);
-            p = Vector3.Scale(p, scale) + offset;
-            p = camera.ViewportToWorldPoint(p);
+            // p = Vector3.Scale(p, scale) + offset;
+            p = MathTF.Lerp(min, max, p);
 
             // w is visibility
             worldJoints[i] = new Vector4(p.x, p.y, p.z, joints[i].w);
