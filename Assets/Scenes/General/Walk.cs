@@ -290,9 +290,9 @@ public class Walk : MonoBehaviour
                 second = (int)((time2 - time1) % 60);
 
                 if (minute > 0)
-                    timestamp.text = "Total time: " + minute.ToString() + " minute " + second.ToString() + " seconds";
+                    timestamp.text = "Duration : " + minute.ToString() + " minute " + second.ToString() + " seconds";
                 else
-                    timestamp.text = "Total time: " + second.ToString() + " seconds";
+                    timestamp.text = "Duration : " + second.ToString() + " seconds";
 
 
 
@@ -320,12 +320,12 @@ public class Walk : MonoBehaviour
 
             currentdistance = distance(lat1, lat2, long1, long2);
             //GPSStatus.text = "Running";
-            Lat.text = "Cuurent time " + current_time.ToString();
+            Lat.text = "Current time " + current_time.ToString();
 
             totaldistance += currentdistance;
             totaldistance=(float)Math.Round(totaldistance * 100) / 100;
 
-            TotalDistance.text = "distance: " + (totaldistance * 0.62).ToString() + " miles";
+            TotalDistance.text = "Distance: " + (totaldistance * 0.62).ToString() + " miles";
 
 
             //*******************************aws update****************************

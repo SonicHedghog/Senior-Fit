@@ -33,7 +33,8 @@ public class SaveData
                 contactno = newappuse.contactno,
                 date=newappuse.date,
                 time = newappuse.time,
-                exercise = newappuse.Exercise
+                exercise = newappuse.Exercise,
+                repCount=newappuse.repCount
             });
 
 
@@ -55,7 +56,8 @@ public class SaveData
                 contactno = newappuse.contactno,
                 date=newappuse.date,
                 time = newappuse.time,
-                exercise = newappuse.Exercise
+                exercise = newappuse.Exercise,
+                repCount=newappuse.repCount
             });
 
 
@@ -261,6 +263,7 @@ public class UserData
 
     public string date,time;
     public string exercise;
+    public string repCount;
 }
 
 

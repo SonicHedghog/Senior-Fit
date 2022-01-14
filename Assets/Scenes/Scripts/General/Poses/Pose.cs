@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using System.IO;
 
 namespace Poses
 {
@@ -26,8 +27,10 @@ namespace Poses
 
         public void RepAction(Text t)
         {
+            string path = Application.persistentDataPath + "/RepCount.txt";
             t.text = name + " x " + Math.Abs((int)_repCount);
-            Debug.Log(name);
+            File.WriteAllText(path, ( Math.Abs((int)_repCount)).ToString());
+            Debug.Log("Rep count :"+( Math.Abs((int)_repCount)).ToString());
         }
 
         public void NoRepAction(Text t)

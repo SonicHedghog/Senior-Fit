@@ -39,7 +39,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     public int exercisenumber;
     public string Exercise;
-    public string date,time;
+    public string date,time,repCount="",newrepcount;
     public string fname;
     public string lname;
     public long contactno;
@@ -154,7 +154,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         [DynamoDBProperty]
         public string date { get; set; }
         [DynamoDBProperty]
-        public string time { get; set; }
+        public string startTime { get; set; }
+        [DynamoDBProperty]
+        public string repCount { get; set; }
 
 
     }
@@ -284,7 +286,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     ContactNumber = newuse.contactno,
                     ExerciseName = newuse.exercise,
                     date=newuse.date,
-                    time = newuse.time,
+                    startTime = newuse.time,
+                    repCount=newuse.repCount,
                     UserKey = contactno.ToString()+newuse.date+newuse.time
                 };
                 Context.SaveAsync(newUser, (result) =>
@@ -332,6 +335,18 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     void Update()
     {
+        string path = Application.persistentDataPath + "/RepCount.txt";
+        if (File.Exists(path))
+        {
+            newrepcount = File.ReadAllText(path);
+        }
+
+        if(repCount!=newrepcount)
+        {
+            repCount=newrepcount;
+            SaveData.SaveIntoJson(this);
+        }
+
         if (PauseMenu.GetIsFlipped() != isFlipped)
         {
             isFlipped = !isFlipped;
