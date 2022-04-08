@@ -137,7 +137,7 @@ public class SaveData
 
     }
 
-    public static void SaveGPSData(Walk newappuse)
+   /* public static void SaveGPSData(Walk newappuse)
     {
         string path = Application.persistentDataPath + "/GPSData.json";
         string fileContents;
@@ -198,10 +198,10 @@ public class SaveData
         }
 
 
-    }
+    }*/
     public static UserList LoadData()
     {
-        string path = Application.persistentDataPath + "/UserData.json";
+        string path = Application.persistentDataPath + "/user.json";
         if (File.Exists(path))
         {
             string fileContents = File.ReadAllText(path);
@@ -223,13 +223,17 @@ public class SaveData
 
     public static GPSList LoadGPSData()
     {
-        string path = Application.persistentDataPath + "/GPSData.json";
+        string path = Application.persistentDataPath + "/userlocation.json";
         if (File.Exists(path))
         {
+            
             string fileContents = File.ReadAllText(path);
+            string jsonData="{ \"allgpsdata\" : "+fileContents+"}";
+          
+            
             //Debug.Log("filecontent: "+ fileContents);
 
-            GPSList gpsData = JsonUtility.FromJson<GPSList>(fileContents)
+            GPSList gpsData = JsonUtility.FromJson<GPSList>(jsonData)
                             ?? new GPSList();
             File.WriteAllText(path, string.Empty);
             return gpsData;
@@ -242,7 +246,87 @@ public class SaveData
 
 
     }
+
+
+     public static NotificationList LoadNotifications()
+    {
+       /* string path = Application.streamingAssetsPath + "/Routines/PushNotifications.json";
+        //string[] paths = { Application.streamingAssetsPath, "Routines", "PushNotifications.json" };
+        if (File.Exists(path))
+        {
+            
+            string fileContents = File.ReadAllText(path);
+                    
+            
+            //Debug.Log("filecontent: "+ fileContents);
+
+            NotificationList Notification_Data = JsonUtility.FromJson<NotificationList>(fileContents)
+                            ?? new NotificationList();
+            //File.WriteAllText(path, string.Empty);
+            return Notification_Data;
+        }
+        else
+        {
+            Debug.Log("File not found!");
+            return null;
+        }*/
+
+        string[] paths = {Application.streamingAssetsPath, "Routines", "PushNotifications.json"};
+        string fileContents;
+        
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+            www.SendWebRequest();
+            while (!www.isDone)
+            {
+            }
+            fileContents = www.downloadHandler.text;
+            Debug.Log(www.downloadHandler.text);
+        }
+        else
+        {
+            fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + "PushNotifications.json");
+        }
+
+         NotificationList Notification_Data = JsonUtility.FromJson<NotificationList>(fileContents)
+                            ?? new NotificationList();
+            //File.WriteAllText(path, string.Empty);
+            return Notification_Data;
+
+
+    }
+
+    public static string LoadGoal(string textfile)
+    {
+       
+        string[] paths = {Application.streamingAssetsPath, "Routines", textfile};
+        string fileContents;
+        
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+            www.SendWebRequest();
+            while (!www.isDone)
+            {
+            }
+            fileContents = www.downloadHandler.text;
+            Debug.Log(www.downloadHandler.text);
+        }
+        else
+        {
+            fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + textfile);
+        }
+
+        
+            return fileContents;
+
+
+    }
+
+    
 }
+
 [System.Serializable]
 public class UserList
 {
@@ -270,30 +354,50 @@ public class UserData
 [System.Serializable]
 public class GPSList
 {
-    public List<GPSData> allgpsdata;
+    public List<newLocation> allgpsdata;
 
     public GPSList()
     {
-        allgpsdata=new List<GPSData>();
+        allgpsdata=new List<newLocation>();
     }
 }
 
 
 [System.Serializable]
-public class GPSData
+public class newLocation
 {
-    public float latitudedata;
-     public string fname;
-    public string lname;
-    public long contactno;
-    public string position_lat,position_long;
-    public string current_date;
-
-    public string start_time,current_time;
-    public float longitudedata;
+   public long contactNo;
+        public string currentDate ;
+        public string currentTime ;
+        public string firstName ;
+        public string lastName;
+        public double latitude ;
+        public double longitude ;
+        public string startTime ;
 
 
 }
+
+[System.Serializable]
+public class NotificationList
+{
+    public List<UserNotification> allnotifications;
+
+    public NotificationList()
+    {
+        allnotifications=new List<UserNotification>();
+    }
+}
+
+[System.Serializable]
+public class UserNotification
+{
+    public string message;
+    public string url;
+    
+}
+
+
 
 
 

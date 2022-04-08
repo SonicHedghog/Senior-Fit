@@ -51,7 +51,7 @@ public class Walk : MonoBehaviour
     // ***************AWS set up*******************************************
 
 
-    public string IdentityPoolId = "";
+    public string IdentityPoolId = "us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34";
     public string CognitoPoolRegion = RegionEndpoint.USEast2.SystemName;
     public string DynamoRegion = RegionEndpoint.USEast2.SystemName;
 
@@ -116,9 +116,9 @@ public class Walk : MonoBehaviour
         [DynamoDBProperty]
         public long ContactNumber { get; set; }
         [DynamoDBProperty]
-        public float latitudeData { get; set; }
+        public double latitudeData { get; set; }
         [DynamoDBProperty]
-        public float longitudeData { get; set; }
+        public double longitudeData { get; set; }
         [DynamoDBProperty]
         public string Date { get; set; }
         [DynamoDBProperty]
@@ -254,8 +254,8 @@ public class Walk : MonoBehaviour
             updatecalled.text = "Update called:" + count.ToString() + " times";
 
 
-            SaveData.SaveGPSData(this);
-            UpdateAWSinfo();
+            //SaveData.SaveGPSData(this);
+           // UpdateAWSinfo();
 
             if (count <= 1)
             {
@@ -351,13 +351,13 @@ public class Walk : MonoBehaviour
         {
             GPSList newgpslist = SaveData.LoadGPSData();
 
-            foreach (GPSData newuse in newgpslist.allgpsdata)
+            foreach (newLocation newuse in newgpslist.allgpsdata)
             {
 
 
                 GPSINFO newUser = new GPSINFO
                 {
-                    FirstName = newuse.fname,
+                    /*FirstName = newuse.fname,
                     LastName = newuse.lname,
                     ContactNumber = newuse.contactno,
                     latitudeData = newuse.latitudedata,
@@ -365,7 +365,17 @@ public class Walk : MonoBehaviour
                     UserKey = newuse.contactno + newuse.current_date + newuse.current_time,
                     Date = newuse.current_date,
                     StartTime = newuse.start_time,
-                    CurrentTime = newuse.current_time
+                    CurrentTime = newuse.current_time*/
+
+                       FirstName = newuse.firstName,
+                    LastName = newuse.lastName,
+                    ContactNumber = newuse.contactNo,
+                    latitudeData = newuse.latitude,
+                    longitudeData = newuse.longitude,
+                    UserKey = newuse.contactNo + newuse.currentDate + newuse.currentTime,
+                    Date = newuse.currentDate,
+                    StartTime = newuse.startTime,
+                    CurrentTime = newuse.currentTime
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {

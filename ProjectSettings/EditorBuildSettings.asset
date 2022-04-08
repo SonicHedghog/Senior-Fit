@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/General/WorkoutSpace.unity
     guid: d5473a7e6564e49c0b38285af9fc804d
+  - enabled: 1
+    path: Assets/Scenes/General/SampleWalk.unity
+    guid: a0d55581714915e4d86fdbd755107fb9
   m_configObjects: {}

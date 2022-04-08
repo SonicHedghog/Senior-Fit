@@ -152,7 +152,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exercisenumber: 0
   Exercise: 
+  date: 
   time: 
+  repCount: 
+  newrepcount: 
   fname: 
   lname: 
   contactno: 0
@@ -350,7 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.9003211
+  m_AspectRatio: 0.675214
 --- !u!1 &278620183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,8 +2245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 516, y: -289}
-  m_SizeDelta: {x: 213.60959, y: 87.183624}
+  m_AnchoredPosition: {x: 481, y: -222}
+  m_SizeDelta: {x: 200, y: 87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1617374194
 MonoBehaviour:
@@ -2642,7 +2645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.2, y: 237}
+  m_AnchoredPosition: {x: 8.2, y: 253.39}
   m_SizeDelta: {x: 267.36777, y: 118.77008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2007105568
@@ -2788,7 +2791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 592, y: 279}
+  m_AnchoredPosition: {x: 559.8, y: 242}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124019089484949547
