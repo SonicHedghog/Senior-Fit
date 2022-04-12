@@ -1,9 +1,8 @@
 # Senior-Fit 
 An AR exercising app for ages 65+.
 ## Development Environment
-- [Unity 2019.4.14f1](https://unity3d.com/get-unity/download)
-  - [TensorFlow Lite for Unity](https://openupm.com/packages/com.github.asus4.tflite/)
-  
+- [Unity 2019.4.14f1](https://unity3d.com/unity/whats-new/2019.4.14)
+- [TensorFlow Lite for Unity](https://openupm.com/packages/com.github.asus4.tflite/)  
 - Samsung Galaxy S9
 
 ## Set Up
