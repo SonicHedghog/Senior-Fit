@@ -5,7 +5,11 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+#if UNITY_ANDROID
+
 using Unity.Notifications.Android;
+#endif
+using Unity.Notifications.iOS;
 using System.IO;
 
 /*using Amazon.DynamoDBv2;
@@ -95,6 +99,7 @@ public class loginscript : MonoBehaviour
             // Remove the previously shown notification from the status bar.
             AndroidNotificationCenter.CancelNotification(notification_id);
         }*/
+        #if UNITY_ANDROID
         var c1 = new AndroidNotificationChannel()
         {
             Id = "notification_id",
@@ -140,7 +145,7 @@ public class loginscript : MonoBehaviour
          }
  */
 
-
+    #endif
 
     }
     
