@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class LoadPlugins : MonoBehaviour
 {
-    [SerializeField]
-    public Text latText;
-    [SerializeField]
-    public Text distanceText;
+    [SerializeField] public Text latText;
+    [SerializeField] public Text distanceText;
     public Text GPSStatus;
     public Text timestamp;
 
@@ -19,7 +15,7 @@ public class LoadPlugins : MonoBehaviour
 
     #elif UNITY_IOS
 
-    // iOS code goes here
+    private BackgroundiOS locationService; 
 
     #endif
 
@@ -39,7 +35,17 @@ public class LoadPlugins : MonoBehaviour
 
         #elif UNITY_IOS
 
-        // iOS code goes here
+        locationService = this.gameObject.AddComponent(typeof(BackgroundiOS)) as BackgroundiOS;
+        
+        if(latText is null) latText = GameObject.Find("Latitude").GetComponent<Text>();
+        if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
+        if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
+        if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
+
+        locationService.latText = latText;
+        locationService.distanceText = distanceText;
+        locationService.GPSStatus = GPSStatus;
+        locationService.timestamp = timestamp;
 
         #endif
     }
@@ -53,7 +59,7 @@ public class LoadPlugins : MonoBehaviour
 
         #elif UNITY_IOS
 
-        // iOS code goes here
+        locationService.StartTask();
 
         #endif
     }
@@ -65,6 +71,8 @@ public class LoadPlugins : MonoBehaviour
 
 
         #elif UNITY_IOS
+
+        locationService.StopTask();
 
         #endif
     }

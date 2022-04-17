@@ -1,6 +1,8 @@
 using UnityEngine;
+#if UNITY_ANDROID
 using UnityEngine.Android;
 using Unity.Notifications.Android;
+#endif
 using UnityEngine.SceneManagement;
 
 
@@ -22,7 +24,7 @@ public class SceneChange : MonoBehaviour
         if (data == null)
             SceneManager.LoadScene("LoginMenu");
         
-
+        #if UNITY_ANDROID
         var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
         if (notificationIntentData != null)
         {
@@ -41,9 +43,7 @@ public class SceneChange : MonoBehaviour
             }
 
         }
-
-        
-
+        #endif
 
     }
 

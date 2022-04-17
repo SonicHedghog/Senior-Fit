@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class SaveData
 {
@@ -229,14 +230,22 @@ public class SaveData
             
             string fileContents = File.ReadAllText(path);
             string jsonData="{ \"allgpsdata\" : "+fileContents+"}";
-          
+            Debug.Log(jsonData);
             
             //Debug.Log("filecontent: "+ fileContents);
-
-            GPSList gpsData = JsonUtility.FromJson<GPSList>(jsonData)
-                            ?? new GPSList();
-            File.WriteAllText(path, string.Empty);
-            return gpsData;
+            try
+            {
+                GPSList gpsData = JsonUtility.FromJson<GPSList>(jsonData)
+                                ?? new GPSList();
+                File.WriteAllText(path, string.Empty);
+                return gpsData;
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+                File.WriteAllText(path, string.Empty);
+                return null;
+            }
         }
         else
         {
