@@ -8,26 +8,45 @@ public class GoalSetting : MonoBehaviour
 
     [SerializeField]
     public Text NEWGOALText;
-    [SerializeField]
-    public Text TitleText;
+    public Image rpe_image;
+   
+  
+
+    public string warmup,cooldown;
     // Start is called before the first frame update
     void Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
         
+        
     }
 
     public void WarmUp()
     {
-       TitleText.text=" Warm-up / Cool – down";
-       NEWGOALText.text=SaveData.LoadGoal("goal.txt");
+       rpe_image.gameObject.SetActive(false);
+       NEWGOALText.text=SaveData.LoadGoal("warmup.txt");
     }
     
-    public void Aerobic()
+    public void WeeklyRecommendation()
     {
-       TitleText.text=" Weekly Aerobic Activity Recommendations";
-       NEWGOALText.text=SaveData.LoadGoal("aerobic.txt");
+       rpe_image.gameObject.SetActive(false);
+       NEWGOALText.text=SaveData.LoadGoal("weekly_rec.txt");
     }
+
+    public void Intensity()
+    {
+       //TitleText.text=" Weekly Strengthening Recommendations";
+       NEWGOALText.text=SaveData.LoadGoal("intensity.txt");
+       rpe_image.gameObject.SetActive(true);
+    }
+      public void Type_of_Activity()
+    {
+        rpe_image.gameObject.SetActive(false);
+       //TitleText.text=" Weekly Strengthening Recommendations";
+       NEWGOALText.text=SaveData.LoadGoal("types_of_activity.txt");
+      
+    }
+
     // Update is called once per frame
 
 

@@ -1,33 +1,151 @@
 {
 	"allnotifications": [
 		{
-			"message": "Now is a time to set up your weekly exercise goals. Let's make your goal a routine!",
-			"url": "https://www.google.com/"
-		},
-		{
-			"message": "The best workout tips are setting a goal, being consistent, following your routine and tracking your progress! Do you want to share your workout tips to the Facebook page?",
+			"message": "Welcome to the Senior Fit App! Explore and discover ways to stay active.",
 			"url": ""
 		},
 		{
-			"message": "Learn some life-changing benefits of exercise! ",
-			"url": "https://www.youtube.com/"
+			"message": "Do you know the app offers indoor exercises? Try them now from home. Let us know if you have questions",
+			"url": ""
 		},
 		{
-			"message": "Did you watch your exercise video and do some exercises last week? If not, think about why that was and when you will watch them for this week.",
-			"url": "https://www.youtube.com/"
+			"message": "Staying motivated is difficult. Here's some tips on how to stay the course and become resilient.",
+			"url": ""
 		},
 		{
-			"message": "Did you know staying physically active improves your cognitive health, like helping you think, learn, and problem-solve? Don't hesitate to contact us if you have any questions!",
-			"url": "https://www.youtube.com/"
+			"message": "Do you know that you can use your phone camera to see yourself while exercising? Explore the app, if you have not done so!",
+			"url": ""
 		},
 		{
-			"message": "Find simple ways to make exercise fun and enjoyable! What about trying some new activities that keep you stay active?",
-			"url": "https://www.youtube.com/"
+			"message": "Do you know that you can track your steps and distance in the app while you are walking? Give it a try now!",
+			"url": ""
 		},
 		{
-			"message": "Flexibility exercises can help increase range of movement, making everyday activities such as bathing, driving, and housework easier. Have you noticed any daily activities that have become easier for you to complete? Post your own experience to the Facebook group!",
-			"url": "https://www.youtube.com/"
+			"message": "Do you know that the American Heart Association recommends 30 minutes of moderate exercise five days a week to keep your heart healthy?",
+			"url": ""
+		},
+		{
+			"message": "We have now a Facebook page to connect with other users of the Senior Fit. Use this link to join!",
+			"url": ""
+		},		
+		{
+			"message": "Have you used the app for your exercise yet? Explore now and contact us if you have any questions! ",
+			"url": ""
+		},
+		{
+			"message": "Want to know the psychological secrets to staying motivated for fitness? Watch this TEDx Talk to find out! ",
+			"url": "https://youtu.be/K60xHx836T0"
+		},
+		{
+			"message": "Setting up your own goal will motivate you to stay active for this week. The Senior Fit app can set up your goal for today! ",
+			"url": ""
+		},
+		{
+			"message": " Enjoy exercising outside? Here are some important things to remember to maximize safety while outdoors. ",
+			"url": "https://www.nia.nih.gov/health/exercising-outdoors"
+		},
+		{
+			"message": "Curious as to why some diets work for some and not for others? Watch this 20-minute TEDx Talk by Professor Eran Segal to learn why.",
+			"url": "https://youtu.be/0z03xkwFbw4"
+		},
+		{
+			"message": "Creating your own goal helps make exercising a daily routine! Take your time to write down when, where, and how you plan on doing your physical activity for the week.",
+			"url": ""
+		},
+		{
+			"message": "Have you joined the Facebook group? /LINK HERE/ Post at least one photo of yourself or something you see during your workout and say hi to other peers!",
+			"url": ""
+		},
+		{
+			"message": "Want to be healthier? Doctors recommend adding more fiber, fruits, and vegetables to your daily diet.",
+			"url": "https://bit.ly/3wBSZwu"
+		},
+		{
+			"message": " Regular exercise decreases stress level and improves sleep quality. Check the app! We have many exercise videos that are ready to help you gain these benefits. ",
+			"url": ""
+		},
+		{
+			"message": "Committing to a regular exercise schedule can help you develop positive physical activity habits. Feel free to contact us with any questions you may have.",
+			"url": ""
+		},
+		{
+			"message": " Finding it difficult to fit in your workout? Finding small opportunities to stretch or walk more can make a huge difference. ",
+			"url": ""
+		},
+		{
+			"message": "Have you tried balance exercises in the Senior Fit? Take this time to plan how, where, and when you would be doing your physical activity for the week.",
+			"url": ""
+		},
+		{
+			"message": "What motivates you to do your exercises everyday? Post your motivation to our Facebook page and learn others' motivations!",
+			"url": ""
+		},
+		{
+			"message": "Even when you don’t feel like exercising, people who do even small amounts of movement are glad they did! ",
+			"url": ""
+		},
+		{
+			"message": "Did you know including balance training in your exercise routine can increase coordination, improve joint stability, and reduce your risk of falling? Watch videos to get you going.",
+			"url": ""
+		},
+		{
+			"message": "In addition to heart and musculoskeletal health, regular physical activity has also been shown to have the potential to benefit overall immune function. Let us know if you have any questions!",
+			"url": ""
+		},
+		{
+			"message": "If you find yourself struggling balancing, here are some tips and tricks to improve it! ",
+			"url": "https://www.healthline.com/health/exercise-fitness/balance-exercises-for-seniors#exercises-to-try"
+		},
+		{
+			"message": "How about a 20 minute walk today?  Set up your own goal on when and where you plan on walking for the week.",
+			"url": ""
+		},
+		{
+			"message": "Listening to music or audiobooks while walking or walking with a friend can make daily exercise more enjoyable. Share your favorite music or audio books to the Facebook group!",
+			"url": ""
+		},
+		{
+			"message": "Way to be the champion of your own life! Focusing on small achievements is a great way to keep yourself motivated",
+			"url": ""
+		},
+		{
+			"message": "Walking may be an easy exercise but is great for your physical and mental well-being. Watch this video to know more about the benefit of walking ",
+			"url": "https://youtu.be/3Ka7B3hCg08"
+		},
+		{
+			"message": "Whenever you need a break, consider going out side for some fresh air. Let us know how it goes.",
+			"url": ""
+		},
+		{
+			"message": "The kitchen is just as important as the gym. Here are our favorite healthy recipes for you to try.",
+			"url": "https://www.foodnetwork.com/healthy/packages/healthy-every-week/healthy-mains/foodnetwork-most-saved-healthy-recipes"
+		},
+		{
+			"message": "Have you tried cardio exercises? Starting a new exercise routine can be fun. You got this!",
+			"url": ""
+		},
+		{
+			"message": " A healthy diet is the key to preventing and managing cardiovascular disease. It’s not as hard as you may think! Post your healthy diet to the Facebook page.",
+			"url": ""
+		},
+		{
+			"message": " You are doing great! Overcoming struggles can make us stronger. Keep up the good work!",
+			"url": ""
+		},
+		{
+			"message": "Have you noticed that we have several cardio exercise videos in the app? Check them out, if you have not done so! ",
+			"url": ""
+		},
+		{
+			"message": " Stretching your legs before you leave the house will make walking for more comfortable when you're out and about. Let us know how your walk went and reach out if you have any questions",
+			"url": ""
+		},
+		{
+			"message": " Congratulations on reaching half of the journey with us! The Senior Fit team is proud of your progress. We hope you continue on the journey of healthy living.",
+			"url": ""
 		}
+		
+	
 	]
 }
 

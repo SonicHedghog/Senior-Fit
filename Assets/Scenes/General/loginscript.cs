@@ -87,6 +87,7 @@ public class loginscript : MonoBehaviour
     public void EventAlarmTest(int minutesOnTheHour, string firstname, string body,string link)
     {
 
+        Debug.Log("Notification called"+body);
         /*var notification_id = 10000;
         var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id);
 
@@ -108,7 +109,7 @@ public class loginscript : MonoBehaviour
         notification.Title = "Senior Fit";
         //string body = "Hi " + firstname + " ! " + lines[1];
         notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
+        notification.FireTime = System.DateTime.Now.AddMinutes(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;
@@ -125,20 +126,6 @@ public class loginscript : MonoBehaviour
         }
 
 
-        /* var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(id);
-
-
-         if (notificationStatus == NotificationStatus.Delivered)
-         {
-             // Remove the previously shown notification from the status bar.
-             AndroidNotificationCenter.CancelNotification(id);
-             id=AndroidNotificationCenter.SendNotification(notification, "notification_id");
-         }
-         else if (notificationStatus == NotificationStatus.Unknown)
-         {
-             id= AndroidNotificationCenter.SendNotification(notification, "notification_id");
-         }
- */
 
 
 
@@ -155,10 +142,10 @@ public class loginscript : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         int time=0;
         string body;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 12; i++)
         {
             
-            time=time+6;
+            time=time+1;
             body = "Hi " + fname + " ! " + newnotification.allnotifications[i].message;
             Debug.Log("body " + body);
             string link = newnotification.allnotifications[i].url;
@@ -166,28 +153,7 @@ public class loginscript : MonoBehaviour
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");
         }
-        //LoadNotifications();
-        /*string body;
        
-        body = "Hi " + fname + " ! " + newnotification.allnotifications[0].message;
-        Debug.Log("body "+ body);
-        new_url=newnotification.allnotifications[0].url;
-        //SceneChange.OpenNewLink(newnotification.allnotifications[0].url);
-        EventAlarmTest(30, fname, body);
-        Debug.Log("notification successful");
-        //SceneChange.set_url(newnotification.allnotifications[0].url);
-        body = "Hi " + fname + " ! " + newnotification.allnotifications[1].message;
-        
-       new_url=newnotification.allnotifications[1].url;
-        EventAlarmTest(60, fname, body);
-        //SceneChange.set_url(newnotification.allnotifications[1].url);
-     
-       
-        EventAlarmTest(120, fname, body);
-        body = "Hi " + fname + " ! " + newnotification.allnotifications[2].message;
-        new_url=newnotification.allnotifications[2].url;
-       EventAlarmTest(560, fname, body);
-        //SceneChange.set_url(newnotification.allnotifications[2].url);*/
 
 
 
