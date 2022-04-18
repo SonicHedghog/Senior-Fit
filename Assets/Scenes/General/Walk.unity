@@ -549,6 +549,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   latText: {fileID: 194177580}
   distanceText: {fileID: 2022088108}
+  StartWalking: {fileID: 1041471844}
+  StopWalking: {fileID: 1120926006}
   GPSStatus: {fileID: 393522832}
   timestamp: {fileID: 1714365928}
 --- !u!1 &1018593461
@@ -1043,7 +1045,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Back
+  m_Text: Stop Walking
 --- !u!222 &1267473303
 CanvasRenderer:
   m_ObjectHideFlags: 0

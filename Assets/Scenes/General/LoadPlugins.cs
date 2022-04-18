@@ -5,6 +5,9 @@ public class LoadPlugins : MonoBehaviour
 {
     [SerializeField] public Text latText;
     [SerializeField] public Text distanceText;
+
+    public Button StartWalking;
+    public Button StopWalking;
     public Text GPSStatus;
     public Text timestamp;
 
@@ -62,6 +65,8 @@ public class LoadPlugins : MonoBehaviour
         locationService.StartTask();
 
         #endif
+
+        StartWalking.gameObject.SetActive(false);
     }
      public void stopPlugin()
     {
@@ -75,5 +80,7 @@ public class LoadPlugins : MonoBehaviour
         locationService.StopTask();
 
         #endif
+
+        StartWalking.gameObject.SetActive(true);
     }
 }

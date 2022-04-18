@@ -9,7 +9,10 @@ using UnityEngine.SceneManagement;
 
 using Unity.Notifications.Android;
 #endif
+
+#if UNITY_IOS
 using Unity.Notifications.iOS;
+#endif
 using System.IO;
 
 /*using Amazon.DynamoDBv2;
@@ -87,19 +90,13 @@ public class loginscript : MonoBehaviour
        
     }*/
 
-
+    int count=0;
     public void EventAlarmTest(int minutesOnTheHour, string firstname, string body,string link)
     {
 
-        Debug.Log("Notification called"+body);
-        /*var notification_id = 10000;
-        var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id);
-
-        if (notificationStatus == NotificationStatus.Delivered)
-        {
-            // Remove the previously shown notification from the status bar.
-            AndroidNotificationCenter.CancelNotification(notification_id);
-        }*/
+        count++;
+        Debug.Log("Notification called "+count);
+       
         #if UNITY_ANDROID
         var c1 = new AndroidNotificationChannel()
         {
@@ -114,7 +111,7 @@ public class loginscript : MonoBehaviour
         notification.Title = "Senior Fit";
         //string body = "Hi " + firstname + " ! " + lines[1];
         notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddMinutes(minutesOnTheHour);
+        notification.FireTime = System.DateTime.Now.AddDays(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;
@@ -147,10 +144,10 @@ public class loginscript : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         int time=0;
         string body;
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 36; i++)
         {
             
-            time=time+1;
+            time=time+2;
             body = "Hi " + fname + " ! " + newnotification.allnotifications[i].message;
             Debug.Log("body " + body);
             string link = newnotification.allnotifications[i].url;
