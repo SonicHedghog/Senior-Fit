@@ -11,7 +11,7 @@ using Unity.Notifications.Android;
 #endif
 
 #if UNITY_IOS
-using Unity.Notifications.iOS;
+// using Unity.Notifications.iOS;
 #endif
 using System.IO;
 
