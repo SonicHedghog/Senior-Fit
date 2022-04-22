@@ -29,9 +29,15 @@ public class ServiceManager : MonoBehaviour
      {
          if ( focus )  
          {
-             InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
+            
+            
+            InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
+            onfocus=true;
          }  
-         else            ;
+         else            
+         {
+             onfocus=false;
+         }
      }
 
 
@@ -57,16 +63,18 @@ public class ServiceManager : MonoBehaviour
     private Text locationAvailabilityText;
     public Text GPSStatus;
     public string fileContents;
-    string[] lines ;
+    string[] lines;
     public string fname;
     public string lname;
     public long contactno;
     public string current_date, start_time;
-    public float time1 = 0, time2 = 0;
-     public int minute, second;
-     public Text timestamp;
+    public float time1 = 0, time2 = 0,Time_duration=0;
+    public float hours,minutes, seconds;
+    public Text timestamp;
+    public bool walkStart=false;
+    public bool onfocus=true;
 
-     private bool appQuit=false;
+    private bool appQuit = false;
     // ***************AWS set up*******************************************
 
 
@@ -144,7 +152,7 @@ public class ServiceManager : MonoBehaviour
         public string StartTime { get; set; }
         [DynamoDBProperty]
         public string CurrentTime { get; set; }
-        
+
 
 
     }
@@ -165,8 +173,8 @@ public class ServiceManager : MonoBehaviour
         plugin.OnLocation += OnLocationReceived;
         plugin.OnAvailability += OnLocationAvailability;
         plugin.OnDistanceChanged += OnDistanceChanged;
-        plugin.onTimeChanged+=onTimeChanged;
-        
+        plugin.onTimeChanged += onTimeChanged;
+
         plugin.checkPermission();
         Screen.orientation = ScreenOrientation.Portrait;
         userdata data = SaveUserData.LoadUser();
@@ -176,26 +184,36 @@ public class ServiceManager : MonoBehaviour
         contactno = data.contactno;
         current_date = DateTime.Now.ToString("yyyy/MM/dd");
         start_time = DateTime.Now.ToString("HH:mm:ss");
-      
-        time1 = Time.time;
+
+        
 
         LoadMessages();
+        
 
-       /* Destination destination = new Destination();
-        destination.destinationName = "Post";
-        destination.latitude = 47.984641;
-        destination.longitude = 8.815055;
-        destination.triggerRadius = 40;
-        plugin.setDestination(destination);*/
+        /* Destination destination = new Destination();
+         destination.destinationName = "Post";
+         destination.latitude = 47.984641;
+         destination.longitude = 8.815055;
+         destination.triggerRadius = 40;
+         plugin.setDestination(destination);*/
+    }
+    void Update()
+    {
+        if(walkStart==true)
+        ShowTime();
     }
 
     public void OnStartLocationServiceBtn()
     {
-        plugin.StartLocationService(30000, 25000, 0,fname,lname,contactno,start_time,current_date);
+        plugin.StartLocationService(30000, 25000, 0, fname, lname, contactno, start_time, current_date);
+        walkStart=true;
+        time1 = Time.unscaledTime;
+        //Debug.Log("Time 1 "+time1);
     }
     public void OnStopLocationServiceBtn()
     {
-        appQuit=true;
+        appQuit = true;
+        walkStart=false;
         plugin.StopLocationService();
         //UpdateAWSinfo();
         Application.Quit();
@@ -221,25 +239,25 @@ public class ServiceManager : MonoBehaviour
     private void onTimeChanged(long _duration)
     {
         long diffSeconds = _duration / 1000;
-        long seconds=diffSeconds%60;
+        long seconds = diffSeconds % 60;
         long diffMinutes = diffSeconds / 60;
-        long diffHours= diffMinutes/60;
+        long diffHours = diffMinutes / 60;
 
-        if(diffHours>0)
+        if (diffHours > 0)
         {
-           timestamp.text=$"Duration: {diffHours} hrs {diffMinutes} mins {seconds} seconds";
+            //timestamp.text = $"Duration: {diffHours} hrs {diffMinutes} mins {seconds} seconds";
 
         }
-        else if(diffHours==0 && diffMinutes>0)
+        else if (diffHours == 0 && diffMinutes > 0)
         {
-            timestamp.text=$"Duration: {diffMinutes} mins {seconds} seconds";
+           // timestamp.text = $"Duration: {diffMinutes} mins {seconds} seconds";
 
         }
         else
         {
-            timestamp.text=$"Duration: {diffSeconds} seconds";
+           // timestamp.text = $"Duration: {diffSeconds} seconds";
         }
-        
+
     }
 
     private void OnApplicationPause(bool _isPaused)
@@ -249,81 +267,122 @@ public class ServiceManager : MonoBehaviour
             WriteLocationToUI(plugin.LastLocation);
         }
     }
+   
 
     private void WriteLocationToUI(LocationData _location)
-    {  
-        
+    {
+
         string status;
 
-        
+
 
         string path = Application.persistentDataPath + "/userlocation.json";
         if (File.Exists(path))
         {
             fileContents = File.ReadAllText(path);
-           // fileContents="{ \"allgpsdata\" : "+fileContents+"}";
-           
-            status="true";
+            // fileContents="{ \"allgpsdata\" : "+fileContents+"}";
+
+            status = "true";
             //Debug.Log("filecontent: "+ fileContents);
 
         }
         else
         {
-            fileContents="empty";
-            status="false";
+            fileContents = "empty";
+            status = "false";
             Debug.Log("File not found!");
-            
+
         }
-        if ((time2 - time1) > 0)
+           
+
+            
+            
+            if (Time_duration > 0)
             {
-                minute = (int)((time2 - time1) / 60);
-                second = (int)((time2 - time1) % 60);
+    
+                
+                 if ((int)minutes % 5 == 0)
+            {
+                var r = new System.Random();
+                var randomLineNumber = r.Next(0, lines.Length - 1);
 
-                //if (minute > 0)
-                   // timestamp.text = "Duration : " + minute.ToString() + " minute " + second.ToString() + " seconds";
-               // else
-                   // timestamp.text = "Duration : " + second.ToString() + " seconds";
-
-
-
-                if (minute % 5 == 0)
-                {
-                    var r = new System.Random();
-                    var randomLineNumber = r.Next(0, lines.Length - 1);
-
-                    string line = lines[randomLineNumber];
-                    GPSStatus.text = line;
-
-                }
-
-
+                string line = lines[randomLineNumber];
+                GPSStatus.text = line;
 
             }
-
-            else
-            {
-                //timestamp.text = "Total time: 0 seconds";
-                GPSStatus.text = "Let's get started!!";
-
-            }
-
+        }
         
 
+        else
+        {
+            //timestamp.text = "Total time: 0 seconds";
+            GPSStatus.text = "Let's get started!!";
 
-        latText.text =fileContents.Length.ToString();
+        }
+
+
+
+
+        latText.text = fileContents.Length.ToString();
         //providerText.text =  fileContents.Length.ToString();
-       // GPSStatus.text = lines[1];
-        
-       /* lngText.text = "Longitude: " + _location.longitude.ToString();
-        altText.text = "Altitude: " + (plugin.HasAltitude() ? _location.altitude.ToString() : "-");
-        accuracyText.text = "Accuracy: " + (plugin.HasAccuracy() ? _location.accuracy.ToString() : "-");
-        bearingText.text = "Bearing: " + (plugin.HasBearing() ? _location.bearing.ToString() : "-");
-        speedText.text = "Speed: " + (plugin.HasSpeed() ? _location.speed.ToString() : "-");*/
-       
+        // GPSStatus.text = lines[1];
+
+        /* lngText.text = "Longitude: " + _location.longitude.ToString();
+         altText.text = "Altitude: " + (plugin.HasAltitude() ? _location.altitude.ToString() : "-");
+         accuracyText.text = "Accuracy: " + (plugin.HasAccuracy() ? _location.accuracy.ToString() : "-");
+         bearingText.text = "Bearing: " + (plugin.HasBearing() ? _location.bearing.ToString() : "-");
+         speedText.text = "Speed: " + (plugin.HasSpeed() ? _location.speed.ToString() : "-");*/
+
     }
 
-     void UpdateAWSinfo()
+     public void ShowTime()
     {
+         time2 = Time.unscaledTime;
+         //Debug.Log("Time 2 "+time2);
+        Time_duration=time2-time1;
+
+        
+          if (Time_duration > 0)
+            {
+    
+                hours = (int)(Time_duration / 3600);
+                minutes = (int)((Time_duration % 3600) / 60);
+                seconds = (int)(Time_duration % 60);
+
+                if (hours > 0)
+                    timestamp.text = $"Duration: {hours} hrs {minutes} mins {seconds} seconds";
+                else if(hours==0 && minutes>0)
+                 {
+                    timestamp.text = $"Duration: {minutes} mins {seconds} seconds";
+
+                }
+                else
+                {
+                     timestamp.text = $"Duration: {seconds} seconds";
+                }
+
+                 if (minutes>0 & minutes % 5 == 0)
+            {
+                var r = new System.Random();
+                var randomLineNumber = r.Next(0, lines.Length - 1);
+
+                string line = lines[randomLineNumber];
+                GPSStatus.text = line;
+
+            }
+            }
+            else
+        {
+            //timestamp.text = "Total time: 0 seconds";
+            GPSStatus.text = "Let's get started!!";
+
+        }
+
+    }
+
+    void UpdateAWSinfo()
+    {
+        Debug.Log("Update AWS called");
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
             Debug.Log("No internet");
@@ -338,8 +397,8 @@ public class ServiceManager : MonoBehaviour
 
                 demoGPS newUser = new demoGPS
                 {
-                    
-                    
+
+
                     //latitudeData=newuse.latitude
 
                     FirstName = newuse.firstName,
@@ -350,8 +409,8 @@ public class ServiceManager : MonoBehaviour
                     UserKey = newuse.contactNo + newuse.currentDate + newuse.currentTime,
                     Date = newuse.currentDate,
                     StartTime = newuse.startTime,
-                    CurrentTime=newuse.currentTime
-                   
+                    CurrentTime = newuse.currentTime
+
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {
@@ -370,14 +429,14 @@ public class ServiceManager : MonoBehaviour
 
         }
 
-        
+
     }
     private void LoadMessages()
     {
-        string[] paths = {Application.streamingAssetsPath, "Routines",  "messages.txt"};
-        
-        
-        if(Application.platform == RuntimePlatform.Android)
+        string[] paths = { Application.streamingAssetsPath, "Routines", "messages.txt" };
+
+
+        if (Application.platform == RuntimePlatform.Android)
         {
             var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
             www.SendWebRequest();
@@ -389,7 +448,7 @@ public class ServiceManager : MonoBehaviour
         }
         else
         {
-            lines = File.ReadAllLines(Application.streamingAssetsPath + "/Routines/" +  "messages.txt");
+            lines = File.ReadAllLines(Application.streamingAssetsPath + "/Routines/" + "messages.txt");
         }
     }
 

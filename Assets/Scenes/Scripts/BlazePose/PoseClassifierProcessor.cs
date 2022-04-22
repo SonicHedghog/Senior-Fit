@@ -24,10 +24,13 @@ namespace TensorFlowLite
     private static readonly String Seated_Hamstring_Stretch_Right= "Seated_Hamstring_Stretch_Right";
     private static readonly String Seated_Hamstring_Stretch_Left= "Seated_Hamstring_Stretch_Left";
 
+    private static readonly String Chair_Sit="Chair_Sit";
+    private static readonly String Chair_Stand="Chair_Stand";
+
+
 
     private static readonly String[] POSE_CLASSES = {
-      Seated_Hamstring_Stretch_Right,Seated_Hamstring_Stretch_Left,Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT,Sit_To_Stand_Sit,Sit_To_Stand_Stand,Shoulder_touch,Touch_down
-    };
+      Seated_Hamstring_Stretch_Right,Seated_Hamstring_Stretch_Left,Single_Leg_Stance_Left,Single_Leg_Stance_Right,SEATED_MARCH_LEFT,SEATED_MARCH_RIGHT,Sit_To_Stand_Sit,Sit_To_Stand_Stand,Shoulder_touch,Touch_down,Chair_Sit,Chair_Stand    };
 
     private readonly bool isStreamMode;
 

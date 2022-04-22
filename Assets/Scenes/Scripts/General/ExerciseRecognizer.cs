@@ -138,8 +138,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         }
     }
 
-    [DynamoDBTable("SeniorFitDemo")]
-    public class LoginInfo
+    [DynamoDBTable("ExerciseData")]
+    public class ExerciseData
     {
         [DynamoDBProperty]
         public string UserKey { get; set; }
@@ -214,9 +214,14 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 script.AddCommand("ShoulderTouch -1");
                 break;
             case 4:
-                Exercise="Seated Hamstring Stretch";
+                Exercise="Chair Sit to Stand";
                 script = new Interpreter();
-                script.AddCommand("Seated Hamstring Stretch -1");
+                script.AddCommand("Chair Sit to Stand -1");
+                break;
+            case 5:
+                Exercise="Marching in Place";
+                script = new Interpreter();
+                script.AddCommand("Marching in Place -1");
                 break;
 
             case 0:
@@ -279,7 +284,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             {
                 //AppUse newuse = AppUse.LoadAppUse();
 
-                LoginInfo newUser = new LoginInfo
+                ExerciseData newUser = new ExerciseData
                 {
                     FirstName = newuse.fname,
                     LastName = newuse.lname,
@@ -298,9 +303,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
                 var request = new DescribeTableRequest
                 {
-                    TableName = @"SeniorFitDemo"
+                    TableName = @"ExerciseData"
                 };
-                Client.DescribeTableAsync(request, (result) =>
+                /*Client.DescribeTableAsync(request, (result) =>
                 {
                     if (result.Exception != null)
                     {
@@ -314,7 +319,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     Debug.Log("# of items: " + description.ItemCount + "\n");
 
 
-                }, null);
+                }, null);*/
 
             }
 

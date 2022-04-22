@@ -47,36 +47,7 @@ public class SceneChange : MonoBehaviour
 
     }
 
-    public static void OpenNewLink()
-    {
-       // string link = loginscript.GetLink()[0];
-        //Debug.Log("senior fit link unity" + link);
-        
-        //Application.OpenURL(plink);
-
-       /* var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
-        if (notificationIntentData != null)
-        {
-            Debug.Log("senior fit notification");
-            //var id = notificationIntentData.Id;
-           // var channel = notificationIntentData.IntentData;
-            var notification = notificationIntentData.Notification;
-            string data=notification.IntentData;
-
-            //string link = "https://www.google.com/";
-            //if (link.Length != 0)
-            {
-                Application.OpenURL(data);
-                Debug.Log("senior fit url link" + data);
-                 Debug.Log("senior fit link" + link);
-            }
-
-        }*/
-        
-        
-
-
-    }
+    
 
     public void Walk()
     {
@@ -89,6 +60,30 @@ public class SceneChange : MonoBehaviour
         Application.Quit();
     }
 
+
+    
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void FlipCamera()
+    {
+        isFlipped = !isFlipped;
+    }
+
+    public static bool GetIsFlipped()
+    {
+        return isFlipped;
+    }
+
+    public static int GetExerciseNumber()
+    {
+        return exercisenumber;
+    }
+    public static int GetFPS()
+    {
+        return req_fps;
+    }
 
     public void StartSeatedMarch()
     {
@@ -126,30 +121,6 @@ public class SceneChange : MonoBehaviour
         }
     }
 
-    public void BackToMainMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
-    public void FlipCamera()
-    {
-        isFlipped = !isFlipped;
-    }
-
-    public static bool GetIsFlipped()
-    {
-        return isFlipped;
-    }
-
-    public static int GetExerciseNumber()
-    {
-        return exercisenumber;
-    }
-    public static int GetFPS()
-    {
-        return req_fps;
-    }
-
-    
 
 
     public void StartShoulderTouch()
@@ -183,15 +154,31 @@ public class SceneChange : MonoBehaviour
 
     }
 
-    public void StartSitToStand()
+    public void ChairSitToStand()
     {
+       
+        exercisenumber = 4;
+        req_fps = 30;
+        LoadWorkoutScene();
+
+    }
+
+    public void MarchinginPlace()
+    {
+        exercisenumber=5;
+        req_fps=30;
+        LoadWorkoutScene();
+    }
+
+    public void LoadWorkoutScene()
+    {
+        
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
 #endif
 
-        exercisenumber = 2;
-        req_fps = 30;
+        
         if (webCamPermission)
         {
             SceneManager.LoadScene("WorkoutSpace");
@@ -213,10 +200,9 @@ public class SceneChange : MonoBehaviour
                 //blazePoseRunner.filename="Shoulder_touch";
             }
         }
-
     }
 
-    public void StartSeatedHamstring()
+    public void SingleLegStance()
     {
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 #if PLATFORM_ANDROID
@@ -227,7 +213,7 @@ public class SceneChange : MonoBehaviour
 
 
 
-        exercisenumber = 1;
+        exercisenumber = 2;
         req_fps = 25;
         if (webCamPermission)
         {

@@ -111,7 +111,7 @@ public class loginscript : MonoBehaviour
         notification.Title = "Senior Fit";
         //string body = "Hi " + firstname + " ! " + lines[1];
         notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddDays(minutesOnTheHour);
+        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;
