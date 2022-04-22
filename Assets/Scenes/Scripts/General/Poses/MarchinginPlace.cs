@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Poses
 {
-public class MarchinginPlace : Pose
+public class MarchingInPlace : Pose
 { 
         PoseClassifierProcessor processor;
         String lastExercise = "";
@@ -28,7 +28,7 @@ public class MarchinginPlace : Pose
         }
 
         bool legCheck = false;
-        public MarchinginPlace(string repCount) : base(repCount) 
+        public MarchingInPlace(string repCount) : base(repCount) 
         { 
             name = "Marching in Place";
 

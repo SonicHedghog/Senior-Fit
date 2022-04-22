@@ -216,12 +216,12 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             case 4:
                 Exercise="Chair Sit to Stand";
                 script = new Interpreter();
-                script.AddCommand("Chair Sit to Stand -1");
+                script.AddCommand("ChairSitToStand -1");
                 break;
             case 5:
                 Exercise="Marching in Place";
                 script = new Interpreter();
-                script.AddCommand("Marching in Place -1");
+                script.AddCommand("MarchingInPlace -1");
                 break;
 
             case 0:
