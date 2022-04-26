@@ -102,8 +102,8 @@ public class BackgroundiOS : MonoBehaviour {
         }
     }
 
-    [DynamoDBTable("demoGPS")]
-    public class demoGPS
+    [DynamoDBTable("FinalGPSData")]
+    public class FinalGPSData
     {
         [DynamoDBProperty]
         public string UserKey { get; set; }
@@ -267,7 +267,7 @@ public class BackgroundiOS : MonoBehaviour {
 
             foreach (newLocation newuse in newgpslist.allgpsdata)
             {
-                demoGPS newUser = new demoGPS
+                FinalGPSData newUser = new FinalGPSData
                 {
                     FirstName = newuse.firstName,
                     LastName = newuse.lastName,
@@ -288,7 +288,7 @@ public class BackgroundiOS : MonoBehaviour {
 
                 var request = new DescribeTableRequest
                 {
-                    TableName = @"demoGPS"
+                    TableName = @"FinalGPSData"
                 };
             }
         }   

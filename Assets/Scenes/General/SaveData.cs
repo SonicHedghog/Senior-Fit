@@ -259,27 +259,7 @@ public class SaveData
 
      public static NotificationList LoadNotifications()
     {
-       /* string path = Application.streamingAssetsPath + "/Routines/PushNotifications.json";
-        //string[] paths = { Application.streamingAssetsPath, "Routines", "PushNotifications.json" };
-        if (File.Exists(path))
-        {
-            
-            string fileContents = File.ReadAllText(path);
-                    
-            
-            //Debug.Log("filecontent: "+ fileContents);
-
-            NotificationList Notification_Data = JsonUtility.FromJson<NotificationList>(fileContents)
-                            ?? new NotificationList();
-            //File.WriteAllText(path, string.Empty);
-            return Notification_Data;
-        }
-        else
-        {
-            Debug.Log("File not found!");
-            return null;
-        }*/
-
+       
         string[] paths = {Application.streamingAssetsPath, "Routines", "PushNotifications.json"};
         string fileContents;
         
@@ -403,6 +383,8 @@ public class UserNotification
 {
     public string message;
     public string url;
+
+    public int interval;
     
 }
 

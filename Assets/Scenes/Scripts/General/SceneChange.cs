@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 #if UNITY_ANDROID
 using UnityEngine.Android;
 using Unity.Notifications.Android;
@@ -24,6 +25,8 @@ public class SceneChange : MonoBehaviour
         if (data == null)
             SceneManager.LoadScene("LoginMenu");
         
+
+        
         #if UNITY_ANDROID
         var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
         if (notificationIntentData != null)
@@ -45,6 +48,11 @@ public class SceneChange : MonoBehaviour
         }
         #endif
 
+    }
+
+    public void OpenFB()
+    {
+        Application.OpenURL("https://www.facebook.com/groups/seniorfitstudyphase2r1");
     }
 
     
@@ -84,6 +92,8 @@ public class SceneChange : MonoBehaviour
     {
         return req_fps;
     }
+
+    
 
     public void StartSeatedMarch()
     {

@@ -35,6 +35,8 @@ public class loginscript : MonoBehaviour
 
     public string lname;
 
+    public DateTime LoginTime;
+
 
     public string[] lines;
 
@@ -140,17 +142,18 @@ public class loginscript : MonoBehaviour
         contactno = long.Parse(ContactNumber.text);
         fname = firstname.text;
         lname = lastname.text;
+        LoginTime=DateTime.Now;
         SaveUserData.SaveUser(this);
         SceneManager.LoadScene("MainMenu");
         int time=0;
         string body;
-        for (int i = 0; i < 36; i++)
+        foreach (UserNotification noti in newnotification.allnotifications)
         {
-            
-            time=time+2;
-            body = "Hi " + fname + " ! " + newnotification.allnotifications[i].message;
+            time=noti.interval;
+            //time=time+10;
+            body = "Hi " + fname + " ! " + noti.message;
             Debug.Log("body " + body);
-            string link = newnotification.allnotifications[i].url;
+            string link = noti.url;
             //SceneChange.OpenNewLink(newnotification.allnotifications[0].url);
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");

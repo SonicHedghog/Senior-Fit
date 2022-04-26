@@ -131,8 +131,8 @@ public class ServiceManager : MonoBehaviour
         }
     }
 
-    [DynamoDBTable("demoGPS")]
-    public class demoGPS
+    [DynamoDBTable("FinalGPSData")]
+    public class FinalGPSData
     {
         [DynamoDBProperty]
         public string UserKey { get; set; }
@@ -173,7 +173,7 @@ public class ServiceManager : MonoBehaviour
         plugin.OnLocation += OnLocationReceived;
         plugin.OnAvailability += OnLocationAvailability;
         plugin.OnDistanceChanged += OnDistanceChanged;
-        plugin.onTimeChanged += onTimeChanged;
+       // plugin.onTimeChanged += onTimeChanged;
 
         plugin.checkPermission();
         Screen.orientation = ScreenOrientation.Portrait;
@@ -216,8 +216,8 @@ public class ServiceManager : MonoBehaviour
         walkStart=false;
         plugin.StopLocationService();
         //UpdateAWSinfo();
-        Application.Quit();
-        //SceneManager.LoadScene("MainMenu");
+        //Application.Quit();
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnLocationReceived(LocationData _location)
@@ -234,9 +234,10 @@ public class ServiceManager : MonoBehaviour
 
     private void OnDistanceChanged(double _distance)
     {
+         if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
         distanceText.text = $"Distance walked: {_distance} miles";
     }
-    private void onTimeChanged(long _duration)
+   /* private void onTimeChanged(long _duration)
     {
         long diffSeconds = _duration / 1000;
         long seconds = diffSeconds % 60;
@@ -258,7 +259,7 @@ public class ServiceManager : MonoBehaviour
            // timestamp.text = $"Duration: {diffSeconds} seconds";
         }
 
-    }
+    }*/
 
     private void OnApplicationPause(bool _isPaused)
     {
@@ -297,7 +298,7 @@ public class ServiceManager : MonoBehaviour
 
             
             
-            if (Time_duration > 0)
+           /* if (Time_duration > 0)
             {
     
                 
@@ -318,7 +319,7 @@ public class ServiceManager : MonoBehaviour
             //timestamp.text = "Total time: 0 seconds";
             GPSStatus.text = "Let's get started!!";
 
-        }
+        }*/
 
 
 
@@ -341,7 +342,8 @@ public class ServiceManager : MonoBehaviour
          //Debug.Log("Time 2 "+time2);
         Time_duration=time2-time1;
 
-        
+        if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
+        if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
           if (Time_duration > 0)
             {
     
@@ -395,7 +397,7 @@ public class ServiceManager : MonoBehaviour
             {
 
 
-                demoGPS newUser = new demoGPS
+                FinalGPSData newUser = new FinalGPSData
                 {
 
 
@@ -420,7 +422,7 @@ public class ServiceManager : MonoBehaviour
 
                 var request = new DescribeTableRequest
                 {
-                    TableName = @"demoGPS"
+                    TableName = @"FinalGPSData"
                 };
 
 

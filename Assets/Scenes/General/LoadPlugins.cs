@@ -29,6 +29,11 @@ public class LoadPlugins : MonoBehaviour
         locationPlugin = this.gameObject.AddComponent(typeof(LocationPlugin)) as LocationPlugin;
 
         locationService = this.gameObject.AddComponent(typeof(ServiceManager)) as ServiceManager;
+
+        if(latText is null) latText = GameObject.Find("Latitude").GetComponent<Text>();
+        if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
+        if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
+        if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
         
         locationService.latText = latText;
         locationService.distanceText = distanceText;
