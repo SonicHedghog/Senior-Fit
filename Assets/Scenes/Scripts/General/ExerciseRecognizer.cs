@@ -181,14 +181,34 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
         // Init camera 
         requestedFPS=SceneChange.GetFPS();
-        string cameraName = WebCamUtil.FindName();
-        webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height,requestedFPS);
-        height=Screen.height;
-        width= Screen.width;
-        
-        cameraView.texture = webcamTexture;
-        webcamTexture.Play();
-        Debug.Log($"Starting camera: {cameraName}");
+        try{
+            string frontCamName = null;
+            var webCamDevices = WebCamTexture.devices;
+            foreach(var camDevice in webCamDevices){ 
+                if(camDevice.isFrontFacing){
+                    frontCamName = camDevice.name;
+                    break;
+                }
+            }
+            webcamTexture = new WebCamTexture(frontCamName, width, height, requestedFPS);
+            height=Screen.height;
+            width= Screen.width;
+            
+            cameraView.texture = webcamTexture;
+            if(Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+            }
+            webcamTexture.Play();
+            Debug.Log($"Starting camera: {frontCamName}");
+        }
+        catch (Exception e)
+        {  
+            webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height); 
+            cameraView.texture = webcamTexture;
+            webcamTexture.Play();
+            Debug.Log(e.Message);
+        }
        
         draw = new PrimitiveDraw(Camera.main, gameObject.layer);
         worldJoints = new Vector4[PoseLandmarkDetect.JointCount];
@@ -356,7 +376,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         {
             isFlipped = !isFlipped;
             webcamTexture.Stop();
-            if(!isFlipped)
+            if(isFlipped)
             {
                 webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height);
                 Debug.Log("Flipped to " + webcamTexture.deviceName);
