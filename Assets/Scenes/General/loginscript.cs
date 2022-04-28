@@ -1,19 +1,17 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 #if UNITY_ANDROID
 
 using Unity.Notifications.Android;
 #endif
 
 #if UNITY_IOS
-// using Unity.Notifications.iOS;
+using Unity.Notifications.iOS;
 #endif
-using System.IO;
 
 /*using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
@@ -95,44 +93,14 @@ public class loginscript : MonoBehaviour
     int count=0;
     public void EventAlarmTest(int minutesOnTheHour, string firstname, string body,string link)
     {
-
         count++;
         Debug.Log("Notification called "+count);
-       
+
         #if UNITY_ANDROID
-        var c1 = new AndroidNotificationChannel()
-        {
-            Id = "notification_id",
-            Name = "Default Channel",
-            Importance = Importance.Default,
-            Description = "Reminder notifications",
-        };
-        AndroidNotificationCenter.RegisterNotificationChannel(c1);
-
-        var notification = new AndroidNotification();
-        notification.Title = "Senior Fit";
-        //string body = "Hi " + firstname + " ! " + lines[1];
-        notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
-        notification.ShouldAutoCancel = true;
-        notification.ShowTimestamp = true;
-        notification.IntentData = link;
-        notification.Style = NotificationStyle.BigTextStyle;
-
-        var notification_id = AndroidNotificationCenter.SendNotification(notification, "notification_id");
-
-        Debug.Log($"notification status - {AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id)}");
-        var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id);
-        if (notificationStatus == NotificationStatus.Delivered)
-        {
-            // Remove the previously shown notification from the status bar.
-            AndroidNotificationCenter.CancelNotification(notification_id);
-        }
-
-
-
-    #endif
-
+        SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
+        #elif UNITY_IOS
+        SetUpIOSNotifications(minutesOnTheHour, firstname, body, link);
+        #endif
     }
     
 
@@ -176,22 +144,81 @@ public class loginscript : MonoBehaviour
     }
 
 
-
-    void OnApplicationFocus(bool focus)
+    #if UNITY_ANDROID
+    void SetUpAndroidNotifications(int minutesOnTheHour, string firstname, string body,string link)
     {
-        if (focus)
+        var c1 = new AndroidNotificationChannel()
         {
+            Id = "notification_id",
+            Name = "Default Channel",
+            Importance = Importance.Default,
+            Description = "Reminder notifications",
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(c1);
 
+        var notification = new AndroidNotification();
+        notification.Title = "Senior Fit";
 
+        notification.Text = body;
+        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
+        notification.ShouldAutoCancel = true;
+        notification.ShowTimestamp = true;
+        notification.IntentData = link;
+        notification.Style = NotificationStyle.BigTextStyle;
 
+        var notification_id = AndroidNotificationCenter.SendNotification(notification, "notification_id");
+
+        Debug.Log($"notification status - {AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id)}");
+        var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id);
+        if (notificationStatus == NotificationStatus.Delivered)
+        {
+            // Remove the previously shown notification from the status bar.
+            AndroidNotificationCenter.CancelNotification(notification_id);
         }
-
     }
-
-
-    // Update is called once per frame
-    void Update()
+    #elif UNITY_IOS
+    void SetUpIOSNotifications(int minutesOnTheHour, string firstname, string body,string link)
     {
+        RequestAuthorization();
+
+        var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+        {
+            TimeInterval = new TimeSpan(minutesOnTheHour, 0, 0),
+            Repeats = false
+        };
+
+        var notification = new iOSNotification(){
+            Title = "Senior Fit",
+
+            Body = body,
+            ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+            CategoryIdentifier = "category_a",
+            ThreadIdentifier = "thread1",
+            Trigger = timeTrigger
+        };
+
+        iOSNotificationCenter.ScheduleNotification(notification);
 
     }
+
+    IEnumerator RequestAuthorization()
+    {
+        var authorizationOption = AuthorizationOption.Alert | AuthorizationOption.Badge;
+        using (var req = new AuthorizationRequest(authorizationOption, true))
+        {
+            while (!req.IsFinished)
+            {
+                yield return null;
+            };
+
+            string res = "\n RequestAuthorization:";
+            res += "\n finished: " + req.IsFinished;
+            res += "\n granted :  " + req.Granted;
+            res += "\n error:  " + req.Error;
+            res += "\n deviceToken:  " + req.DeviceToken;
+            Debug.Log(res);
+        }
+    }
+    #endif
+    
 }
