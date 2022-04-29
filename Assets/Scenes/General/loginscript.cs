@@ -44,6 +44,7 @@ public class loginscript : MonoBehaviour
 
    // private static string new_url = "";
    private static List<string> new_url=new List<string>();
+   
 
     //**********************************************************************
 
@@ -95,6 +96,43 @@ public class loginscript : MonoBehaviour
     {
         count++;
         Debug.Log("Notification called "+count);
+<<<<<<< HEAD
+       
+        #if UNITY_ANDROID
+        var c1 = new AndroidNotificationChannel()
+        {
+            Id = "notification_id",
+            Name = "Default Channel",
+            Importance = Importance.Default,
+            Description = "Reminder notifications",
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(c1);
+
+        var notification = new AndroidNotification();
+        notification.Title = "Senior Fit";
+        //string body = "Hi " + firstname + " ! " + lines[1];
+        notification.Text = body;
+        notification.FireTime = System.DateTime.Now.AddMinutes(minutesOnTheHour);
+        notification.ShouldAutoCancel = true;
+        notification.ShowTimestamp = true;
+        notification.IntentData = link;
+        notification.Style = NotificationStyle.BigTextStyle;
+
+        var notification_id = AndroidNotificationCenter.SendNotification(notification, "notification_id");
+
+        Debug.Log($"notification status - {AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id)}");
+        var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id);
+        if (notificationStatus == NotificationStatus.Delivered)
+        {
+            // Remove the previously shown notification from the status bar.
+            AndroidNotificationCenter.CancelNotification(notification_id);
+        }
+
+
+
+    #endif
+=======
+>>>>>>> 577d23bfb8b1a0df48a45c02117bd6973195bb0f
 
         #if UNITY_ANDROID
         SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
@@ -115,9 +153,11 @@ public class loginscript : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         int time=0;
         string body;
+        
+        Debug.Log("first time log in & notification : ");
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            time=noti.interval;
+            time=noti.interval*10;
             //time=time+10;
             body = "Hi " + fname + " ! " + noti.message;
             Debug.Log("body " + body);
@@ -126,7 +166,7 @@ public class loginscript : MonoBehaviour
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");
         }
-       
+        
 
 
 
@@ -136,6 +176,8 @@ public class loginscript : MonoBehaviour
     {
         return new_url;
     }
+
+   
     public void loadUser()
     {
         userdata data = SaveUserData.LoadUser();
