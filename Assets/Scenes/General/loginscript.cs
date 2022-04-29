@@ -96,7 +96,6 @@ public class loginscript : MonoBehaviour
     {
         count++;
         Debug.Log("Notification called "+count);
-<<<<<<< HEAD
        
         #if UNITY_ANDROID
         var c1 = new AndroidNotificationChannel()
@@ -131,8 +130,6 @@ public class loginscript : MonoBehaviour
 
 
     #endif
-=======
->>>>>>> 577d23bfb8b1a0df48a45c02117bd6973195bb0f
 
         #if UNITY_ANDROID
         SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
