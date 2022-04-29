@@ -138,68 +138,7 @@ public class SaveData
 
     }
 
-   /* public static void SaveGPSData(Walk newappuse)
-    {
-        string path = Application.persistentDataPath + "/GPSData.json";
-        string fileContents;
-        GPSList gpsData = new GPSList();
-
-        if (File.Exists(path))
-        {
-            fileContents = File.ReadAllText(path);
-            //Debug.Log("filecontent: "+ fileContents);           
-            if(fileContents.Length!=0)
-            {
-                gpsData = JsonUtility.FromJson<GPSList>(fileContents);
-            }
-            
-            gpsData.allgpsdata.Add(new GPSData()
-            {
-                fname = newappuse.fname,
-                lname = newappuse.lname,
-                contactno = newappuse.contactno,
-                start_time = newappuse.start_time,
-                longitudedata = newappuse.longitude,
-                latitudedata=newappuse.latitude,
-                current_time = newappuse.current_time,
-                current_date=newappuse.current_date
-            });
-
-
-
-
-
-            fileContents = JsonUtility.ToJson(gpsData);
-
-            File.WriteAllText(path, fileContents);
-
-        }
-        else
-        {
-            
-            gpsData.allgpsdata.Add(new GPSData()
-            {
-                fname = newappuse.fname,
-                lname = newappuse.lname,
-                contactno = newappuse.contactno,
-                start_time = newappuse.start_time,
-                longitudedata = newappuse.longitude,
-                latitudedata=newappuse.latitude,
-                current_time = newappuse.current_time,
-                current_date=newappuse.current_date
-            });
-
-
-
-
-
-            fileContents = JsonUtility.ToJson(gpsData);
-
-            File.WriteAllText(path, fileContents);
-        }
-
-
-    }*/
+  
     public static UserList LoadData()
     {
         string path = Application.persistentDataPath + "/UserData.json";
@@ -312,6 +251,40 @@ public class SaveData
 
 
     }
+
+
+  /*  public static string IsNotificationScheduled()
+    {
+       string[] paths = {Application.streamingAssetsPath, "Routines", "Scheduled.txt"};
+        string fileContents;
+        
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+            www.SendWebRequest();
+            while (!www.isDone)
+            {
+            }
+            fileContents = www.downloadHandler.text;
+            Debug.Log(www.downloadHandler.text);
+            File.WriteAllText(Path.Combine(paths), string.Empty);
+            
+        }
+        else
+        {
+            fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt");
+            
+            #if !UNITY_EDITOR
+            File.WriteAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt", string.Empty);
+            #endif
+        }
+
+        
+            return fileContents;
+
+        
+
+    }*/
 
     
 }

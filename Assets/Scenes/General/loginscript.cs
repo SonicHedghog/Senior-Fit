@@ -46,6 +46,7 @@ public class loginscript : MonoBehaviour
 
    // private static string new_url = "";
    private static List<string> new_url=new List<string>();
+   
 
     //**********************************************************************
 
@@ -113,7 +114,7 @@ public class loginscript : MonoBehaviour
         notification.Title = "Senior Fit";
         //string body = "Hi " + firstname + " ! " + lines[1];
         notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
+        notification.FireTime = System.DateTime.Now.AddMinutes(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;
@@ -147,9 +148,11 @@ public class loginscript : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         int time=0;
         string body;
+        
+        Debug.Log("first time log in & notification : ");
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            time=noti.interval;
+            time=noti.interval*10;
             //time=time+10;
             body = "Hi " + fname + " ! " + noti.message;
             Debug.Log("body " + body);
@@ -158,7 +161,7 @@ public class loginscript : MonoBehaviour
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");
         }
-       
+        
 
 
 
@@ -168,6 +171,8 @@ public class loginscript : MonoBehaviour
     {
         return new_url;
     }
+
+   
     public void loadUser()
     {
         userdata data = SaveUserData.LoadUser();
