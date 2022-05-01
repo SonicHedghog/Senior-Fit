@@ -131,8 +131,7 @@ public class loginscript : MonoBehaviour
 
 
 
-    #endif
-    */
+    #endif*/
 
         #if UNITY_ANDROID
         SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
