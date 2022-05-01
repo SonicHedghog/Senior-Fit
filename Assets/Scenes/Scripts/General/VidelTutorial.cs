@@ -15,6 +15,7 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
     public Button play;
     public Button pause;
     public Button back;
+    public Text name;
 
     public DateTime startTime;
 
@@ -45,6 +46,7 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
             play.gameObject.SetActive(true);
             pause.gameObject.SetActive(true);
             back.gameObject.SetActive(true);
+            name.gameObject.SetActive(true);
             startTime=DateTime.Now;
                        
             
@@ -60,6 +62,7 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
             play.gameObject.SetActive(false);
             pause.gameObject.SetActive(false);
             back.gameObject.SetActive(false);
+            name.gameObject.SetActive(false);
              ScreenTouch=false;
              
         }
@@ -100,23 +103,32 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
             if(SceneChange.GetTutorialNumber()==1)
             {
                  videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";
+                 name.text="Shoulder Touch";
 
             }
             else if(SceneChange.GetTutorialNumber()==2)
             {
                 videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/ChairSitStandInstructions.mp4";
+                 name.text="Chair Sit to Stand";
+
             }
             else if(SceneChange.GetTutorialNumber()==3)
             {
                 videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/SingleLegStanceInstructions.mp4";
+                 name.text="Single Leg Stance";
+
             }
             else if(SceneChange.GetTutorialNumber()==4)
             {
                 videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/SeatedHamstringStretchInstructions.mp4";
+                 name.text="Seated Hamstring Stretch";
+
             }
             else if(SceneChange.GetTutorialNumber()==5)
             {
                 videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/MarchingInPlaceInstructions.mp4";
+                 name.text="Marching in Place";
+
             }
             else
             videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";

@@ -253,7 +253,7 @@ public class SaveData
     }
 
 
-  /*  public static string IsNotificationScheduled()
+    public static string IsNotificationScheduled()
     {
        string[] paths = {Application.streamingAssetsPath, "Routines", "Scheduled.txt"};
         string fileContents;
@@ -267,7 +267,7 @@ public class SaveData
             }
             fileContents = www.downloadHandler.text;
             Debug.Log(www.downloadHandler.text);
-            File.WriteAllText(Path.Combine(paths), string.Empty);
+            //File.WriteAllText(Path.Combine(paths), string.Empty);
             
         }
         else
@@ -275,7 +275,7 @@ public class SaveData
             fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt");
             
             #if !UNITY_EDITOR
-            File.WriteAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt", string.Empty);
+           // File.WriteAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt", string.Empty);
             #endif
         }
 
@@ -284,7 +284,7 @@ public class SaveData
 
         
 
-    }*/
+    }
 
     
 }

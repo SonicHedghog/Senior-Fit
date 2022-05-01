@@ -51,13 +51,17 @@ public class SceneChange : MonoBehaviour
             }
 
         }
-        /*string s=SaveData.IsNotificationScheduled();
+        string s=SaveData.IsNotificationScheduled();
         Debug.Log("noti status found "+s);
-        if(s=="scheduled")
+        Debug.Log("login version saved : "+data.version);
+        if(s!=data.version)
         {
+            
             ScheduleNotifications();
+            SaveUserData.UpdateUserVersion(s);
+            
 
-        }*/
+        }
         
             
         
@@ -66,9 +70,9 @@ public class SceneChange : MonoBehaviour
 
     }
 
-   /* public void ScheduleNotifications()
+    public void ScheduleNotifications()
     {
-        Debug.Log("inside schedule notifications");
+        Debug.Log("new version available");
        
        
         userdata data = SaveUserData.LoadUser();
@@ -87,8 +91,9 @@ public class SceneChange : MonoBehaviour
         newnotification = SaveData.LoadNotifications();
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            time=noti.interval+10;
-            DateTime scheduled=oldDate.AddMinutes(time);
+            //time=noti.interval/2;
+            time=time+6;
+            DateTime scheduled=oldDate.AddHours(time);
 
             if(DateTime.Compare(scheduled, current)>=0)
             {
@@ -97,16 +102,18 @@ public class SceneChange : MonoBehaviour
             Debug.Log("body " + body);
             string link = noti.url;
             EventAlarmTest(time, fname, body,link);
+            Debug.Log("notification scheduled for : "+noti.interval);
             
 
             }
+            
 
 
         }
         Debug.Log("App Updated : notification successful");
        
         }
-    }*/
+    }
 
     public void OpenFB()
     {

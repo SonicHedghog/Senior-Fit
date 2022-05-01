@@ -26,26 +26,31 @@ public class NotificationScript : MonoBehaviour,IPointerClickHandler
         TimeSpan fullDifference = currentDate.Subtract(oldDate);
         Debug.Log("Log in time "+data.LoginTime.ToString()+" time diff : "+fullDifference);
         //notification.text=fullDifference.Minutes.ToString();
-
+        int interval=0;
         NotificationList newnotification = SaveData.LoadNotifications();
-         for (int i = 35; i >=0; i--)
+         //for (int i = 35; i >=0; i--)
+         for(int i=0;i<35;i++)
         {
+            interval=interval+6;
+             //int interval=newnotification.allnotifications[i].interval/2;
+             
 
-            if(fullDifference.TotalMinutes>(newnotification.allnotifications[i].interval)*10 & count<12)
+            if((int)fullDifference.TotalHours>(interval) && count<12)
             {
-                int interval=newnotification.allnotifications[i].interval;
+                Debug.Log("time dif"+fullDifference.TotalHours+"interval "+interval);
+               
                 string url_=newnotification.allnotifications[i].url;
                 count++;
-                delivery_time="<color=blue>"+oldDate.AddMinutes(interval*10).ToString()+"</color>";
+                delivery_time="<color=blue>"+oldDate.AddHours(interval).ToString()+"</color>";
                 if(url_!="")
                 {
-                    link_text="<link=\""+url_+"\">"+url_+"</link>";
+                    link_text="<link=\""+url_+"\">"+"<color=blue><b>"+url_+"</b></color></link>";
                     notification_messages+=delivery_time+"\n"+newnotification.allnotifications[i].message+"\n\n"+link_text+"\n\n";
                 }
 
                 else
                 notification_messages+=delivery_time+"\n"+newnotification.allnotifications[i].message+"\n\n";
-                Debug.Log("time :"+ oldDate.AddHours(interval*10).ToString("HH:mm:ss"));
+                Debug.Log("time :"+ oldDate.AddHours(interval).ToString("HH:mm:ss"));
             }
             
         }

@@ -222,7 +222,86 @@ MonoBehaviour:
   play: {fileID: 1094326286}
   pause: {fileID: 806126050}
   back: {fileID: 1561699514}
+  name: {fileID: 128873515}
   progress: {fileID: 549963040}
+--- !u!1 &128873513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 128873514}
+  - component: {fileID: 128873516}
+  - component: {fileID: 128873515}
+  m_Layer: 5
+  m_Name: Name
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &128873514
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128873513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1162112757}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 647.33, y: -99}
+  m_SizeDelta: {x: 1195.3479, y: 117.694214}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &128873515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128873513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.90588236, g: 0.16669656, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 80
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 80
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: exercise name
+--- !u!222 &128873516
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128873513}
+  m_CullTransparentMesh: 0
 --- !u!1 &152169472
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,6 +458,7 @@ GameObject:
   - component: {fileID: 549963039}
   - component: {fileID: 549963041}
   - component: {fileID: 549963040}
+  - component: {fileID: 549963042}
   m_Layer: 5
   m_Name: Progress
   m_TagString: Untagged
@@ -442,6 +522,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549963038}
   m_CullTransparentMesh: 0
+--- !u!114 &549963042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549963038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f079f1c4ec8f134aa3c4790414ea788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1375683114}
+  videoPath: 
+  play: {fileID: 1094326286}
+  pause: {fileID: 806126050}
+  back: {fileID: 1561699514}
+  name: {fileID: 128873515}
+  progress: {fileID: 549963040}
 --- !u!1 &806126048
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +835,7 @@ RectTransform:
   - {fileID: 1561699513}
   - {fileID: 341077272}
   - {fileID: 549963039}
+  - {fileID: 128873514}
   m_Father: {fileID: 1177158243}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

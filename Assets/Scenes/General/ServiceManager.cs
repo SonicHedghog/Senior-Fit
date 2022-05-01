@@ -363,7 +363,7 @@ public class ServiceManager : MonoBehaviour
                      timestamp.text = $"Duration: {seconds} seconds";
                 }
 
-                 if (minutes>0 & minutes % 5 == 0)
+                 if (minutes>0 && minutes % 5 == 0)
             {
                 var r = new System.Random();
                 var randomLineNumber = r.Next(0, lines.Length - 1);

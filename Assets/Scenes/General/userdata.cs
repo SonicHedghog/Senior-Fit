@@ -9,6 +9,7 @@ public class userdata
     public string fname;
     public string lname;
     public long contactno;
+    public string version;
 
     public DateTime LoginTime;
 
@@ -18,6 +19,7 @@ public class userdata
         lname=newlogin.lname;
         contactno=newlogin.contactno;
         LoginTime=newlogin.LoginTime;
+        version=newlogin.version;
 
     }
 }

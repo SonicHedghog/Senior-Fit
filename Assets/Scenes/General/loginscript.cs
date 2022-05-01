@@ -33,6 +33,8 @@ public class loginscript : MonoBehaviour
 
     public string lname;
 
+    public string version;
+
     public DateTime LoginTime;
 
 
@@ -96,8 +98,7 @@ public class loginscript : MonoBehaviour
     {
         count++;
         Debug.Log("Notification called "+count);
-<<<<<<< HEAD
-       
+       /*
         #if UNITY_ANDROID
         var c1 = new AndroidNotificationChannel()
         {
@@ -131,8 +132,7 @@ public class loginscript : MonoBehaviour
 
 
     #endif
-=======
->>>>>>> 577d23bfb8b1a0df48a45c02117bd6973195bb0f
+    */
 
         #if UNITY_ANDROID
         SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
@@ -149,6 +149,7 @@ public class loginscript : MonoBehaviour
         fname = firstname.text;
         lname = lastname.text;
         LoginTime=DateTime.Now;
+        version=SaveData.IsNotificationScheduled();
         SaveUserData.SaveUser(this);
         SceneManager.LoadScene("MainMenu");
         int time=0;
@@ -157,8 +158,8 @@ public class loginscript : MonoBehaviour
         Debug.Log("first time log in & notification : ");
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            time=noti.interval*10;
-            //time=time+10;
+            time=6;
+            //time=noti.interval/2;
             body = "Hi " + fname + " ! " + noti.message;
             Debug.Log("body " + body);
             string link = noti.url;

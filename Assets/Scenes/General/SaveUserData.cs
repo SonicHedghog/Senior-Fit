@@ -42,5 +42,45 @@ public static class SaveUserData
         }
     }
 
+     public static void UpdateUserVersion(string newVersion)
+    {
+         string path = Application.persistentDataPath + "/user.data";
+        if(File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream=new FileStream(path,FileMode.Open);
+            userdata data= formatter.Deserialize(stream) as userdata;
+            data.version=newVersion;
+            Debug.Log("inside update version : "+data.version);            
+            stream.Close();
+
+            
+                BinaryFormatter OutputFormatter =new BinaryFormatter();
+        
+        FileStream outStream= new FileStream(path, FileMode.Create);
+
+        userdata NewData= data;
+
+        OutputFormatter.Serialize(outStream, data);
+        outStream.Close();
+
+            
+            
+           
+
+        }
+        else
+        {
+            Debug.Log("Saved file not found");
+            
+        }
+        
+
+    }
+
+
+    
+
+
     
 }

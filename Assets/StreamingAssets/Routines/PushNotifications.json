@@ -31,7 +31,7 @@
 			"interval":12
 		},
 		{
-			"message": "We have now a Facebook page to connect with other users of the Senior Fit. Use this link to join!\n https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"message": "We have now a Facebook page to connect with other users of the Senior Fit. Use this link to join!\n ",
 			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
 			"interval":14
 		},		
@@ -41,7 +41,7 @@
 			"interval":16
 		},
 		{
-			"message": "Want to know the psychological secrets to staying motivated for fitness? Watch this TEDx Talk to find out! \nhttps://youtu.be/K60xHx836T0",
+			"message": "Want to know the psychological secrets to staying motivated for fitness? Watch this TEDx Talk to find out! \n",
 			"url": "https://youtu.be/K60xHx836T0",
 			"interval":18
 		},
@@ -51,12 +51,12 @@
 			"interval":20
 		},
 		{
-			"message": " Enjoy exercising outside? Here are some important things to remember to maximize safety while outdoors.\nhttps://www.nia.nih.gov/health/exercising-outdoors ",
+			"message": " Enjoy exercising outside? Here are some important things to remember to maximize safety while outdoors.\n ",
 			"url": "https://www.nia.nih.gov/health/exercising-outdoors",
 			"interval":22
 		},
 		{
-			"message": "Curious as to why some diets work for some and not for others? Watch this 20-minute TEDx Talk by Professor Eran Segal to learn why.\nhttps://youtu.be/0z03xkwFbw4",
+			"message": "Curious as to why some diets work for some and not for others? Watch this 20-minute TEDx Talk by Professor Eran Segal to learn why.\n",
 			"url": "https://youtu.be/0z03xkwFbw4",
 			"interval":24
 		},
@@ -66,12 +66,12 @@
 			"interval":26
 		},
 		{
-			"message": "Have you joined the Facebook group? Post at least one photo of yourself or something you see during your workout and say hi to other peers!\nhttps://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"message": "Have you joined the Facebook group? Post at least one photo of yourself or something you see during your workout and say hi to other peers!\n",
 			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
 			"interval":28
 		},
 		{
-			"message": "Want to be healthier? Doctors recommend adding more fiber, fruits, and vegetables to your daily diet.\nhttps://bit.ly/3wBSZwu",
+			"message": "Want to be healthier? Doctors recommend adding more fiber, fruits, and vegetables to your daily diet.\n",
 			"url": "https://bit.ly/3wBSZwu",
 			"interval":30
 		},
@@ -96,7 +96,7 @@
 			"interval":38
 		},
 		{
-			"message": "What motivates you to do your exercises everyday? Post your motivation to our Facebook page and learn others' motivations!\nhttps://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"message": "What motivates you to do your exercises everyday? Post your motivation to our Facebook page and learn others' motivations!\n",
 			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
 			"interval":40
 		},
@@ -116,7 +116,7 @@
 			"interval":46
 		},
 		{
-			"message": "If you find yourself struggling balancing, here are some tips and tricks to improve it!\nhttps://www.healthline.com/health/exercise-fitness/balance-exercises-for-seniors#exercises-to-try ",
+			"message": "If you find yourself struggling balancing, here are some tips and tricks to improve it!\n",
 			"url": "https://www.healthline.com/health/exercise-fitness/balance-exercises-for-seniors#exercises-to-try",
 			"interval":48
 		},
@@ -126,7 +126,7 @@
 			"interval":50
 		},
 		{
-			"message": "Listening to music or audiobooks while walking or walking with a friend can make daily exercise more enjoyable. Share your favorite music or audio books to the Facebook group!\nhttps://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"message": "Listening to music or audiobooks while walking or walking with a friend can make daily exercise more enjoyable. Share your favorite music or audio books to the Facebook group!\n",
 			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
 			"interval":52
 		},
@@ -136,7 +136,7 @@
 			"interval":54
 		},
 		{
-			"message": "Walking may be an easy exercise but is great for your physical and mental well-being. Watch this video to know more about the benefit of walking.\nhttps://youtu.be/3Ka7B3hCg08 ",
+			"message": "Walking may be an easy exercise but is great for your physical and mental well-being. Watch this video to know more about the benefit of walking.\n ",
 			"url": "https://youtu.be/3Ka7B3hCg08",
 			"interval":56
 		},
@@ -146,7 +146,7 @@
 			"interval":58
 		},
 		{
-			"message": "The kitchen is just as important as the gym. Here are our favorite healthy recipes for you to try.\nhttps://www.foodnetwork.com/healthy/packages/healthy-every-week/healthy-mains/foodnetwork-most-saved-healthy-recipes",
+			"message": "The kitchen is just as important as the gym. Here are our favorite healthy recipes for you to try.\n",
 			"url": "https://www.foodnetwork.com/healthy/packages/healthy-every-week/healthy-mains/foodnetwork-most-saved-healthy-recipes",
 			"interval":60
 		},
@@ -156,7 +156,7 @@
 			"interval":62
 		},
 		{
-			"message": " A healthy diet is the key to preventing and managing cardiovascular disease. It’s not as hard as you may think! Post your healthy diet to the Facebook page.\nhttps://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"message": " A healthy diet is the key to preventing and managing cardiovascular disease. It’s not as hard as you may think! Post your healthy diet to the Facebook page.\n",
 			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
 			"interval":64
 		},
