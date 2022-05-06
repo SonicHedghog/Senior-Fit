@@ -38,13 +38,17 @@ public class BackgroundiOS : MonoBehaviour {
     public string lname;
     public long contactno;
     public string current_date, start_time;
-    public float time1 = 0, time2 = 0, Time_duration=0;
+    public float time1 = 0, time2 = 0, Time_duration=0,new_duration=0,pauseTime1=0,pauseTime2=0;
     public float hours,minutes, seconds;
      public int minute, second;
      public double currentdistance;
      public double totaldistance;
      public Text timestamp;
     public bool walkStart=false;
+
+     public bool pause=false;
+
+    public double NewDistance=0.0;
 
 
     // ***************AWS set up*******************************************
@@ -168,7 +172,28 @@ public class BackgroundiOS : MonoBehaviour {
             walkStart=false;
 		#endif
         SceneManager.LoadScene("MainMenu");
-	}	
+	}
+
+    //pause timer for "pause walking" option
+
+     public void OnClickPauseTimer()
+    {
+        if(pause==false)
+        {
+            pause=true;
+            pauseTime1=Time.unscaledTime;
+            new_duration=0;
+
+
+        }
+        else
+        {
+            pause=false;
+            pauseTime2=Time.unscaledTime;
+            new_duration=pauseTime2-pauseTime1;
+        }
+
+    }	
 
     private void WriteLocationToUI(string message)
     {  
@@ -234,7 +259,8 @@ public class BackgroundiOS : MonoBehaviour {
     {
          time2 = Time.unscaledTime;
          //Debug.Log("Time 2 "+time2);
-        Time_duration=time2-time1;
+       // Time_duration=time2-time1;
+       Time_duration=(time2-time1)-new_duration;
 
         if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
         if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
@@ -242,14 +268,14 @@ public class BackgroundiOS : MonoBehaviour {
             {
     
                 hours = (int)(Time_duration / 3600);
-                minutes = (int)((Time_duration % 3600) / 60);
+                minutes = ((Time_duration % 3600) / 60);
                 seconds = (int)(Time_duration % 60);
 
                 if (hours > 0)
-                    timestamp.text = $"Duration: {hours} hrs {minutes} mins {seconds} seconds";
+                    timestamp.text = $"Duration: {hours} hrs {(int)minutes} mins {seconds} seconds";
                 else if(hours==0 && minutes>0)
                  {
-                    timestamp.text = $"Duration: {minutes} mins {seconds} seconds";
+                    timestamp.text = $"Duration: {(int)minutes} mins {seconds} seconds";
 
                 }
                 else
@@ -257,10 +283,11 @@ public class BackgroundiOS : MonoBehaviour {
                      timestamp.text = $"Duration: {seconds} seconds";
                 }
 
-                 if (minutes>0 & minutes % 5 == 0)
+                 if (minutes>0 && ((int)minutes%5==0))
             {
-                var r = new System.Random();
-                var randomLineNumber = r.Next(0, lines.Length - 1);
+               // var r = new System.Random();
+               // var randomLineNumber = r.Next(0, lines.Length - 1);
+               int randomLineNumber=(int)(minutes/5);
 
                 string line = lines[randomLineNumber];
                 GPSStatus.text = line;
@@ -345,7 +372,7 @@ public class BackgroundiOS : MonoBehaviour {
 
     void Update()
     {
-        if(walkStart==true)
+        if(walkStart==true && pause==false)
         ShowTime();
     }
 

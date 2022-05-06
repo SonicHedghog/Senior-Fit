@@ -31,7 +31,7 @@ public class SceneChange : MonoBehaviour
             SceneManager.LoadScene("LoginMenu");
         
 
-        
+        Debug.Log("Saved user info : "+data.fname+data.lname+data.contactno+data.LoginTime);
         #if UNITY_ANDROID
         var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
         if (notificationIntentData != null)
@@ -80,7 +80,7 @@ public class SceneChange : MonoBehaviour
       
         DateTime oldDate = data.LoginTime;
         DateTime current=System.DateTime.Now;
-        if(DateTime.Compare(oldDate, current)<0)
+      //  if(DateTime.Compare(oldDate, current)<0)
         {
             
       
@@ -89,10 +89,11 @@ public class SceneChange : MonoBehaviour
         //DateTime oldDate = data.LoginTime;
         //DateTime current=System.DateTime.Now;
         newnotification = SaveData.LoadNotifications();
+        AndroidNotificationCenter.CancelAllScheduledNotifications();
         foreach (UserNotification noti in newnotification.allnotifications)
         {
             //time=noti.interval/2;
-            time=time+6;
+            time=noti.interval;
             DateTime scheduled=oldDate.AddHours(time);
 
             if(DateTime.Compare(scheduled, current)>=0)
@@ -110,6 +111,7 @@ public class SceneChange : MonoBehaviour
 
 
         }
+        Debug.Log(fname);
         Debug.Log("App Updated : notification successful");
        
         }
@@ -356,8 +358,8 @@ public class SceneChange : MonoBehaviour
     {
 
         count++;
-        Debug.Log("Notification called "+count);
-       
+        
+        userdata data = SaveUserData.LoadUser();
         #if UNITY_ANDROID
         var c1 = new AndroidNotificationChannel()
         {
@@ -372,7 +374,7 @@ public class SceneChange : MonoBehaviour
         notification.Title = "Senior Fit";
         //string body = "Hi " + firstname + " ! " + lines[1];
         notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
+        notification.FireTime = data.LoginTime.AddHours(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;
@@ -388,8 +390,7 @@ public class SceneChange : MonoBehaviour
             AndroidNotificationCenter.CancelNotification(notification_id);
         }
 
-
-
+   
     #endif
 
     }

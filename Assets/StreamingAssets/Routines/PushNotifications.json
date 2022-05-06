@@ -179,7 +179,128 @@
 			"message": " Congratulations on reaching half of the journey with us! The Senior Fit team is proud of your progress. We hope you continue on the journey of healthy living.",
 			"url": "",
 			"interval":72
+		},
+		{
+			"message": " Now is a time to set up your weekly exercise goals. Let's make your goal a routine!",
+			"url": "",
+			"interval":74
+		},
+		{
+			"message": " The best workout tips are setting a goal, being consistent, following your routine and tracking your progress! Do you want to share your workout tips to the Facebook page?",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":76
+		},
+		{
+			"message": " Learn some life-changing benefits of exercise! ",
+			"url": "https://www.ncoa.org/article/the-life-changing-benefits-of-exercise-after-60",
+			"interval":78
+		},
+		{
+			"message": " Did you watch your exercise video and do some exercises last week? If not, think about why that was and when you will watch them for this week.",
+			"url": "",
+			"interval":80
+		},
+		{
+			"message": " Did you know staying physically active improves your cognitive health, like helping you think, learn, and problem-solve? Don't hesitate to contact us if you have any questions! ",
+			"url": "",
+			"interval":82
+		},
+		{
+			"message": " Find simple ways to make exercise fun and enjoyable! What about trying some new activities that keep you stay active?",
+			"url": "",
+			"interval":84
+		},
+		{
+			"message": " This week's activity is to try new exercises on the app! What about some mobility exercises? Take this time to write down when, where, and how you plan on doing your physical activity for the week.",
+			"url": "",
+			"interval":86
+		},
+		{
+			"message": " Being physically active can benefit many aspects of your life. Post on the Facebook group what benefits you hope to gain from these exercises. Please take the time to reply to others' posts too!",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":88
+		},
+		{
+			"message": " Do you have trouble staying motivated? Watch this video for tips on how to make lasting change. ",
+			"url": "https://youtu.be/xp0O2vi8DX4",
+			"interval":90
+		},
+		{
+			"message": " Maintaining mobility is important for both the physical and mental health! Use the app and watch the videos of mobility exercises. ",
+			"url": "",
+			"interval":92
+		},
+		{
+			"message": " Flexibility exercises can help increase range of movement, making everyday activities such as bathing, driving, and housework easier. Have you noticed any daily activities that have become easier for you to complete? Post your own experience to the Facebook group! ",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":94
+		},
+		{
+			"message": " Have trouble making it through a tough workout? Watch this video with Molly who is in her 80s and completes in Crossfit workout competitions. ",
+			"url": "https://youtu.be/6WUJN_ckRyQ",
+			"interval":96
+		},
+		{
+			"message": " Being physically active benefits both body and mind. Take today to do the physical activity you enjoy the most. Don't forget to also take the time to develop your exercise goals for the week. ",
+			"url": "",
+			"interval":98
+		},
+		{
+			"message": " Going for a daily walk can be a good way toward healthy and active living. Share with us your favorite place to walk to the Facebook page. ",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":100
+		},
+		{
+			"message": " Strength exercises can make it easier to lift, hold, and carry objects, and this can be beneficial for many everyday activities such as shopping, meal preparation, and housecleaning. ",
+			"url": "https://youtu.be/xp0O2vi8DX4",
+			"interval":102
+		},
+		{
+			"message": " How's the weather today? Is today a great day to take a walk your neighborhood? Or what about some indoor exercises? ",
+			"url": "",
+			"interval":104
+		},
+		{
+			"message": " It is normal to feel unmotivated sometimes. Do you need any help stay motivated? Let us know how we can help you.",
+			"url": "",
+			"interval":106
+		},
+		{
+			"message": " Don’t forget to build rewards into your plan. Write down something you will do for yourself when goals are achieved. Treat yourself to something special and celebrate your successes! ",
+			"url": "",
+			"interval":108
+		},
+		{
+			"message": " Have you tried strength exercises on the app? Try to spend at least 10 minutes for today's exercise! ",
+			"url": "",
+			"interval":110
+		},
+		{
+			"message": " We understand that every person is different and has their own way to use our app . Would you like to share your tip  to the Facebook group on how you have been using the app? ",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":112
+		},
+		{
+			"message": " This 90-year-old's bucket list included sharing his fitness journey with the world. Check out how he likes to keep himself in shape. ",
+			"url": "https://youtu.be/R28wp78T8ec",
+			"interval":114
+		},
+		{
+			"message": " Committing to a stable exercise schedule can help you meet your exercise goals. Try fitting your exercise videos into your week by viewing them on a consistent schedule. ",
+			"url": "",
+			"interval":116
+		},
+		{
+			"message": " There are many ways to fit physical activity into your regular schedule! Let us know if you need any help using the app and setting up your goals! ",
+			"url": "",
+			"interval":118
+		},
+		{
+			"message": " Physical Activity benefits are not restricted to just the physical. Regular exercise can also decrease stress and improve sleep. ",
+			"url": "",
+			"interval":120
 		}
+		
 		
 	
 	]

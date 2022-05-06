@@ -68,11 +68,14 @@ public class ServiceManager : MonoBehaviour
     public string lname;
     public long contactno;
     public string current_date, start_time;
-    public float time1 = 0, time2 = 0,Time_duration=0;
+    public float time1 = 0, time2 = 0,Time_duration=0,new_duration=0,pauseTime1=0,pauseTime2=0;
     public float hours,minutes, seconds;
     public Text timestamp;
     public bool walkStart=false;
     public bool onfocus=true;
+    public bool pause=false;
+
+    public double NewDistance=0.0;
 
     private bool appQuit = false;
     // ***************AWS set up*******************************************
@@ -199,7 +202,7 @@ public class ServiceManager : MonoBehaviour
     }
     void Update()
     {
-        if(walkStart==true)
+        if(walkStart==true && pause==false)
         ShowTime();
     }
 
@@ -220,10 +223,29 @@ public class ServiceManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void OnClickPauseTimer()
+    {
+        if(pause==false)
+        {
+            pause=true;
+            pauseTime1=Time.unscaledTime;
+            new_duration=0;
+
+
+        }
+        else
+        {
+            pause=false;
+            pauseTime2=Time.unscaledTime;
+            new_duration=pauseTime2-pauseTime1;
+        }
+
+    }
+
     private void OnLocationReceived(LocationData _location)
     {
         Debug.Log($"Lat: {_location.latitude} Lng: {_location.longitude} Alt: {_location.altitude}");
-        time2 = Time.time;
+        //time2 = Time.time;
         WriteLocationToUI(_location);
     }
 
@@ -234,8 +256,8 @@ public class ServiceManager : MonoBehaviour
 
     private void OnDistanceChanged(double _distance)
     {
-         if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
-        distanceText.text = $"Distance walked: {_distance} miles";
+        NewDistance=_distance;
+        
     }
    /* private void onTimeChanged(long _duration)
     {
@@ -324,7 +346,7 @@ public class ServiceManager : MonoBehaviour
 
 
 
-        latText.text = fileContents.Length.ToString();
+       // latText.text = fileContents.Length.ToString();
         //providerText.text =  fileContents.Length.ToString();
         // GPSStatus.text = lines[1];
 
@@ -335,27 +357,29 @@ public class ServiceManager : MonoBehaviour
          speedText.text = "Speed: " + (plugin.HasSpeed() ? _location.speed.ToString() : "-");*/
 
     }
-
+    public int oldminutes=0;
      public void ShowTime()
     {
          time2 = Time.unscaledTime;
          //Debug.Log("Time 2 "+time2);
-        Time_duration=time2-time1;
+        Time_duration=(time2-time1)-new_duration;
 
         if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
         if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
+        if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
+       
           if (Time_duration > 0)
             {
     
                 hours = (int)(Time_duration / 3600);
-                minutes = (int)((Time_duration % 3600) / 60);
+                minutes = ((Time_duration % 3600) / 60);
                 seconds = (int)(Time_duration % 60);
 
                 if (hours > 0)
-                    timestamp.text = $"Duration: {hours} hrs {minutes} mins {seconds} seconds";
+                    timestamp.text = $"Duration: {hours} hrs {(int)minutes} mins {seconds} seconds";
                 else if(hours==0 && minutes>0)
                  {
-                    timestamp.text = $"Duration: {minutes} mins {seconds} seconds";
+                    timestamp.text = $"Duration: {(int)minutes} mins {seconds} seconds";
 
                 }
                 else
@@ -363,15 +387,19 @@ public class ServiceManager : MonoBehaviour
                      timestamp.text = $"Duration: {seconds} seconds";
                 }
 
-                 if (minutes>0 && minutes % 5 == 0)
+                
+              if (minutes>0 && ((int)minutes%5==0))
             {
-                var r = new System.Random();
-                var randomLineNumber = r.Next(0, lines.Length - 1);
+               // var r = new System.Random();
+               // var randomLineNumber = r.Next(0, lines.Length - 1);
+               int randomLineNumber=(int)(minutes/5);
 
                 string line = lines[randomLineNumber];
                 GPSStatus.text = line;
 
             }
+
+           
             }
             else
         {
@@ -380,10 +408,16 @@ public class ServiceManager : MonoBehaviour
 
         }
 
+         distanceText.text = "Distance walked: "+NewDistance+" miles";
+
+        
+
+
     }
 
     void UpdateAWSinfo()
     {
+
         Debug.Log("Update AWS called");
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {

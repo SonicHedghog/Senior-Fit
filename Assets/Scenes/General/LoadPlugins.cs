@@ -8,8 +8,11 @@ public class LoadPlugins : MonoBehaviour
 
     public Button StartWalking;
     public Button StopWalking;
+
+    public Button PauseTimer;
     public Text GPSStatus;
     public Text timestamp;
+    public bool pause=false;
 
     #if UNITY_ANDROID
 
@@ -72,6 +75,7 @@ public class LoadPlugins : MonoBehaviour
         #endif
 
         StartWalking.gameObject.SetActive(false);
+        PauseTimer.gameObject.SetActive(true);
     }
      public void stopPlugin()
     {
@@ -88,4 +92,29 @@ public class LoadPlugins : MonoBehaviour
 
         StartWalking.gameObject.SetActive(true);
     }
+
+     public void OnClickPauseTimer()
+     {
+         if(pause==false)
+         {
+             pause=true;
+              GameObject.Find("PauseTimer").GetComponentInChildren<Text>().text = "Resume Walking";
+         }
+         else
+         {
+             pause=false;
+             GameObject.Find("PauseTimer").GetComponentInChildren<Text>().text = "Pause Walking";
+         }
+        
+        /* if(PauseTimer.Text=="Pause Timer")
+         {
+             PauseTimer.Text="Resume Timer";
+
+         }
+         else
+         {
+             PauseTimer.Text=="Pause Timer";
+         }*/
+          locationService.OnClickPauseTimer();
+     }
 }

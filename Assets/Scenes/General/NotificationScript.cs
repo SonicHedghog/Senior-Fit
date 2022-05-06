@@ -24,32 +24,35 @@ public class NotificationScript : MonoBehaviour,IPointerClickHandler
         DateTime currentDate = System.DateTime.Now;
         DateTime oldDate = data.LoginTime;
         TimeSpan fullDifference = currentDate.Subtract(oldDate);
+       // DateTime scheduled;
         Debug.Log("Log in time "+data.LoginTime.ToString()+" time diff : "+fullDifference);
         //notification.text=fullDifference.Minutes.ToString();
         int interval=0;
         NotificationList newnotification = SaveData.LoadNotifications();
          //for (int i = 35; i >=0; i--)
-         for(int i=0;i<35;i++)
+         for(int i=59;i>=0;i--)
         {
-            interval=interval+6;
+            interval=newnotification.allnotifications[i].interval;
+            //scheduled=oldDate.AddHours(interval);
              //int interval=newnotification.allnotifications[i].interval/2;
              
 
-            if((int)fullDifference.TotalHours>(interval) && count<12)
+            if((int)fullDifference.TotalHours>=(interval) && count<12)
+           
             {
-                Debug.Log("time dif"+fullDifference.TotalHours+"interval "+interval);
+                Debug.Log("time dif"+(int)fullDifference.TotalHours+"interval "+interval);
                
                 string url_=newnotification.allnotifications[i].url;
                 count++;
-                delivery_time="<color=blue>"+oldDate.AddHours(interval).ToString()+"</color>";
+                delivery_time="<color=\"red\">"+oldDate.AddHours(interval).ToString()+"</color>";
                 if(url_!="")
                 {
-                    link_text="<link=\""+url_+"\">"+"<color=blue><b>"+url_+"</b></color></link>";
-                    notification_messages+=delivery_time+"\n"+newnotification.allnotifications[i].message+"\n\n"+link_text+"\n\n";
+                    link_text="<link=\""+url_+"\">"+"<color=\"blue\"><b>"+url_+"</b></color></link>";
+                    notification_messages+=delivery_time+"\n"+"<color=\"black\">"+newnotification.allnotifications[i].message+"</color>\n"+link_text+"\n\n";
                 }
 
                 else
-                notification_messages+=delivery_time+"\n"+newnotification.allnotifications[i].message+"\n\n";
+                notification_messages+=delivery_time+"\n"+"<color=\"black\">"+newnotification.allnotifications[i].message+"</color>\n\n";
                 Debug.Log("time :"+ oldDate.AddHours(interval).ToString("HH:mm:ss"));
             }
             

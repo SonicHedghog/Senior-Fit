@@ -157,7 +157,7 @@ public class loginscript : MonoBehaviour
         Debug.Log("first time log in & notification : ");
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            time=6;
+            time=noti.interval;
             //time=noti.interval/2;
             body = "Hi " + fname + " ! " + noti.message;
             Debug.Log("body " + body);
@@ -202,7 +202,7 @@ public class loginscript : MonoBehaviour
         notification.Title = "Senior Fit";
 
         notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddHours(minutesOnTheHour);
+        notification.FireTime = LoginTime.AddHours(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;
