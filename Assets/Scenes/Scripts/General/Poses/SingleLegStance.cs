@@ -40,7 +40,8 @@ namespace Poses
 
             // Set up Pose Classifier Processor
             processor = new PoseClassifierProcessor("Single_Leg_Stance", true,7.5f,6.5f);
-        }        public override bool IsFinished(Result[] result, Text t)
+        }        
+        public override bool IsFinished(Result[] result, Text t)
         {
             float i = 0f;
             for(int x = 11; x < 17; x++){i+=result[x].confidence;}
@@ -49,116 +50,76 @@ namespace Poses
 
             switch(legCheck)
             {
-                case 0:
-                    return CheckLeftLeg(result, t, i);
-                case 2:
-                    return CheckRightLeg(result, t, i);
+                // case 0:
+                //     return CheckLeftLeg(result, t, i);
+                // case 2:
+                //     return CheckRightLeg(result, t, i);
                 default:
                     return CountDown(t);
             }
         }
 
-        bool CheckLeftLeg(Result[] result, Text t, float i)
+        bool CheckLeftLeg(List<string> poses, Text t)
         {
-            if(i > 4)
+            if(poses[0] == "Single_Leg_Stance_Left")
             {
-                double A = Math.Sqrt(
-                            Math.Pow(result[(int)Part.LEFT_KNEE].x - result[(int)Part.LEFT_HIP].x, 2) +
-                            Math.Pow(result[(int)Part.LEFT_KNEE].y - result[(int)Part.LEFT_HIP].y, 2));
-
-                double B = Math.Sqrt(
-                            Math.Pow(result[(int)Part.LEFT_KNEE].x - result[(int)Part.LEFT_ANKLE].x, 2) +
-                            Math.Pow(result[(int)Part.LEFT_KNEE].y - result[(int)Part.LEFT_ANKLE].y, 2));
-
-                double C = Math.Sqrt(
-                            Math.Pow(result[(int)Part.LEFT_HIP].x - result[(int)Part.LEFT_ANKLE].x, 2) +
-                            Math.Pow(result[(int)Part.LEFT_HIP].y - result[(int)Part.LEFT_ANKLE].y, 2));
-
-                double theta = Math.Acos((Math.Pow(C, 2) - Math.Pow(A, 2) - Math.Pow(B, 2))/(-2*A*B)) * (180/Math.PI);
-
-                Debug.Log(theta);
-                if(theta < 165)
+                if(waitTime <= 0)
                 {
-                    if(waitTime <= 0)
+                    if(correctCounts/4 > incorrectCounts)
                     {
-                        if(correctCounts/4 > incorrectCounts)
-                        {
-                            RepAction(t);
-                            legCheck++;
-                            _repCount = setTime;
-                        }
-                        
-                        waitTime = 3;
-                        correctCounts = 0;
-                        incorrectCounts = 0;
+                        RepAction(t);
+                        legCheck++;
+                        _repCount = setTime;
                     }
-                    else { waitTime -= Time.deltaTime; NoRepAction(t); }
-                    correctCounts++;
+                    
+                    waitTime = 3;
+                    correctCounts = 0;
+                    incorrectCounts = 0;
                 }
-                else
-                {
-                    incorrectCounts++;
-                    NoRepAction(t);
-                    // if(waitTime < 3 && waitTime > 2.7 && incorrectCounts > correctCounts)
-                    // {
-                    //     waitTime = 3;
-                    // }
-                }
+                else { waitTime -= Time.deltaTime; NoRepAction(t); }
+                correctCounts++;
             }
+            else
+            {
+                incorrectCounts++;
+                NoRepAction(t);
+
+            }
+
             return false;
+
         }
 
-        bool CheckRightLeg(Result[] result, Text t, float i)
+        bool CheckRightLeg(List<string> poses, Text t)
         {
-            if(i > 4)
+
+            if(poses[0] == "Single_Leg_Stance_Right")
             {
-                double A = Math.Sqrt(
-                            Math.Pow(result[(int)Part.RIGHT_KNEE].x - result[(int)Part.RIGHT_HIP].x, 2) +
-                            Math.Pow(result[(int)Part.RIGHT_KNEE].y - result[(int)Part.RIGHT_HIP].y, 2));
-
-                double B = Math.Sqrt(
-                            Math.Pow(result[(int)Part.RIGHT_KNEE].x - result[(int)Part.RIGHT_ANKLE].x, 2) +
-                            Math.Pow(result[(int)Part.RIGHT_KNEE].y - result[(int)Part.RIGHT_ANKLE].y, 2));
-
-                double C = Math.Sqrt(
-                            Math.Pow(result[(int)Part.RIGHT_HIP].x - result[(int)Part.RIGHT_ANKLE].x, 2) +
-                            Math.Pow(result[(int)Part.RIGHT_HIP].y - result[(int)Part.RIGHT_ANKLE].y, 2));
-
-                double theta = Math.Acos((Math.Pow(C, 2) - Math.Pow(A, 2) - Math.Pow(B, 2))/(-2*A*B)) * (180/Math.PI);
-
-                if(theta < 165)
+                if(waitTime <= 0)
                 {
-                    if(waitTime <= 0)
+                    if(correctCounts/4 > incorrectCounts)
                     {
-                        if(correctCounts/4 > incorrectCounts)
-                        {
-                            RepAction(t);
-                            legCheck = 3;
-                            _repCount = setTime;
-                        }
-                        
-                        waitTime = 3;
-                        correctCounts = 0;
-                        incorrectCounts = 0;
+                        RepAction(t);
+                        legCheck++;
+                        _repCount = setTime;
                     }
-                    else { waitTime -= Time.deltaTime; NoRepAction(t); }
-
-                    correctCounts++;
                     
+                    waitTime = 3;
+                    correctCounts = 0;
+                    incorrectCounts = 0;
                 }
-                else
-                {
-                    incorrectCounts++;
-                    NoRepAction(t);
-                    // if(waitTime < 3 && waitTime > 2.7 && incorrectCounts > correctCounts)
-                    // {
-                    //     waitTime = 3;
-                    // }
-                }
+                else { waitTime -= Time.deltaTime; NoRepAction(t); }
+                correctCounts++;
+            }
+            else
+            {
+                incorrectCounts++;
+                NoRepAction(t);
 
             }
-
+            
             return false;
+
         }
 
         bool CountDown(Text t)
@@ -175,7 +136,7 @@ namespace Poses
             return false;
         }
 
-    public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t)
+        public override bool IsFinished(TensorFlowLite.PoseLandmarkDetect.Result result, Text t)
         {
             if(result == null) return false;
             foreach (int x in required)
@@ -189,14 +150,16 @@ namespace Poses
                 Debug.Log("Important: " + s);
             }
             
-            if(poses[0] != lastExercise)
+            switch(legCheck)
             {
-                RepAction(t);
-                _repCount --;
-                lastExercise = poses[0];
+                case 0:
+                    return CheckLeftLeg(poses, t);
+                case 2:
+                    return CheckRightLeg(poses, t);
+                default:
+                    return CountDown(t);
             }
-            else NoRepAction(t);
-            return _repCount == 0;
-        }    }
+        } 
+    }   
 
 }
