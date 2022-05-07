@@ -33,6 +33,7 @@ namespace Poses
         float waitTime = 3;
         int correctCounts = 0;
         int incorrectCounts = 0;
+        bool loop = false;
 
         public SingleLegStance(string repCount) : base(repCount) 
         { 
@@ -40,6 +41,7 @@ namespace Poses
 
             // Set up Pose Classifier Processor
             processor = new PoseClassifierProcessor("Single_Leg_Stance", true,7.5f,6.5f);
+            loop = Int32.Parse(repCount) < 0 ? true : false;
         }        
         public override bool IsFinished(Result[] result, Text t)
         {
@@ -127,7 +129,12 @@ namespace Poses
             if(_repCount <= 0)
             {
                 if (legCheck == 3)
-                    return true;
+                {
+                    if(!loop)
+                        return true;
+                    legCheck = 0;
+                    return false;
+                }
                 legCheck = 2;
             }
             
