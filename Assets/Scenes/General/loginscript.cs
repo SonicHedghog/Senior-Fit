@@ -59,9 +59,9 @@ public class loginscript : MonoBehaviour
         {
             new_url.Add(noti.url);
         }
-        //Debug.Log(newnotification.allnotifications[1].url);
+        
         //DontDestroyOnLoad(this.gameObject);
-
+        
 
     }
 
@@ -202,7 +202,7 @@ public class loginscript : MonoBehaviour
         notification.Title = "Senior Fit";
 
         notification.Text = body;
-        notification.FireTime = LoginTime.AddHours(minutesOnTheHour);
+        notification.FireTime = LoginTime.AddDays(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;

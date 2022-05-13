@@ -75,7 +75,9 @@ public class ServiceManager : MonoBehaviour
     public bool onfocus=true;
     public bool pause=false;
 
-    public double NewDistance=0.0;
+    public double NewDistance;
+
+    DateTime CheckTime;
 
     private bool appQuit = false;
     // ***************AWS set up*******************************************
@@ -185,13 +187,18 @@ public class ServiceManager : MonoBehaviour
         fname = data.fname;
         lname = data.lname;
         contactno = data.contactno;
-        current_date = DateTime.Now.ToString("yyyy/MM/dd");
+        //current_date = DateTime.Now.ToString("yyyy/MM/dd");
+
+        CheckTime=DateTime.Now;
+        current_date = DateTime.Now.ToString("MM/dd/yyyy");
         start_time = DateTime.Now.ToString("HH:mm:ss");
 
-        
+
+
+        UpdateAWSinfo();
 
         LoadMessages();
-        
+        NewDistance=0.0;
 
         /* Destination destination = new Destination();
          destination.destinationName = "Post";
@@ -202,7 +209,7 @@ public class ServiceManager : MonoBehaviour
     }
     void Update()
     {
-        if(walkStart==true && pause==false)
+        if(walkStart==true & pause==false)
         ShowTime();
     }
 
@@ -210,6 +217,7 @@ public class ServiceManager : MonoBehaviour
     {
         plugin.StartLocationService(30000, 25000, 0, fname, lname, contactno, start_time, current_date);
         walkStart=true;
+        pause=false;
         time1 = Time.unscaledTime;
         //Debug.Log("Time 1 "+time1);
     }
@@ -217,6 +225,7 @@ public class ServiceManager : MonoBehaviour
     {
         appQuit = true;
         walkStart=false;
+        pause=false;
         plugin.StopLocationService();
         //UpdateAWSinfo();
         //Application.Quit();
@@ -229,7 +238,7 @@ public class ServiceManager : MonoBehaviour
         {
             pause=true;
             pauseTime1=Time.unscaledTime;
-            new_duration=0;
+            //new_duration=0;
 
 
         }
@@ -237,7 +246,7 @@ public class ServiceManager : MonoBehaviour
         {
             pause=false;
             pauseTime2=Time.unscaledTime;
-            new_duration=pauseTime2-pauseTime1;
+            new_duration=new_duration+(pauseTime2-pauseTime1);
         }
 
     }
@@ -256,7 +265,11 @@ public class ServiceManager : MonoBehaviour
 
     private void OnDistanceChanged(double _distance)
     {
-        NewDistance=_distance;
+         Debug.Log("Inside distance changed");
+        //if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
+        distanceText.text = $"Distance walked: {_distance} miles";
+
+       
         
     }
    /* private void onTimeChanged(long _duration)
@@ -357,12 +370,17 @@ public class ServiceManager : MonoBehaviour
          speedText.text = "Speed: " + (plugin.HasSpeed() ? _location.speed.ToString() : "-");*/
 
     }
+
+    
     public int oldminutes=0;
+
+    public int MessageLoaded=0;
      public void ShowTime()
     {
          time2 = Time.unscaledTime;
          //Debug.Log("Time 2 "+time2);
         Time_duration=(time2-time1)-new_duration;
+        //new_duration=0;
 
         if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
         if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
@@ -372,14 +390,14 @@ public class ServiceManager : MonoBehaviour
             {
     
                 hours = (int)(Time_duration / 3600);
-                minutes = ((Time_duration % 3600) / 60);
+                minutes =(int) ((Time_duration % 3600) / 60);
                 seconds = (int)(Time_duration % 60);
 
                 if (hours > 0)
-                    timestamp.text = $"Duration: {hours} hrs {(int)minutes} mins {seconds} seconds";
+                    timestamp.text = $"Duration: {hours} hrs {minutes} mins {seconds} seconds";
                 else if(hours==0 && minutes>0)
                  {
-                    timestamp.text = $"Duration: {(int)minutes} mins {seconds} seconds";
+                    timestamp.text = $"Duration: {minutes} mins {seconds} seconds";
 
                 }
                 else
@@ -388,17 +406,24 @@ public class ServiceManager : MonoBehaviour
                 }
 
                 
-              if (minutes>0 && ((int)minutes%5==0))
+              if ((int)minutes>0 & ((int)minutes%5==0))
             {
-               // var r = new System.Random();
-               // var randomLineNumber = r.Next(0, lines.Length - 1);
+               if(MessageLoaded!=(int)minutes)
+               {
+                  MessageLoaded=(int)minutes; 
                int randomLineNumber=(int)(minutes/5);
 
                 string line = lines[randomLineNumber];
                 GPSStatus.text = line;
+               // GetDistance();
+               }
+               UpdateAWSinfo();
 
             }
 
+            distanceText.text = "Distance walked: "+NewDistance.ToString()+" miles";
+
+           
            
             }
             else
@@ -408,7 +433,7 @@ public class ServiceManager : MonoBehaviour
 
         }
 
-         distanceText.text = "Distance walked: "+NewDistance+" miles";
+        
 
         
 
@@ -458,6 +483,16 @@ public class ServiceManager : MonoBehaviour
                 {
                     TableName = @"FinalGPSData"
                 };
+
+                DateTime newTime = DateTime.Parse(newuse.currentTime, System.Globalization.CultureInfo.CurrentCulture);
+
+                if(newuse.totaldistance>NewDistance && DateTime.Compare(CheckTime,newTime)<=0)
+                {
+                    NewDistance=newuse.totaldistance;
+                    Debug.Log("new total distance "+NewDistance);
+                }
+
+                
 
 
             }

@@ -336,7 +336,7 @@ public class newLocation
         public double latitude ;
         public double longitude ;
         public string startTime ;
-
+        public double totaldistance;
 
 }
 

@@ -94,8 +94,8 @@ public class SceneChange : MonoBehaviour
         {
             //time=noti.interval/2;
             time=noti.interval;
-            DateTime scheduled=oldDate.AddHours(time);
-
+            //DateTime scheduled=oldDate.AddHours(time);
+            DateTime scheduled=oldDate.AddDays(time);
             if(DateTime.Compare(scheduled, current)>=0)
             {
                 
@@ -251,6 +251,13 @@ public class SceneChange : MonoBehaviour
         LoadWorkoutScene();
     }
 
+     public void SeatedHamstringStretch()
+    {
+        exercisenumber=6;
+        req_fps=30;
+        LoadWorkoutScene();
+    }
+
     public void LoadWorkoutScene()
     {
         
@@ -374,7 +381,7 @@ public class SceneChange : MonoBehaviour
         notification.Title = "Senior Fit";
         //string body = "Hi " + firstname + " ! " + lines[1];
         notification.Text = body;
-        notification.FireTime = data.LoginTime.AddHours(minutesOnTheHour);
+        notification.FireTime = data.LoginTime.AddDays(minutesOnTheHour);
         notification.ShouldAutoCancel = true;
         notification.ShowTimestamp = true;
         notification.IntentData = link;

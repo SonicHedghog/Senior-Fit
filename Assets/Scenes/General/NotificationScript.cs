@@ -37,14 +37,14 @@ public class NotificationScript : MonoBehaviour,IPointerClickHandler
              //int interval=newnotification.allnotifications[i].interval/2;
              
 
-            if((int)fullDifference.TotalHours>=(interval) && count<12)
+            if((int)fullDifference.TotalDays>=(interval) && count<12)
            
             {
-                Debug.Log("time dif"+(int)fullDifference.TotalHours+"interval "+interval);
+                Debug.Log("time dif"+(int)fullDifference.TotalDays+"interval "+interval);
                
                 string url_=newnotification.allnotifications[i].url;
                 count++;
-                delivery_time="<color=\"red\">"+oldDate.AddHours(interval).ToString()+"</color>";
+                delivery_time="<color=\"red\">"+oldDate.AddDays(interval).ToString()+"</color>";
                 if(url_!="")
                 {
                     link_text="<link=\""+url_+"\">"+"<color=\"blue\"><b>"+url_+"</b></color></link>";
@@ -53,7 +53,7 @@ public class NotificationScript : MonoBehaviour,IPointerClickHandler
 
                 else
                 notification_messages+=delivery_time+"\n"+"<color=\"black\">"+newnotification.allnotifications[i].message+"</color>\n\n";
-                Debug.Log("time :"+ oldDate.AddHours(interval).ToString("HH:mm:ss"));
+                Debug.Log("time :"+ oldDate.AddDays(interval).ToString("HH:mm:ss"));
             }
             
         }

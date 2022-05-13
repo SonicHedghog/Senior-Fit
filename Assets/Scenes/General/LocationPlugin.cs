@@ -168,13 +168,15 @@ public class LocationPlugin : MonoBehaviour
         bool isAvailable = Convert.ToBoolean(_locationAvailable);
         OnAvailability?.Invoke(isAvailable);
     }
-
+    
     private void OnDistance(string _distanceToDestination)
     {
         System.Globalization.CultureInfo cultureInfo = System.Globalization.CultureInfo.InvariantCulture;
         double distance = double.Parse(_distanceToDestination, cultureInfo);
         OnDistanceChanged?.Invoke(distance);
     }
+
+   
 
     private void onTime(string _timeDiff )
     {
