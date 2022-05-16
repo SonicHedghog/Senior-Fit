@@ -4,6 +4,9 @@ using System;
 using UnityEngine.Android;
 using Unity.Notifications.Android;
 #endif
+#if UNITY_IOS
+using Unity.Notifications.iOS;
+#endif
 using UnityEngine.SceneManagement;
 
 
@@ -56,33 +59,50 @@ public class SceneChange : MonoBehaviour
         Debug.Log("login version saved : "+data.version);
         if(s!=data.version)
         {
-            
-            ScheduleNotifications();
+            ScheduleAndroidNotifications();
             SaveUserData.UpdateUserVersion(s);
-            
+        }
+        #endif
+
+        #if UNITY_IOS
+        var notification = iOSNotificationCenter.GetLastRespondedNotification();
+        if (notification != null)
+        {
+            Debug.Log("senior fit notification");
+
+            string link=notification.Data;
+
+            if (link.Length != 0)
+            {
+                Application.OpenURL(link);
+                Debug.Log("senior fit url link" + link);
+                 Debug.Log("senior fit link" + link);
+            }
 
         }
-        
-            
-        
-        
+        string s=SaveData.IsNotificationScheduled();
+        Debug.Log("noti status found "+s);
+        Debug.Log("login version saved : "+data.version);
+        if(s!=data.version)
+        {
+            ScheduleiOSNotifications();
+            SaveUserData.UpdateUserVersion(s);
+        }
         #endif
 
     }
 
-    public void ScheduleNotifications()
+#if UNITY_ANDROID
+    public void ScheduleAndroidNotifications()
     {
         Debug.Log("new version available");
-       
        
         userdata data = SaveUserData.LoadUser();
         string fname = data.fname;
       
         DateTime oldDate = data.LoginTime;
         DateTime current=System.DateTime.Now;
-      //  if(DateTime.Compare(oldDate, current)<0)
-        {
-            
+      //  if(DateTime.Compare(oldDate, current)<0)            
       
         int time=0;
         string body;
@@ -98,24 +118,55 @@ public class SceneChange : MonoBehaviour
             DateTime scheduled=oldDate.AddDays(time);
             if(DateTime.Compare(scheduled, current)>=0)
             {
-                
-            body = "Hi " + fname + " ! " + noti.message;
-            Debug.Log("body " + body);
-            string link = noti.url;
-            EventAlarmTest(time, fname, body,link);
-            Debug.Log("notification scheduled for : "+noti.interval);
-            
-
+                body = "Hi " + fname + " ! " + noti.message;
+                Debug.Log("body " + body);
+                string link = noti.url;
+                EventAlarmTest(time, fname, body,link);
+                Debug.Log("notification scheduled for : "+noti.interval);
             }
-            
-
-
         }
         Debug.Log(fname);
         Debug.Log("App Updated : notification successful");
-       
-        }
     }
+#endif
+
+#if UNITY_IOS
+    public void ScheduleiOSNotifications()
+    {
+        Debug.Log("new version available");
+       
+        userdata data = SaveUserData.LoadUser();
+        string fname = data.fname;
+      
+        DateTime oldDate = data.LoginTime;
+        DateTime current=System.DateTime.Now;
+      //  if(DateTime.Compare(oldDate, current)<0)            
+      
+        int time=0;
+        string body;
+        //DateTime oldDate = data.LoginTime;
+        //DateTime current=System.DateTime.Now;
+        newnotification = SaveData.LoadNotifications();
+        iOSNotificationCenter.GetLastRespondedNotification();
+        foreach (UserNotification noti in newnotification.allnotifications)
+        {
+            //time=noti.interval/2;
+            time=noti.interval;
+            DateTime scheduled=oldDate.AddHours(time);
+
+            if(DateTime.Compare(scheduled, current)>=0)
+            {
+                body = "Hi " + fname + " ! " + noti.message;
+                Debug.Log("body " + body);
+                string link = noti.url;
+                EventAlarmTest(time, fname, body,link);
+                Debug.Log("notification scheduled for : "+noti.interval);
+            }
+        }
+        Debug.Log(fname);
+        Debug.Log("App Updated : notification successful");
+    }
+#endif
 
     public void OpenFB()
     {
