@@ -231,7 +231,7 @@ public class loginscript : MonoBehaviour
 
         var notification = new iOSNotification(){
             Title = "Senior Fit",
-
+            Data = link,
             Body = body,
             ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
             CategoryIdentifier = "category_a",
