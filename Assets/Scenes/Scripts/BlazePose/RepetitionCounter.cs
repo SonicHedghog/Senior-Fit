@@ -40,6 +40,7 @@ public class RepetitionCounter {
         }
 
         if (poseConfidence < exitThreshold) {
+            
             numRepeats++;
             poseEntered = false;
         }

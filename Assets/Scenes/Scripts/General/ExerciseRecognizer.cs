@@ -182,6 +182,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         // Init camera 
         requestedFPS=SceneChange.GetFPS();
         try{
+
+           
             string frontCamName = null;
             var webCamDevices = WebCamTexture.devices;
             foreach(var camDevice in webCamDevices){ 
@@ -190,9 +192,11 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     break;
                 }
             }
-            webcamTexture = new WebCamTexture(frontCamName, width, height, requestedFPS);
+
             height=Screen.height;
             width= Screen.width;
+            webcamTexture = new WebCamTexture(frontCamName, width, height, requestedFPS);
+            
             
             cameraView.texture = webcamTexture;
             if(Application.platform == RuntimePlatform.IPhonePlayer)
@@ -201,10 +205,11 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             }
             webcamTexture.Play();
             Debug.Log($"Starting camera: {frontCamName}");
+            
         }
         catch (Exception e)
         {  
-            webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height); 
+            webcamTexture = new WebCamTexture(WebCamTexture.devices[0].name, Screen.width, Screen.height,requestedFPS); 
             cameraView.texture = webcamTexture;
             webcamTexture.Play();
             Debug.Log(e.Message);
@@ -568,7 +573,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             worldJoints[i] = new Vector4(p.x, p.y, p.z, joints[i].w);
         }
 
-
+       
 
 		// Draw
 		if (_drawStickFigure){

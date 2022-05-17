@@ -18,8 +18,8 @@ public class ChairSitToStand : Pose
                     PoseLandmarkDetect.RIGHT_EYE,
                     PoseLandmarkDetect.LEFT_HIP,
                     PoseLandmarkDetect.RIGHT_HIP,
-                    PoseLandmarkDetect.LEFT_ANKLE,
-                    PoseLandmarkDetect.RIGHT_ANKLE,
+                    PoseLandmarkDetect.LEFT_KNEE,
+                    PoseLandmarkDetect.RIGHT_KNEE,
                     
 
                 };
@@ -35,7 +35,7 @@ public class ChairSitToStand : Pose
             name = "Chair Sit to Stand";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Chair_Sit_to_Stand", true,7.5f,6.5f);
+            processor = new PoseClassifierProcessor("Chair_Sit_to_Stand", true,5f,4f);
         }
 
        public override bool IsFinished(Result result, Text t)

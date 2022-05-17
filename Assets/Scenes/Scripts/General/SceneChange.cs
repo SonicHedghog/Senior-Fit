@@ -259,7 +259,8 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 3;
         req_fps = 30;
-        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+        LoadWorkoutScene();
+      /*  bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
 #endif
@@ -282,7 +283,7 @@ public class SceneChange : MonoBehaviour
             {
                 SceneManager.LoadScene("WorkoutSpace");
             }
-        }
+        }*/
 
     }
 
@@ -290,7 +291,7 @@ public class SceneChange : MonoBehaviour
     {
        
         exercisenumber = 4;
-        req_fps = 30;
+        req_fps = 20;
         LoadWorkoutScene();
 
     }
@@ -298,14 +299,14 @@ public class SceneChange : MonoBehaviour
     public void MarchinginPlace()
     {
         exercisenumber=5;
-        req_fps=30;
+        req_fps=25;
         LoadWorkoutScene();
     }
 
      public void SeatedHamstringStretch()
     {
         exercisenumber=6;
-        req_fps=30;
+        req_fps=25;
         LoadWorkoutScene();
     }
 

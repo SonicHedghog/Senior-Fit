@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.3038264
+  m_AspectRatio: 1.0128812
 --- !u!1 &285458467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,7 +2061,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889489328}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1889489330
 Camera:
   m_ObjectHideFlags: 0

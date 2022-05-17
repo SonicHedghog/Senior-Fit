@@ -33,7 +33,7 @@ public class MarchingInPlace : Pose
             name = "Marching in Place";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Marching_in_Place", true,7.5f,6.5f);
+            processor = new PoseClassifierProcessor("Marching_in_Place", true,7.5f,7.0f);
         }     
         public override bool IsFinished(Result result, Text t)
         {
