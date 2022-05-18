@@ -3469,7 +3469,7 @@ GameObject:
   - component: {fileID: 600600237}
   - component: {fileID: 600600236}
   m_Layer: 5
-  m_Name: exercise2
+  m_Name: ShouldetTouch_tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3538,8 +3538,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
-        m_MethodName: StartShoulderTouch
+      - m_Target: {fileID: 746406031}
+        m_MethodName: ShoulderTouchTutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4201,6 +4201,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 737635544}
   m_CullTransparentMesh: 0
+--- !u!1 &746406028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 746406029}
+  - component: {fileID: 746406031}
+  - component: {fileID: 746406030}
+  m_Layer: 0
+  m_Name: SceneChange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &746406029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746406028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -26.46172, y: -4.7567177, z: 0.000007629394}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &746406030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746406028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8badba9ab52f9f543941a63cb7026ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackInput: {fileID: 0}
+  fname: 
+  lname: 
+  contactNo: 0
+  currentDate: 
+  currentTime: 
+  feedback: 
+  IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
+  CognitoPoolRegion: us-east-2
+  DynamoRegion: us-east-2
+--- !u!114 &746406031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746406028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40904bcbe61fab84fb5f5513231e1651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &764268360
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,7 +4509,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: Walk
         m_Mode: 1
         m_Arguments:
@@ -5458,7 +5524,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2117170674}
   - {fileID: 1353819825}
   - {fileID: 1388155628}
   - {fileID: 2019439418}
@@ -5520,7 +5585,7 @@ GameObject:
   - component: {fileID: 882835247}
   - component: {fileID: 882835246}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: SeatedHamstring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5589,7 +5654,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: SeatedHamstringStretch
         m_Mode: 1
         m_Arguments:
@@ -5719,7 +5784,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 0}
         m_MethodName: QuitTheGame
         m_Mode: 1
         m_Arguments:
@@ -6361,7 +6426,7 @@ GameObject:
   - component: {fileID: 1019160062}
   - component: {fileID: 1019160061}
   m_Layer: 5
-  m_Name: exercise3
+  m_Name: ShoulderTouch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6430,7 +6495,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: StartShoulderTouch
         m_Mode: 1
         m_Arguments:
@@ -9212,7 +9277,7 @@ GameObject:
   - component: {fileID: 1318162147}
   - component: {fileID: 1318162146}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: Marching
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9281,7 +9346,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: MarchingTutorial
         m_Mode: 1
         m_Arguments:
@@ -9420,7 +9485,7 @@ GameObject:
   - component: {fileID: 1353819827}
   - component: {fileID: 1353819826}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: SingleLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9439,7 +9504,7 @@ RectTransform:
   m_Children:
   - {fileID: 674896521}
   m_Father: {fileID: 869514167}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9489,7 +9554,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: SingleLegStance
         m_Mode: 1
         m_Arguments:
@@ -9728,7 +9793,7 @@ GameObject:
   - component: {fileID: 1368434992}
   - component: {fileID: 1368434991}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: ChairSit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9797,7 +9862,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: ChairSitToStand
         m_Mode: 1
         m_Arguments:
@@ -10183,7 +10248,7 @@ RectTransform:
   m_Children:
   - {fileID: 1038743662}
   m_Father: {fileID: 869514167}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10777,7 +10842,7 @@ GameObject:
   - component: {fileID: 1454181349}
   - component: {fileID: 1454181348}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: singleLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10846,7 +10911,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: SingleLegStanceTutorial
         m_Mode: 1
         m_Arguments:
@@ -12873,86 +12938,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722734355}
   m_CullTransparentMesh: 0
---- !u!1 &1733542854
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1733542855}
-  - component: {fileID: 1733542857}
-  - component: {fileID: 1733542856}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1733542855
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733542854}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2117170674}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1733542856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733542854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.03137255, g: 0.039215688, b: 0.21960784, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
-    m_FontStyle: 1
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'Shoulder Touch
-
-'
---- !u!222 &1733542857
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733542854}
-  m_CullTransparentMesh: 0
 --- !u!1 &1745563970
 GameObject:
   m_ObjectHideFlags: 0
@@ -13903,8 +13888,6 @@ GameObject:
   - component: {fileID: 1810185401}
   - component: {fileID: 1810185400}
   - component: {fileID: 1810185399}
-  - component: {fileID: 1810185403}
-  - component: {fileID: 1810185402}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -13977,40 +13960,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1810185402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810185398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8badba9ab52f9f543941a63cb7026ec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  feedbackInput: {fileID: 0}
-  fname: 
-  lname: 
-  contactNo: 0
-  currentDate: 
-  currentTime: 
-  feedback: 
-  IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
-  CognitoPoolRegion: us-east-2
-  DynamoRegion: us-east-2
---- !u!114 &1810185403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810185398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40904bcbe61fab84fb5f5513231e1651, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1826292719
 GameObject:
   m_ObjectHideFlags: 0
@@ -14344,7 +14293,7 @@ GameObject:
   - component: {fileID: 1898998109}
   - component: {fileID: 1898998108}
   m_Layer: 5
-  m_Name: exercise3
+  m_Name: ShoulderTouch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14413,7 +14362,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: ShoulderTouchTutorial
         m_Mode: 1
         m_Arguments:
@@ -15061,7 +15010,7 @@ GameObject:
   - component: {fileID: 1949065254}
   - component: {fileID: 1949065253}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: Marching
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15130,7 +15079,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: MarchinginPlace
         m_Mode: 1
         m_Arguments:
@@ -15820,7 +15769,7 @@ RectTransform:
   m_Children:
   - {fileID: 1639870005}
   m_Father: {fileID: 869514167}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16001,7 +15950,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 0}
         m_MethodName: OpenFB
         m_Mode: 1
         m_Arguments:
@@ -16151,7 +16100,7 @@ GameObject:
   - component: {fileID: 2032554933}
   - component: {fileID: 2032554932}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: ChairSit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16220,7 +16169,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: ChairSitTutorial
         m_Mode: 1
         m_Arguments:
@@ -16436,7 +16385,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Single Leg Stance
+  m_Text: '
 
 '
 --- !u!222 &2058087087
@@ -16978,136 +16927,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112977350}
   m_CullTransparentMesh: 0
---- !u!1 &2117170673
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2117170674}
-  - component: {fileID: 2117170677}
-  - component: {fileID: 2117170676}
-  - component: {fileID: 2117170675}
-  m_Layer: 5
-  m_Name: exercise2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &2117170674
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117170673}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1733542855}
-  m_Father: {fileID: 869514167}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000044838, y: -30}
-  m_SizeDelta: {x: 500, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2117170675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117170673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.92156863, g: 1, b: 1, a: 0.65882355}
-    m_PressedColor: {r: 0.92156863, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 0.92156863, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2117170676}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1810185403}
-        m_MethodName: StartShoulderTouch
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &2117170676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117170673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &2117170677
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117170673}
-  m_CullTransparentMesh: 0
 --- !u!1 &2134307309
 GameObject:
   m_ObjectHideFlags: 0
@@ -17349,7 +17168,7 @@ GameObject:
   - component: {fileID: 2142270986}
   - component: {fileID: 2142270985}
   m_Layer: 5
-  m_Name: exercise1
+  m_Name: SeatedHamstring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17418,7 +17237,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810185403}
+      - m_Target: {fileID: 746406031}
         m_MethodName: SeatedHamstringTutorial
         m_Mode: 1
         m_Arguments:

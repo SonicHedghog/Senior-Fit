@@ -55,7 +55,7 @@ namespace Poses
                 // case 0:
                 //     return CheckLeftLeg(result, t, i);
                 // case 2:
-                //     return CheckRightLeg(result, t, i);
+                 //    return CheckRightLeg(result, t, i);
                 default:
                     return CountDown(t);
             }
@@ -63,9 +63,15 @@ namespace Poses
 
         bool CheckLeftLeg(List<string> poses, Text t)
         {
+           
             if(poses[0] == "Single_Leg_Stance_Left")
             {
-                if(waitTime <= 0)
+                Debug.Log("Wait time: "+waitTime);
+                if(waitTime>0)
+                { //waitTime -= Time.deltaTime; NoRepAction(t);
+                 Debug.Log("Wait time: "+waitTime); }
+
+                else if(waitTime <= 0)
                 {
                     if(correctCounts/4 > incorrectCounts)
                     {
@@ -78,7 +84,8 @@ namespace Poses
                     correctCounts = 0;
                     incorrectCounts = 0;
                 }
-                else { waitTime -= Time.deltaTime; NoRepAction(t); }
+                else;
+                
                 correctCounts++;
             }
             else
@@ -97,6 +104,7 @@ namespace Poses
 
             if(poses[0] == "Single_Leg_Stance_Right")
             {
+                Debug.Log("Wait time: "+waitTime);
                 if(waitTime <= 0)
                 {
                     if(correctCounts/4 > incorrectCounts)
@@ -156,6 +164,7 @@ namespace Poses
             {
                 Debug.Log("Important: " + s);
             }
+            Debug.Log("leg check :"+legCheck);
             
             switch(legCheck)
             {

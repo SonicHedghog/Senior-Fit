@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+
 #if UNITY_ANDROID
 using UnityEngine.Android;
 using Unity.Notifications.Android;
@@ -7,6 +8,7 @@ using Unity.Notifications.Android;
 #if UNITY_IOS
 using Unity.Notifications.iOS;
 #endif
+
 using UnityEngine.SceneManagement;
 
 
@@ -35,6 +37,8 @@ public class SceneChange : MonoBehaviour
         
 
         Debug.Log("Saved user info : "+data.fname+data.lname+data.contactno+data.LoginTime);
+
+        
         #if UNITY_ANDROID
         var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
         if (notificationIntentData != null)
@@ -89,8 +93,11 @@ public class SceneChange : MonoBehaviour
             SaveUserData.UpdateUserVersion(s);
         }
         #endif
+        
+        
 
     }
+    
 
 #if UNITY_ANDROID
     public void ScheduleAndroidNotifications()
@@ -167,6 +174,7 @@ public class SceneChange : MonoBehaviour
         Debug.Log("App Updated : notification successful");
     }
 #endif
+
 
     public void OpenFB()
     {
@@ -413,6 +421,7 @@ public class SceneChange : MonoBehaviour
     }
 
     int count=0;
+  
     public void EventAlarmTest(int minutesOnTheHour, string firstname, string body,string link)
     {
 
