@@ -60,10 +60,12 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     public UnityEngine.Video.VideoPlayer videoPlayer;
     private bool menu = false;
     public Text exerciseName;
+    public Text timeText;
     public Text resultText;
     [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
     public int requestedFPS;
-
+    public float time1 = 0, time2 = 0, Time_duration=0,new_duration=0,pauseTime1=0,pauseTime2=0;
+    public float hours,minutes, seconds;
     private Interpreter script;
 
     [SerializeField, Range(0f, 1f)] float visibilityThreshold = 0.5f;
@@ -295,9 +297,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
            
            Debug.LogWarning("No internet connection");
         }*/
-
-        
-
+        time1 = Time.time;
     }
     
      void updateAWSTable()
@@ -367,7 +367,32 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         draw?.Dispose();
     }
 
-   
+   public void ShowTime()
+    {
+        time2 = Time.unscaledTime;
+        Time_duration=(time2-time1)-new_duration;
+
+        if(timeText is null) timeText = GameObject.Find("Time").GetComponent<Text>();
+        if (Time_duration > 0)
+        {
+
+            hours = (int)(Time_duration / 3600);
+            minutes = ((Time_duration % 3600) / 60);
+            seconds = (int)(Time_duration % 60);
+
+            if (hours > 0)
+                timeText.text = $"{hours} hrs {(int)minutes} mins {seconds} seconds";
+            else if(hours==0 && minutes>0)
+            {
+                timeText.text = $"{(int)minutes} mins {seconds} seconds";
+
+            }
+            else
+            {
+                timeText.text = $"{seconds} seconds";
+            }
+        }
+    }
 
     void Update()
     {
@@ -435,13 +460,20 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             webcamTexture.Pause();
             videoPlayer.Pause();
             menu = true;
+            pauseTime1=Time.unscaledTime;
+            new_duration=0;
+            Debug.Log("puz: " + pauseTime1 + " " + pauseTime2);
         }
         else if(menu && !PauseMenu.GetIsPaused())
         {
             webcamTexture.Play();
             videoPlayer.Play();
             menu = false;
+            pauseTime2=Time.unscaledTime;
+            new_duration=pauseTime2-pauseTime1;
+            Debug.Log("puz: " + pauseTime1 + " " + pauseTime2);
         }
+        if(!PauseMenu.GetIsPaused()) ShowTime();
 
         if(ResultUI!=null) ResultUI.SetActive(true);
         if (runBackground)
