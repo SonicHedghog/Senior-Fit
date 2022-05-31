@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class LoadPlugins : MonoBehaviour
 {
     [SerializeField] public Text latText;
@@ -10,6 +10,7 @@ public class LoadPlugins : MonoBehaviour
     public Button StopWalking;
 
     public Button PauseTimer;
+    public Button Back;
     public Text GPSStatus;
     public Text timestamp;
     public bool pause=false;
@@ -76,6 +77,7 @@ public class LoadPlugins : MonoBehaviour
 
         StartWalking.gameObject.SetActive(false);
         PauseTimer.gameObject.SetActive(true);
+        Back.gameObject.SetActive(false);
     }
      public void stopPlugin()
     {
@@ -91,6 +93,7 @@ public class LoadPlugins : MonoBehaviour
         #endif
 
         StartWalking.gameObject.SetActive(true);
+        Back.gameObject.SetActive(true);
     }
 
      public void OnClickPauseTimer()
@@ -116,5 +119,10 @@ public class LoadPlugins : MonoBehaviour
              PauseTimer.Text=="Pause Timer";
          }*/
           locationService.OnClickPauseTimer();
+     }
+
+     public void LoadMainMenu()
+     {
+          SceneManager.LoadScene("MainMenu");
      }
 }

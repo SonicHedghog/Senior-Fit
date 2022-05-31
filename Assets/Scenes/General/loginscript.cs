@@ -4,6 +4,7 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+
 #if UNITY_ANDROID
 
 using Unity.Notifications.Android;
@@ -26,6 +27,7 @@ public class loginscript : MonoBehaviour
     public Button loginButton;
     public InputField firstname;
     public InputField lastname;
+    public Text DisclaimerText;
 
     public InputField ContactNumber;
     public long contactno;
@@ -150,7 +152,7 @@ public class loginscript : MonoBehaviour
         LoginTime=DateTime.Now;
         version=SaveData.IsNotificationScheduled();
         SaveUserData.SaveUser(this);
-        SceneManager.LoadScene("MainMenu");
+        
         int time=0;
         string body;
         
@@ -166,10 +168,22 @@ public class loginscript : MonoBehaviour
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");
         }
+        showDisclaimer();
+        //SceneManager.LoadScene("MainMenu");
+       
+    
+    }
+
+    public void showDisclaimer()
+    {
+        DisclaimerText.text="Disclaimer: Note that you are not being recorded.\nWe are using your phone camera to capture your movement to count the exercise repetition, and we do NOT store any of your recordings.";
+
         
 
-
-
+    }
+    public void LoadStartMenu()
+    {
+            SceneManager.LoadScene("MainMenu");
     }
 
     public static List<string> GetLink()

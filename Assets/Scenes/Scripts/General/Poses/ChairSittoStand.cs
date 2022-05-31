@@ -1,4 +1,4 @@
-﻿using static TensorFlowLite.PoseLandmarkDetect;
+using static TensorFlowLite.PoseLandmarkDetect;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
@@ -9,7 +9,7 @@ namespace Poses
 {
 public class ChairSitToStand : Pose
 {
-    public static new int[] required
+     public static new int[] required
         {
             get
             {
@@ -18,8 +18,8 @@ public class ChairSitToStand : Pose
                     PoseLandmarkDetect.RIGHT_EYE,
                     PoseLandmarkDetect.LEFT_HIP,
                     PoseLandmarkDetect.RIGHT_HIP,
-                    PoseLandmarkDetect.LEFT_KNEE,
-                    PoseLandmarkDetect.RIGHT_KNEE,
+                    PoseLandmarkDetect.LEFT_ANKLE,
+                    PoseLandmarkDetect.RIGHT_ANKLE,
                     
 
                 };
@@ -35,7 +35,7 @@ public class ChairSitToStand : Pose
             name = "Chair Sit to Stand";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Chair_Sit_to_Stand", true,5f,4f);
+            processor = new PoseClassifierProcessor("Chair_Sit_to_Stand", true,7.5f,6.5f);
         }
 
        public override bool IsFinished(Result result, Text t)
