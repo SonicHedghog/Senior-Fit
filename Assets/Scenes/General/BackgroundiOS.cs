@@ -149,8 +149,6 @@ public class BackgroundiOS : MonoBehaviour {
         current_date = DateTime.Now.ToString("yyyy/MM/dd");
         start_time = DateTime.Now.ToString("HH:mm:ss");
       
-        time1 = Time.time;
-
         LoadMessages();
     }
 
@@ -161,6 +159,8 @@ public class BackgroundiOS : MonoBehaviour {
 
         backgroundLaunch (fname,lname,contactno,start_time,current_date, Application.persistentDataPath + "/userlocation.json");
         walkStart = true;
+        time1 = Time.unscaledTime;
+        pause=false;
 		#endif
 	}
 
@@ -170,6 +170,7 @@ public class BackgroundiOS : MonoBehaviour {
 		#elif UNITY_IOS
 			backgroundStop ();
             walkStart=false;
+            pause=false;
 		#endif
         SceneManager.LoadScene("MainMenu");
 	}
@@ -182,7 +183,7 @@ public class BackgroundiOS : MonoBehaviour {
         {
             pause=true;
             pauseTime1=Time.unscaledTime;
-            new_duration=0;
+            // new_duration=0;
 
 
         }
@@ -190,7 +191,7 @@ public class BackgroundiOS : MonoBehaviour {
         {
             pause=false;
             pauseTime2=Time.unscaledTime;
-            new_duration=pauseTime2-pauseTime1;
+            new_duration=new_duration+(pauseTime2-pauseTime1);
         }
 
     }	
@@ -215,32 +216,7 @@ public class BackgroundiOS : MonoBehaviour {
             fileContents="empty";
             status="false";
             Debug.Log("File not found!");
-            
-        }
-        if ((time2 - time1) > 0)
-        {
-            minute = (int)((time2 - time1) / 60);
-            second = (int)((time2 - time1) % 60);
-
-            if (minute % 5 == 0)
-            {
-                var r = new System.Random();
-                var randomLineNumber = r.Next(0, lines.Length - 1);
-
-                string line = lines[randomLineNumber];
-                GPSStatus.text = line;
-
-            }
-        }
-
-        else
-        {
-            //timestamp.text = "Total time: 0 seconds";
-            GPSStatus.text = "Let's get started!!";
-
-        }
-        if(latText is null) latText = GameObject.Find("Latitude").GetComponent<Text>();
-        latText.text =fileContents.Length.ToString();       
+        }    
     }
 
     private void OnDistanceChanged(string message)
@@ -257,9 +233,8 @@ public class BackgroundiOS : MonoBehaviour {
 
     public void ShowTime()
     {
-         time2 = Time.unscaledTime;
-         //Debug.Log("Time 2 "+time2);
-       // Time_duration=time2-time1;
+        time2 = Time.unscaledTime;
+        //Debug.Log("Time 2 "+time2);
        Time_duration=(time2-time1)-new_duration;
 
         if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();

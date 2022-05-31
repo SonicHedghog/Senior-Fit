@@ -83,6 +83,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     CancellationToken cancellationToken;
     public int width;
     public int height;
+    public bool nameSet = false;
 
     // ***************AWS set up*******************************************
 
@@ -297,7 +298,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
            
            Debug.LogWarning("No internet connection");
         }*/
-        time1 = Time.time;
     }
     
      void updateAWSTable()
@@ -396,6 +396,13 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     void Update()
     {
+        if(exerciseName.text != "Exercise Name" && !nameSet)
+        {
+            time1 = Time.unscaledTime;
+            nameSet = true;
+        }
+        else if(exerciseName.text == "Excercise Name") nameSet = false;
+
         string path = Application.persistentDataPath + "/RepCount.txt";
         if (File.Exists(path))
         {
@@ -461,7 +468,6 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             videoPlayer.Pause();
             menu = true;
             pauseTime1=Time.unscaledTime;
-            new_duration=0;
             Debug.Log("puz: " + pauseTime1 + " " + pauseTime2);
         }
         else if(menu && !PauseMenu.GetIsPaused())
@@ -470,10 +476,10 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             videoPlayer.Play();
             menu = false;
             pauseTime2=Time.unscaledTime;
-            new_duration=pauseTime2-pauseTime1;
+            new_duration=new_duration+(pauseTime2-pauseTime1);
             Debug.Log("puz: " + pauseTime1 + " " + pauseTime2);
         }
-        if(!PauseMenu.GetIsPaused()) ShowTime();
+        if(!PauseMenu.GetIsPaused() && exerciseName.text != "Exercise Name") ShowTime();
 
         if(ResultUI!=null) ResultUI.SetActive(true);
         if (runBackground)
