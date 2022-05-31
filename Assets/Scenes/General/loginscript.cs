@@ -25,6 +25,7 @@ public class loginscript : MonoBehaviour
 {
     // Start is called before the first frame update
     public Button loginButton;
+    public Button okButton;
     public InputField firstname;
     public InputField lastname;
     public Text DisclaimerText;
@@ -56,12 +57,13 @@ public class loginscript : MonoBehaviour
     {
         //UnityInitializer.AttachToGameObject(this.gameObject);
         loginButton.onClick.AddListener(LoginButtonClick);
+        okButton.onClick.AddListener(LoadStartMenu);
         newnotification = SaveData.LoadNotifications();
         foreach (UserNotification noti in newnotification.allnotifications)
         {
             new_url.Add(noti.url);
         }
-        
+        showDisclaimer();
         //DontDestroyOnLoad(this.gameObject);
         
 
@@ -168,7 +170,7 @@ public class loginscript : MonoBehaviour
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");
         }
-        showDisclaimer();
+        //showDisclaimer();
         //SceneManager.LoadScene("MainMenu");
        
     
@@ -184,6 +186,7 @@ public class loginscript : MonoBehaviour
     public void LoadStartMenu()
     {
             SceneManager.LoadScene("MainMenu");
+            Debug.Log("concent button clicked");
     }
 
     public static List<string> GetLink()
