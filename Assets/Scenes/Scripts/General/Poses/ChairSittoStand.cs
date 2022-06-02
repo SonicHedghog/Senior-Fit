@@ -9,7 +9,7 @@ namespace Poses
 {
 public class ChairSitToStand : Pose
 {
-     public static new int[] required
+    public static new int[] required
         {
             get
             {
@@ -35,7 +35,7 @@ public class ChairSitToStand : Pose
             name = "Chair Sit to Stand";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Chair_Sit_to_Stand", true,7.5f,6.5f);
+            processor = new PoseClassifierProcessor("Chair_Sit_to_Stand", true,7.5f,6f);
         }
 
        public override bool IsFinished(Result result, Text t)

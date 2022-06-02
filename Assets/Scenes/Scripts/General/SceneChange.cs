@@ -299,7 +299,7 @@ public class SceneChange : MonoBehaviour
     {
        
         exercisenumber = 4;
-        req_fps = 20;
+        req_fps = 25;
         LoadWorkoutScene();
 
     }
