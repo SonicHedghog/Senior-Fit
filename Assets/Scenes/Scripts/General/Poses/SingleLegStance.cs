@@ -1,4 +1,4 @@
-using static TensorFlowLite.PoseNet;
+using static TensorFlowLite.PoseLandmarkDetect;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
@@ -28,7 +28,45 @@ namespace Poses
 
         PoseClassifierProcessor processor;
         String lastExercise = "";
-        byte legCheck = 0;
+
+        
+        bool legCheck = false;
+        public SingleLegStance(string repCount) : base(repCount) 
+        { 
+            name = "Single Leg Stance";
+
+            // Set up Pose Classifier Processor
+            processor = new PoseClassifierProcessor("Single_Leg_Stance", true,8.5f,7.0f);
+        }     
+        public override bool IsFinished(Result result, Text t)
+        {
+            if(result == null) return false;
+            foreach (int x in required)
+            {
+                if(result.joints[x].w < .5f) return false;
+            }
+
+            List<string> poses = processor.getPoseResult(result);
+            foreach(string s in poses)
+            {
+                Debug.Log("Important: " + s);
+            }
+            
+            if(poses[0] != lastExercise)
+            {
+                RepAction(t);
+                _repCount --;
+                lastExercise = poses[0];
+            }
+            else NoRepAction(t);
+            return _repCount == 0;
+        }
+
+        
+
+        public override bool IsFinished(TensorFlowLite.PoseNet.Result[] result, Text t){ return false; }
+    }
+        /*byte legCheck = 0;
         float setTime = 7;
         float waitTime = 3;
         int correctCounts = 0;
@@ -55,7 +93,7 @@ namespace Poses
                 // case 0:
                 //     return CheckLeftLeg(result, t, i);
                 // case 2:
-                 //    return CheckRightLeg(result, t, i);
+                //     return CheckRightLeg(result, t, i);
                 default:
                     return CountDown(t);
             }
@@ -63,15 +101,9 @@ namespace Poses
 
         bool CheckLeftLeg(List<string> poses, Text t)
         {
-           
             if(poses[0] == "Single_Leg_Stance_Left")
             {
-                Debug.Log("Wait time: "+waitTime);
-                if(waitTime>0)
-                { //waitTime -= Time.deltaTime; NoRepAction(t);
-                 Debug.Log("Wait time: "+waitTime); }
-
-                else if(waitTime <= 0)
+                if(waitTime <= 0)
                 {
                     if(correctCounts/4 > incorrectCounts)
                     {
@@ -84,8 +116,7 @@ namespace Poses
                     correctCounts = 0;
                     incorrectCounts = 0;
                 }
-                else;
-                
+                else { waitTime -= Time.deltaTime; NoRepAction(t); }
                 correctCounts++;
             }
             else
@@ -104,7 +135,6 @@ namespace Poses
 
             if(poses[0] == "Single_Leg_Stance_Right")
             {
-                Debug.Log("Wait time: "+waitTime);
                 if(waitTime <= 0)
                 {
                     if(correctCounts/4 > incorrectCounts)
@@ -164,7 +194,6 @@ namespace Poses
             {
                 Debug.Log("Important: " + s);
             }
-            Debug.Log("leg check :"+legCheck);
             
             switch(legCheck)
             {
@@ -176,6 +205,6 @@ namespace Poses
                     return CountDown(t);
             }
         } 
-    }   
+    }   */
 
 }

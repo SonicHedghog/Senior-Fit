@@ -28,7 +28,44 @@ namespace Poses
             }
         }
 
-        int legCheck = 0;
+        bool legCheck = false;
+        public SeatedHamstringStretch(string repCount) : base(repCount) 
+        { 
+            name = "Seated Hamstring Stretch";
+
+            // Set up Pose Classifier Processor
+            processor = new PoseClassifierProcessor("Seated_Hamstring_Stretch_CSV", true,7.0f,6.0f);
+        }     
+        public override bool IsFinished(Result result, Text t)
+        {
+            if(result == null) return false;
+            foreach (int x in required)
+            {
+                if(result.joints[x].w < .5f) return false;
+            }
+
+            List<string> poses = processor.getPoseResult(result);
+            foreach(string s in poses)
+            {
+                Debug.Log("Important: " + s);
+            }
+            
+            if(poses[0] != lastExercise)
+            {
+                RepAction(t);
+                _repCount --;
+                lastExercise = poses[0];
+            }
+            else NoRepAction(t);
+            return _repCount == 0;
+        }
+
+        
+
+        public override bool IsFinished(TensorFlowLite.PoseNet.Result[] result, Text t){ return false; }
+    }
+
+        /*int legCheck = 0;
         float setTime = 7;
         float waitTime = 3;
         int correctCounts = 0;
@@ -152,5 +189,6 @@ namespace Poses
 
         public override bool IsFinished(TensorFlowLite.PoseNet.Result[] result, Text t){ return false; }
     }
+*/
 
 }
