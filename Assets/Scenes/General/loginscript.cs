@@ -4,7 +4,6 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
 #if UNITY_ANDROID
 
 using Unity.Notifications.Android;
@@ -25,10 +24,8 @@ public class loginscript : MonoBehaviour
 {
     // Start is called before the first frame update
     public Button loginButton;
-    public Button okButton;
     public InputField firstname;
     public InputField lastname;
-    public Text DisclaimerText;
 
     public InputField ContactNumber;
     public long contactno;
@@ -57,13 +54,12 @@ public class loginscript : MonoBehaviour
     {
         //UnityInitializer.AttachToGameObject(this.gameObject);
         loginButton.onClick.AddListener(LoginButtonClick);
-        okButton.onClick.AddListener(LoadStartMenu);
         newnotification = SaveData.LoadNotifications();
         foreach (UserNotification noti in newnotification.allnotifications)
         {
             new_url.Add(noti.url);
         }
-        showDisclaimer();
+        
         //DontDestroyOnLoad(this.gameObject);
         
 
@@ -154,7 +150,7 @@ public class loginscript : MonoBehaviour
         LoginTime=DateTime.Now;
         version=SaveData.IsNotificationScheduled();
         SaveUserData.SaveUser(this);
-        
+        SceneManager.LoadScene("MainMenu");
         int time=0;
         string body;
         
@@ -170,23 +166,10 @@ public class loginscript : MonoBehaviour
             EventAlarmTest(time, fname, body,link);
             Debug.Log("notification successful");
         }
-        //showDisclaimer();
-        //SceneManager.LoadScene("MainMenu");
-       
-    
-    }
-
-    public void showDisclaimer()
-    {
-        DisclaimerText.text="Disclaimer: Note that you are not being recorded.\nWe are using your phone camera to capture your movement to count the exercise repetition, and we do NOT store any of your recordings.";
-
         
 
-    }
-    public void LoadStartMenu()
-    {
-            SceneManager.LoadScene("MainMenu");
-            Debug.Log("concent button clicked");
+
+
     }
 
     public static List<string> GetLink()
@@ -236,13 +219,16 @@ public class loginscript : MonoBehaviour
         }
     }
     #elif UNITY_IOS
-    void SetUpIOSNotifications(int minutesOnTheHour, string firstname, string body,string link)
+    void SetUpIOSNotifications(int days, string firstname, string body,string link)
     {
         RequestAuthorization();
+        DateTime date = DateTime.Now.AddDays(days);
 
-        var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+        var timeTrigger = new iOSNotificationCalendarTrigger()
         {
-            TimeInterval = new TimeSpan(minutesOnTheHour, 0, 0),
+            Year = date.Year,
+            Month = date.Month,
+            Day = date.Day,
             Repeats = false
         };
 
