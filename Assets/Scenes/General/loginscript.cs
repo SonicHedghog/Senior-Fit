@@ -236,13 +236,16 @@ public class loginscript : MonoBehaviour
         }
     }
     #elif UNITY_IOS
-    void SetUpIOSNotifications(int minutesOnTheHour, string firstname, string body,string link)
+    void SetUpIOSNotifications(int days, string firstname, string body,string link)
     {
         RequestAuthorization();
+        DateTime date = DateTime.Now.AddDays(days);
 
-        var timeTrigger = new iOSNotificationTimeIntervalTrigger()
+        var timeTrigger = new iOSNotificationCalendarTrigger()
         {
-            TimeInterval = new TimeSpan(minutesOnTheHour, 0, 0),
+            Year = date.Year,
+            Month = date.Month,
+            Day = date.Day,
             Repeats = false
         };
 
