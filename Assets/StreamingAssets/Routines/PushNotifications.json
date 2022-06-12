@@ -6,12 +6,12 @@
 			"interval":2
 		},
 		{
-			"message": "Do you know the app offers indoor exercises? Try them now from home. Let us know if you have questions",
+			"message": "Do you know the app offers indoor exercises? Try them now from home. Let us know if you have questions\n",
 			"url": "",
 			"interval":4
 		},
 		{
-			"message": "Staying motivated is difficult. Here's some tips on how to stay the course and become resilient.",
+			"message": "Staying motivated is difficult but you can make differences from today! Try the app today and make plans to stay the course and become resilient.\n",
 			"url": "",
 			"interval":6
 		},
@@ -51,7 +51,7 @@
 			"interval":20
 		},
 		{
-			"message": " Enjoy exercising outside? Here are some important things to remember to maximize safety while outdoors.\n ",
+			"message": " Enjoy exercising outside? Here are some important things to remember to maximize safety while outdoors. Go to this link and find out! \n ",
 			"url": "https://www.nia.nih.gov/health/exercising-outdoors",
 			"interval":22
 		},
@@ -71,7 +71,7 @@
 			"interval":28
 		},
 		{
-			"message": "Want to be healthier? Doctors recommend adding more fiber, fruits, and vegetables to your daily diet.\n",
+			"message": "Want to be healthier? Doctors recommend adding more fiber, fruits, and vegetables to your daily diet. Read this article! \n",
 			"url": "https://bit.ly/3wBSZwu",
 			"interval":30
 		},
@@ -106,7 +106,7 @@
 			"interval":42
 		},
 		{
-			"message": "Did you know including balance training in your exercise routine can increase coordination, improve joint stability, and reduce your risk of falling? Watch videos to get you going.",
+			"message": "Did you know including balance training in your exercise routine can increase coordination, improve joint stability, and reduce your risk of falling? Use the app and get you going.",
 			"url": "",
 			"interval":44
 		},
@@ -141,8 +141,8 @@
 			"interval":56
 		},
 		{
-			"message": "Whenever you need a break, consider going out side for some fresh air. Let us know how it goes.",
-			"url": "",
+			"message": " Whenever you need a break, consider going out side for some fresh air. Let us know in Facebook group how it goes.\n",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
 			"interval":58
 		},
 		{
@@ -201,12 +201,12 @@
 			"interval":80
 		},
 		{
-			"message": " Did you know staying physically active improves your cognitive health, like helping you think, learn, and problem-solve? Don't hesitate to contact us if you have any questions! ",
+			"message": " Did you know staying physically active improves your cognitive health, like helping you think, learn, and problem-solve? Don't hesitate to contact us via text or email if you have any questions!  ",
 			"url": "",
 			"interval":82
 		},
 		{
-			"message": " Find simple ways to make exercise fun and enjoyable! What about trying some new activities that keep you stay active?",
+			"message": "  Find simple ways to make exercise fun and enjoyable! What about trying some new activities that keep you stay active? Share your story in Facebook!",
 			"url": "",
 			"interval":84
 		},
@@ -226,7 +226,7 @@
 			"interval":90
 		},
 		{
-			"message": " Maintaining mobility is important for both the physical and mental health! Use the app and watch the videos of mobility exercises. ",
+			"message": " Maintaining mobility is important for both the physical and mental health! Use the app and watch the tutorial videos of mobility exercises. ",
 			"url": "",
 			"interval":92
 		},
@@ -299,8 +299,67 @@
 			"message": " Physical Activity benefits are not restricted to just the physical. Regular exercise can also decrease stress and improve sleep. ",
 			"url": "",
 			"interval":120
-		}
-		
+		},
+		{
+			"message": " Starting a new exercise routine can be fun, but struggling to reach your goals can get frustrating. Setting smaller goals that will help you work your way up to a larger goal can help get you back on track. ",
+			"url": "",
+			"interval":122
+		},
+		{
+			"message": " Would you like to share a story on your exercise routine? We are looking forward to hearing your story in the Facebook group!\n ",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":124
+		},
+		{
+			"message": " Concerned about exercising with a chronic condition? Here are some tips and tricks for navigating exercise with arthritis, chronic pain, and more.\n  ",
+			"url": "https://www.nia.nih.gov/health/exercising-chronic-conditions",
+			"interval":126
+		},
+		{
+			"message": " Did you watch your exercise video this week? If not, think about why that was and when you will watch them for this week.  ",
+			"url": "",
+			"interval":128
+		},
+		{
+			"message": " Being physically active benefits both body and mind. Take today to do the physical activity you enjoy the most. Don't forget to connect with us if you have any questions.  ",
+			"url": "",
+			"interval":130
+		},
+		{
+			"message": " Exercise and nutrition go hand in hand. Watch this video of Joan's health transformation.\n",
+			"url": "https://youtu.be/R-d7_Ij4geE",
+			"interval":132
+		},
+		{
+			"message": " Finding it difficult to fit in your workout? Try to incorporate your exercises into daily activities can help keep you on track to reach your goals.",
+			"url": "",
+			"interval":134
+		},
+		{
+			"message": " Daily walking helps keep your weight steady and strengthens your bones. Have you noticed any changes since you started using the Senior Fit app? Share your story with us on our facebook page.\n  ",
+			"url": "https://www.facebook.com/groups/seniorfitstudyphase2r1",
+			"interval":136
+		},
+		{
+			"message": " Meet Gale Lind, the 72-year-old fitness trainer who leads classes for those 50 and older.\n  ",
+			"url": "https://youtu.be/Ki3D27Lwwjo",
+			"interval":138
+		},
+		{
+			"message": " It is normal to feel unmotivated sometimes. Watching and following along to your exercise videos can help to keep you motivated. Give it a try today!  ",
+			"url": "",
+			"interval":140
+		},
+		{
+			"message": " Studies show that even a 10 minute walk immediatly boosts brain chemistry to increase happiness. Your exercise will also be waiting for you when you have time  ",
+			"url": "",
+			"interval":142
+		},
+		{
+			"message": " We hope that you have experienced some benefits from our program. We are truly grateful to work with you and thank you for your participation. Today is the last day that we send you the message but you will be able to use the app. We will reach out to you to walk you through the next steps.  ",
+			"url": "",
+			"interval":144
+		}			
 		
 	
 	]
