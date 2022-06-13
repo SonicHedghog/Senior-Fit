@@ -454,7 +454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -156, y: 120}
+  m_AnchoredPosition: {x: -150, y: 210}
   m_SizeDelta: {x: -500, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77574045
@@ -13758,8 +13758,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.5607, y: -113.76}
-  m_SizeDelta: {x: 694.5615, y: 771.75}
+  m_AnchoredPosition: {x: 3.7002, y: -63.1}
+  m_SizeDelta: {x: 713.0027, y: 522.74585}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777607309
 MonoBehaviour:
@@ -13810,7 +13810,7 @@ MonoBehaviour:
   m_LineType: 1
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 64
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -17190,7 +17190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 191.72, y: 120}
+  m_AnchoredPosition: {x: 210.2, y: 210}
   m_SizeDelta: {x: -500, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &2134307311
@@ -17337,8 +17337,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 10.099976, y: -309.5}
-  m_SizeDelta: {x: -74.11682, y: 258.998}
+  m_AnchoredPosition: {x: 3.6999512, y: -374}
+  m_SizeDelta: {x: -86.99774, y: 388.11444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2139140352
 MonoBehaviour:
@@ -17372,9 +17372,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hello there! Tell us what you think about the app. If you need technical
+  m_Text: 'Hello there! Tell us what you think about the app. If you need technical
     assistance or have questions about the app, please contact us via email/text/phone
     call!
+
+
+    (Limit 64 characters)'
 --- !u!222 &2139140353
 CanvasRenderer:
   m_ObjectHideFlags: 0
