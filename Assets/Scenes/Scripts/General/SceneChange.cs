@@ -116,7 +116,9 @@ public class SceneChange : MonoBehaviour
         //DateTime oldDate = data.LoginTime;
         //DateTime current=System.DateTime.Now;
         newnotification = SaveData.LoadNotifications();
+        #if UNITY_ANDROID
         AndroidNotificationCenter.CancelAllScheduledNotifications();
+        #endif
         foreach (UserNotification noti in newnotification.allnotifications)
         {
             //time=noti.interval/2;
