@@ -64,7 +64,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     public Text resultText;
     [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
     public int requestedFPS;
-    public float time1 = 0, time2 = 0, Time_duration=0,new_duration=0,pauseTime1=0,pauseTime2=0;
+    public float time1 = 0, time2 = 0, Time_duration = 0, new_duration = 0, pauseTime1 = 0, pauseTime2 = 0;
     public float hours,minutes, seconds;
     private Interpreter script;
 
@@ -582,7 +582,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
         // Apply webcam rotation to draw landmarks correctly
         Matrix4x4 mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, false, webcamTexture.videoVerticallyMirrored);
-        if(Application.platform == RuntimePlatform.IPhonePlayer && isFlipped) 
+        if(Application.platform == RuntimePlatform.IPhonePlayer && !isFlipped) 
         {
             mtx = WebCamUtil.GetMatrix(-webcamTexture.videoRotationAngle, true, webcamTexture.videoVerticallyMirrored);
         }
@@ -647,9 +647,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         cameraView.material = poseDetect.transformMat;
         cameraView.rectTransform.GetWorldCorners(rtCorners);
         Debug.Log("The World: " + rtCorners[0].x + " "  + rtCorners[3].x);
-        if(Application.platform == RuntimePlatform.IPhonePlayer && isFlipped)
+        if(Application.platform == RuntimePlatform.IPhonePlayer && !isFlipped)
         {
-            Vector3 pivot = new Vector3(0f,.5f,90f);
+            Vector3 pivot = new Vector3(0f,0f,90f);
  
             rtCorners[0] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[0] - pivot)) + pivot;
             rtCorners[1] = (Quaternion.Euler(new Vector3(0f, 180f, 0)) * (rtCorners[1] - pivot)) + pivot;
