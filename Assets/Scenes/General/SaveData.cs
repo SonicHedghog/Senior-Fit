@@ -35,7 +35,8 @@ public class SaveData
                 date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                repCount=newappuse.repCount
+                repCount=newappuse.repCount,
+                duration=newappuse.Time_duration
             });
 
 
@@ -58,7 +59,75 @@ public class SaveData
                 date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                repCount=newappuse.repCount
+                repCount=newappuse.repCount,
+                duration=newappuse.Time_duration
+            });
+
+
+
+
+
+            fileContents = JsonUtility.ToJson(gameData);
+
+            File.WriteAllText(path, fileContents);
+        }
+
+
+
+    }
+
+    //****for no camera*******************
+
+    public static void SaveIntoJson(NoCameraWorkout newappuse)
+    {
+        //UserData data = new UserData(newappuse);
+        string path = Application.persistentDataPath + "/UserData.json";
+        string fileContents;
+        UserList gameData = new UserList();
+
+        if (File.Exists(path))
+        {
+            fileContents = File.ReadAllText(path);
+            //Debug.Log("filecontent: "+ fileContents);           
+            if(fileContents.Length!=0)
+            {
+                gameData = JsonUtility.FromJson<UserList>(fileContents);
+            }
+            
+            gameData.alluserdata.Add(new UserData()
+            {
+                fname = newappuse.fname,
+                lname = newappuse.lname,
+                contactno = newappuse.contactno,
+                date=newappuse.date,
+                time = newappuse.time,
+                exercise = newappuse.Exercise,
+                duration=newappuse.Time_duration
+                
+            });
+
+
+
+
+
+            fileContents = JsonUtility.ToJson(gameData);
+
+            File.WriteAllText(path, fileContents);
+
+        }
+        else
+        {
+            
+            gameData.alluserdata.Add(new UserData()
+            {
+                fname = newappuse.fname,
+                lname = newappuse.lname,
+                contactno = newappuse.contactno,
+                date=newappuse.date,
+                time = newappuse.time,
+                exercise = newappuse.Exercise,
+                duration=newappuse.Time_duration
+                
             });
 
 
@@ -310,6 +379,7 @@ public class UserData
     public string date,time;
     public string exercise;
     public string repCount;
+    public float duration;
 }
 
 

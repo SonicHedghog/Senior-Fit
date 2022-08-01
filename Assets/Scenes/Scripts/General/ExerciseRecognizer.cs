@@ -161,6 +161,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         [DynamoDBProperty]
         public string repCount { get; set; }
 
+        [DynamoDBProperty]
+        public int duration { get; set; }
+
 
     }
 
@@ -324,7 +327,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     date=newuse.date,
                     startTime = newuse.time,
                     repCount=newuse.repCount,
-                    UserKey = contactno.ToString()+newuse.date+newuse.time
+                    UserKey = contactno.ToString()+newuse.date+newuse.time,
+                    duration=(int)newuse.duration
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {

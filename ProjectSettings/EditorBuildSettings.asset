@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/General/VideoTutorial.unity
     guid: 9e827de782a77484ca0ea29737e87e1c
+  - enabled: 1
+    path: Assets/Scenes/General/NoCameraWorkout.unity
+    guid: 870d73a7fd916d748b6d9a66b02c52a5
   m_configObjects: {}

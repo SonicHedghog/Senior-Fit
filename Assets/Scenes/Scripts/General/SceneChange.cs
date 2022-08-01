@@ -223,6 +223,35 @@ public class SceneChange : MonoBehaviour
         return tutorialNumber;
     }
 
+    public void DisableCamera()
+    {
+         bool webCamPermission;
+
+        
+      
+            Application.RequestUserAuthorization(UserAuthorization.WebCam);
+            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+
+#if PLATFORM_ANDROID
+                Permission.RequestUserPermission(Permission.Camera);
+                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+            if (webCamPermission)
+            {
+                SceneManager.LoadScene("WorkoutSpace");
+
+            }
+            else
+            {
+                SceneManager.LoadScene("NoCameraWorkout");
+
+            }
+
+            
+        
+    }
+
     
 
     /*public void StartSeatedMarch()
@@ -334,7 +363,7 @@ public class SceneChange : MonoBehaviour
 
         else
         {
-            Application.RequestUserAuthorization(UserAuthorization.WebCam);
+           Application.RequestUserAuthorization(UserAuthorization.WebCam);
             webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 
 #if PLATFORM_ANDROID
@@ -347,15 +376,22 @@ public class SceneChange : MonoBehaviour
                 SceneManager.LoadScene("WorkoutSpace");
                 //blazePoseRunner.filename="Shoulder_touch";
             }
+            else
+            {
+                 SceneManager.LoadScene("NoCameraWorkout");
+            }
+
+           
         }
     }
 
     public void SingleLegStance()
     {
+        /*
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
+#endif*/
 
         //userdata data = SaveUserData.LoadUser();
 
@@ -363,6 +399,8 @@ public class SceneChange : MonoBehaviour
 
         exercisenumber = 2;
         req_fps = 25;
+         LoadWorkoutScene();
+       /*
         if (webCamPermission)
         {
             SceneManager.LoadScene("WorkoutSpace");
@@ -383,7 +421,7 @@ public class SceneChange : MonoBehaviour
                 SceneManager.LoadScene("WorkoutSpace");
                 //blazePoseRunner.filename="Shoulder_touch";
             }
-        }
+        }*/
     }
 
 
