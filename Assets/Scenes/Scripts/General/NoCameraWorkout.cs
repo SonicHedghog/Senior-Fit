@@ -192,6 +192,11 @@ public class NoCameraWorkout : MonoBehaviour
         time1 = Time.unscaledTime;
     }
 
+    public void EnableCamera()
+    {
+        SceneChange.LoadWorkoutScene();
+    }
+
      public void BackToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");

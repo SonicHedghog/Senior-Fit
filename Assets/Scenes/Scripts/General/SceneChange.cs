@@ -227,29 +227,8 @@ public class SceneChange : MonoBehaviour
 
     public void DisableCamera()
     {
-         bool webCamPermission;
-
-        
-      
-            Application.RequestUserAuthorization(UserAuthorization.WebCam);
-            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-            if (webCamPermission)
-            {
-                SceneManager.LoadScene("WorkoutSpace");
-
-            }
-            else
-            {
-                SceneManager.LoadScene("NoCameraWorkout");
-
-            }
-
+        exercisenumber=GetExerciseNumber();
+         SceneManager.LoadScene("NoCameraWorkout");
             
         
     }
@@ -291,6 +270,8 @@ public class SceneChange : MonoBehaviour
             }
         }
     }*/
+
+
 
 
 
@@ -349,7 +330,7 @@ public class SceneChange : MonoBehaviour
         LoadWorkoutScene();
     }
 
-    public void LoadWorkoutScene()
+    public static void LoadWorkoutScene()
     {
         
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
