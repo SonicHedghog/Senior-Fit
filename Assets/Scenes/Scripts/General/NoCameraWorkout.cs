@@ -28,13 +28,11 @@ public class NoCameraWorkout : MonoBehaviour
     public int exercisenumber;
     public string Exercise;
     public string videoPath;
-     public UnityEngine.Video.VideoPlayer videoPlayer;
-     public Text timeText;
-     public float time1 = 0, time2 = 0, Time_duration=0,new_duration=0,pauseTime1=0,pauseTime2=0;
-      public float hours,minutes, seconds;
-    public string date,time;
-    public string fname;
-    public string lname;
+    public UnityEngine.Video.VideoPlayer videoPlayer;
+    public Text timeText;
+    public float time1 = 0, time2 = 0, Time_duration = 0, new_duration = 0, pauseTime1 = 0, pauseTime2 = 0;
+    public float hours, minutes, seconds;
+    public string date, time, fname, lname;
     public long contactno;
 
       // ***************AWS set up*******************************************
@@ -128,9 +126,9 @@ public class NoCameraWorkout : MonoBehaviour
     void Start()
     {
         UnityInitializer.AttachToGameObject(this.gameObject);
-        AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
-         Screen.orientation = ScreenOrientation.LandscapeLeft;
-        exercisenumber=SceneChange.GetExerciseNumber();
+        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        exercisenumber = SceneChange.GetExerciseNumber();
         switch(exercisenumber)
         {
             case 1:
