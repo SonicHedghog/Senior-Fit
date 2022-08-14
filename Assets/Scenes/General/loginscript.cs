@@ -56,6 +56,7 @@ public class loginscript : MonoBehaviour
     async void Start()
     {
         //UnityInitializer.AttachToGameObject(this.gameObject);
+         Screen.orientation = ScreenOrientation.Portrait;
         loginButton.onClick.AddListener(LoginButtonClick);
         okButton.onClick.AddListener(LoadStartMenu);
         newnotification = SaveData.LoadNotifications();

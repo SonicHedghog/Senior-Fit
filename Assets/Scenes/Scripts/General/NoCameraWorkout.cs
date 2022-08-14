@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+#if UNITY_ANDROID
+using UnityEngine.Android;
+using Unity.Notifications.Android;
+#endif
+#if UNITY_IOS
+using Unity.Notifications.iOS;
+#endif
 
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
@@ -34,6 +41,7 @@ public class NoCameraWorkout : MonoBehaviour
     public float hours, minutes, seconds;
     public string date, time, fname, lname;
     public long contactno;
+    public bool CamPermission=false;
 
       // ***************AWS set up*******************************************
 
@@ -182,17 +190,66 @@ public class NoCameraWorkout : MonoBehaviour
         InvokeRepeating(nameof(updateAWSTable), 5.0f, 5.0f);
     }
 
+    void Update()
+    {
+        ShowTime();
+        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+#if PLATFORM_ANDROID
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+         if (webCamPermission && CamPermission==true)
+        {
+            CamPermission=true;
+            SceneManager.LoadScene("WorkoutSpace");
+        }
+    }
+
     public void SetVideoAddress()
     {
         videoPath= Application.streamingAssetsPath + "/TutorialClips/" + Exercise.Replace(' ', '_').ToLower() + "_tutorial.mp4";
         videoPlayer.url =   videoPath;
         videoPlayer.Play();
-        time1 = Time.unscaledTime;
+
+       
+                time1 = Time.unscaledTime;
+        
+        
     }
 
+    
     public void EnableCamera()
     {
-        SceneChange.LoadWorkoutScene();
+        CamPermission=true;
+        
+           bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+#if PLATFORM_ANDROID
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+        
+        if (webCamPermission)
+        {
+            
+            SceneManager.LoadScene("WorkoutSpace");
+        }
+
+        else
+        {
+           Application.RequestUserAuthorization(UserAuthorization.WebCam);
+            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+
+#if PLATFORM_ANDROID
+                Permission.RequestUserPermission(Permission.Camera);
+                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+            
+
+            /*if(webCamPermission)
+            {
+                SceneManager.LoadScene("WorkoutSpace");
+            }*/
+        }
     }
 
      public void BackToMainMenu()
@@ -273,8 +330,5 @@ public class NoCameraWorkout : MonoBehaviour
 
     }
     // Update is called once per frame
-    void Update()
-    {
-        ShowTime();
-    }
+   
 }

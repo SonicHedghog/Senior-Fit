@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -23,13 +24,21 @@ public class SceneChange : MonoBehaviour
 
     NotificationList newnotification;
 
+    public Button cameraButton;
+     public Button noCameraButton;
     
+
+    public static bool cameraAllow=false;
+    public static bool camPermission=false;
 
     private static int req_fps = 0;
    // private static string new_url = "";
 
     void Start()
     {
+        //cameraButton.onClick.AddListener(PermissionButtonClick);
+       // noCameraButton.onClick.AddListener(noPermissionButtonClick);
+        
         Screen.orientation = ScreenOrientation.LandscapeLeft;
         userdata data = SaveUserData.LoadUser();
         if (data == null)
@@ -183,7 +192,36 @@ public class SceneChange : MonoBehaviour
         Application.OpenURL("https://www.facebook.com/groups/seniorfitstudyphase2r1");
     }
 
+    void PermissionButtonClick()
+    {
+
+        cameraAllow=true;
+                bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+#if PLATFORM_ANDROID
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+        
+        if (!webCamPermission)
+        {
+           
+           Application.RequestUserAuthorization(UserAuthorization.WebCam);
+            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+
+#if PLATFORM_ANDROID
+                Permission.RequestUserPermission(Permission.Camera);
+                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+
+
+        }
+    }
     
+    void noPermissionButtonClick()
+    {
+        cameraAllow=false;
+    }
 
     public void Walk()
     {
@@ -280,32 +318,28 @@ public class SceneChange : MonoBehaviour
         exercisenumber = 3;
         req_fps = 30;
         LoadWorkoutScene();
-      /*  bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+
+       
+
+     /*  bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
 #endif
+
+        
         if (webCamPermission)
-        {
+       {
             SceneManager.LoadScene("WorkoutSpace");
-        }
-
-        else
-        {
-            Application.RequestUserAuthorization(UserAuthorization.WebCam);
-            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-            if (webCamPermission)
-            {
-                SceneManager.LoadScene("WorkoutSpace");
-            }
-        }*/
+       }
+       else
+       {
+            SceneManager.LoadScene("NoCameraWorkout");
+       }*/
+      
 
     }
+
+    
 
     public void ChairSitToStand()
     {
@@ -313,14 +347,15 @@ public class SceneChange : MonoBehaviour
         exercisenumber = 4;
         req_fps = 25;
         LoadWorkoutScene();
-
+       
     }
 
     public void MarchinginPlace()
     {
         exercisenumber=5;
         req_fps=25;
-        LoadWorkoutScene();
+         LoadWorkoutScene();
+        
     }
 
      public void SeatedHamstringStretch()
@@ -328,62 +363,34 @@ public class SceneChange : MonoBehaviour
         exercisenumber=6;
         req_fps=25;
         LoadWorkoutScene();
+        
     }
 
-    public static void LoadWorkoutScene()
+     public void SingleLegStance()
     {
         
-        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
-            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-        
-        if (webCamPermission)
-        {
-            SceneManager.LoadScene("WorkoutSpace");
-        }
-
-        else
-        {
-           Application.RequestUserAuthorization(UserAuthorization.WebCam);
-            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-            if (webCamPermission)
-            {
-                SceneManager.LoadScene("WorkoutSpace");
-                //blazePoseRunner.filename="Shoulder_touch";
-            }
-            else
-            {
-                 SceneManager.LoadScene("NoCameraWorkout");
-            }
-
-           
-        }
-    }
-
-    public void SingleLegStance()
-    {
-        /*
-        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
-            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif*/
-
-        //userdata data = SaveUserData.LoadUser();
-
-
 
         exercisenumber = 2;
         req_fps = 25;
-         LoadWorkoutScene();
-       /*
+       
+        LoadWorkoutScene();
+        
+       
+    }
+
+
+
+    
+
+    public static void LoadWorkoutScene()
+    {
+       
+                bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+#if PLATFORM_ANDROID
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+#endif
+
+        
         if (webCamPermission)
         {
             SceneManager.LoadScene("WorkoutSpace");
@@ -391,23 +398,20 @@ public class SceneChange : MonoBehaviour
 
         else
         {
-            Application.RequestUserAuthorization(UserAuthorization.WebCam);
-            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+          
+            
+                SceneManager.LoadScene("NoCameraWorkout");
+            
 
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-            if (webCamPermission)
-            {
-                SceneManager.LoadScene("WorkoutSpace");
-                //blazePoseRunner.filename="Shoulder_touch";
-            }
-        }*/
+           
+        }
+        
+        
     }
 
+    
 
+   
     
     public void ShoulderTouchTutorial()
     {

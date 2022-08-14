@@ -177,6 +177,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         // Init model
         UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
         string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
          
