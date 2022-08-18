@@ -230,6 +230,7 @@ public class NoCameraWorkout : MonoBehaviour
         if (webCamPermission)
         {
             
+            SaveData.SaveCameraState(1);
             SceneManager.LoadScene("WorkoutSpace");
         }
 
@@ -244,7 +245,7 @@ public class NoCameraWorkout : MonoBehaviour
 #endif
 
             
-
+            
             /*if(webCamPermission)
             {
                 SceneManager.LoadScene("WorkoutSpace");

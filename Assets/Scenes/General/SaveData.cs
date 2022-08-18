@@ -102,7 +102,8 @@ public class SaveData
                 date=newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                duration=newappuse.Time_duration
+                duration=newappuse.Time_duration,
+                repCount="-1"
                 
             });
 
@@ -355,6 +356,50 @@ public class SaveData
 
     }
 
+
+    public static void SaveCameraState(int newCameraState )
+    {
+        //UserData data = new UserData(newappuse);
+        string path = Application.persistentDataPath + "/CameraData.json";
+        string fileContents;
+        CameraState cameraData = new CameraState();
+
+        cameraData.cameraState=newCameraState;
+
+
+        fileContents = JsonUtility.ToJson(cameraData);
+
+        File.WriteAllText(path, fileContents);
+
+       
+
+
+
+    }
+
+     public static int LoadCameraData()
+    {
+        string path = Application.persistentDataPath + "/CameraData.json";
+        if (File.Exists(path))
+        {
+            string fileContents = File.ReadAllText(path);
+            //Debug.Log("filecontent: "+ fileContents);
+
+            CameraState cameraData = JsonUtility.FromJson<CameraState>(fileContents)
+                            ?? new CameraState();
+            //File.WriteAllText(path, string.Empty);
+            return cameraData.cameraState;
+        }
+        else
+        {
+            Debug.Log("File not found!");
+            return -1;
+        }
+
+
+    }
+
+
     
 }
 
@@ -430,6 +475,18 @@ public class UserNotification
     public int interval;
     
 }
+
+
+[System.Serializable]
+public class CameraState
+{
+   
+    public int cameraState;
+
+    
+}
+
+
 
 
 

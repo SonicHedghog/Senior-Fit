@@ -25,7 +25,7 @@ public class SceneChange : MonoBehaviour
     NotificationList newnotification;
 
     public Button cameraButton;
-     public Button noCameraButton;
+    public Button noCameraButton;
     
 
     public static bool cameraAllow=false;
@@ -266,6 +266,8 @@ public class SceneChange : MonoBehaviour
     public void DisableCamera()
     {
         exercisenumber=GetExerciseNumber();
+
+        SaveData.SaveCameraState(0);
          SceneManager.LoadScene("NoCameraWorkout");
             
         
@@ -390,8 +392,10 @@ public class SceneChange : MonoBehaviour
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
 #endif
 
+        int CameraState=SaveData.LoadCameraData();
+        Debug.Log("camera state :"+CameraState.ToString());
         
-        if (webCamPermission)
+        if (webCamPermission && CameraState==1)
         {
             SceneManager.LoadScene("WorkoutSpace");
         }
