@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using TensorFlowLite;
 #if UNITY_ANDROID
 using UnityEngine.Android;
 using Unity.Notifications.Android;
@@ -41,7 +42,8 @@ public class NoCameraWorkout : MonoBehaviour
     public float hours, minutes, seconds;
     public string date, time, fname, lname;
     public long contactno;
-    public bool CamPermission=false;
+    public bool CamPermission = false;
+    public GameObject cameraButton;
 
       // ***************AWS set up*******************************************
 
@@ -133,6 +135,16 @@ public class NoCameraWorkout : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        try
+        {
+            var poseDetect = new PoseDetect("ML Models/pose_detection.tflite");
+        }
+        catch (DllNotFoundException e)
+        {
+            Debug.Log("Phone not compatible");
+            cameraButton.SetActive(false);
+        }
+
         UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         Screen.orientation = ScreenOrientation.LandscapeLeft;
@@ -218,19 +230,17 @@ public class NoCameraWorkout : MonoBehaviour
 
     
     public void EnableCamera()
-    {
-        CamPermission=true;
-        
-           bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
+    {        
+        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+        #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
+        #endif
 
         
         if (webCamPermission)
-        {
-            
+    {
             SaveData.SaveCameraState(1);
+            CamPermission = true;
             SceneManager.LoadScene("WorkoutSpace");
         }
 
