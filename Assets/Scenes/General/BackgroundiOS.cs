@@ -10,6 +10,7 @@ using Amazon.CognitoIdentity;
 using System.IO;
 using System;
 using Amazon.DynamoDBv2.Model;
+using Mono.Data.Sqlite;
 
 public class BackgroundiOS : MonoBehaviour {
 
@@ -72,6 +73,11 @@ public class BackgroundiOS : MonoBehaviour {
     private DynamoDBContext _context;
 
     private AWSCredentials _credentials;
+    private SqliteConnection dbconn;
+    private string filepath;
+    private string conn;
+    private SqliteCommand dbcmd;
+    private string sqlQuery;
 
     private AWSCredentials Credentials
     {
@@ -150,6 +156,9 @@ public class BackgroundiOS : MonoBehaviour {
         start_time = DateTime.Now.ToString("HH:mm:ss");
       
         LoadMessages();
+
+        filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
+        conn = "URI=file:" + filepath;
     }
 
 	// Start background task
@@ -234,8 +243,7 @@ public class BackgroundiOS : MonoBehaviour {
     public void ShowTime()
     {
         time2 = Time.unscaledTime;
-        //Debug.Log("Time 2 "+time2);
-       Time_duration=(time2-time1)-new_duration;
+        Time_duration=(time2-time1)-new_duration;
 
         if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
         if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
@@ -248,32 +256,26 @@ public class BackgroundiOS : MonoBehaviour {
 
                 if (hours > 0)
                     timestamp.text = $"Duration: {hours} hrs {(int)minutes} mins {seconds} seconds";
-                else if(hours==0 && minutes>0)
-                 {
+                else if(hours == 0 && minutes>0)
+                {
                     timestamp.text = $"Duration: {(int)minutes} mins {seconds} seconds";
-
                 }
                 else
                 {
-                     timestamp.text = $"Duration: {seconds} seconds";
+                    timestamp.text = $"Duration: {seconds} seconds";
                 }
 
-                 if (minutes>0 && ((int)minutes%5==0))
-            {
-               // var r = new System.Random();
-               // var randomLineNumber = r.Next(0, lines.Length - 1);
-               int randomLineNumber=(int)(minutes/5);
+                if (minutes > 0 && ((int)minutes % 5 == 0))
+                {
+                int lineNumber = (int)(minutes / 5);
 
-                string line = lines[randomLineNumber];
-                GPSStatus.text = line;
-
+                    string line = lines[lineNumber];
+                    GPSStatus.text = line;
+                }
             }
-            }
-            else
+        else
         {
-            //timestamp.text = "Total time: 0 seconds";
             GPSStatus.text = "Let's get started!!";
-
         }
 
     }
@@ -300,7 +302,7 @@ public class BackgroundiOS : MonoBehaviour {
                     UserKey = newuse.contactNo + newuse.currentDate + newuse.currentTime,
                     Date = newuse.currentDate,
                     StartTime = newuse.startTime,
-                    CurrentTime=newuse.currentTime
+                    CurrentTime = newuse.currentTime
                    
                 };
                 Context.SaveAsync(newUser, (result) =>
@@ -313,6 +315,18 @@ public class BackgroundiOS : MonoBehaviour {
                 {
                     TableName = @"FinalGPSData"
                 };
+
+                // Save/Update contents to SQLite DB
+                using (dbconn = new SqliteConnection(conn))
+                {
+                    dbconn.Open(); //Open connection to the database.
+                    dbcmd = dbconn.CreateCommand();
+                    sqlQuery = string.Format("replace into WalkData (Start_Time, EndTime, MilesWalked) values (\"{0} {1}\",\"{2}\",{3})", newuse.startTime, "", newuse.currentTime, (totaldistance * 0.62));
+                    dbcmd.CommandText = sqlQuery;
+                    dbcmd.ExecuteScalar();
+                    dbconn.Close();
+                    Debug.Log("Insert Done");
+                }
             }
         }   
     }
@@ -347,8 +361,7 @@ public class BackgroundiOS : MonoBehaviour {
 
     void Update()
     {
-        if(walkStart==true && pause==false)
-        ShowTime();
+        if(walkStart == true && pause == false) ShowTime();
     }
 
 }

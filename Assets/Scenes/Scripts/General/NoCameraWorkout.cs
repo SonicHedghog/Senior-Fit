@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
@@ -19,18 +17,15 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
+using Mono.Data.Sqlite;
+
 public class NoCameraWorkout : MonoBehaviour
 {
-
     #if UNITY_ANDROID
-    public void UsedOnlyForAOTCodeGeneration() {
-        //Bug reported on github https://github.com/aws/aws-sdk-net/issues/477
-        //IL2CPP restrictions: https://docs.unity3d.com/Manual/ScriptingRestrictions.html
-        //Inspired workaround: https://docs.unity3d.com/ScriptReference/AndroidJavaObject.Get.html
- 
-        AndroidJavaObject jo = new AndroidJavaObject("android.os.Message");
-        int valueString = jo.Get<int>("what");
-    }
+        public void UsedOnlyForAOTCodeGeneration() {   
+            AndroidJavaObject jo = new AndroidJavaObject("android.os.Message");
+            int valueString = jo.Get<int>("what");
+        }
     #endif
 
     public int exercisenumber;
@@ -45,9 +40,7 @@ public class NoCameraWorkout : MonoBehaviour
     public bool CamPermission = false;
     public GameObject cameraButton;
 
-      // ***************AWS set up*******************************************
-
-    
+    // ***************AWS set up*******************************************
     public string IdentityPoolId = "";
     public string CognitoPoolRegion = RegionEndpoint.USEast2.SystemName;
     public string DynamoRegion = RegionEndpoint.USEast2.SystemName;
@@ -66,7 +59,11 @@ public class NoCameraWorkout : MonoBehaviour
     private DynamoDBContext _context;
 
     private AWSCredentials _credentials;
-
+    private SqliteConnection dbconn;
+    private string conn;
+    private SqliteCommand dbcmd;
+    private string sqlQuery;
+    string filepath;
     private AWSCredentials Credentials
     {
         get
@@ -153,36 +150,22 @@ public class NoCameraWorkout : MonoBehaviour
         {
             case 1:
                 Exercise="Seated March";
-                //script = new Interpreter();
-                //script.AddCommand("SeatedMarch -1");
                 break;
             case 2:
                 Exercise="Single Leg Stance";
-                //script = new Interpreter();
-                //script.AddCommand("SingleLegStance -1");
                 break;
             case 3:
                 Exercise="Shoulder Touch";
-                //script = new Interpreter();
-                //script.AddCommand("ShoulderTouch -1");
                 break;
             case 4:
                 Exercise="Chair Sit To Stand";
-                //script = new Interpreter();
-                //script.AddCommand("ChairSitToStand -1");
                 break;
             case 5:
                 Exercise="Marching In Place";
-                //script = new Interpreter();
-                //script.AddCommand("MarchingInPlace -1");
                 break;
-
             case 6:
-                Exercise="Seated Hamstring Stretch";
-                //script = new Interpreter();
-                //script.AddCommand("SeatedHamstringStretch -1");
+                Exercise = "Seated Hamstring Stretch";
                 break;
-
             default:
                 Exercise="Seated Hamstring Stretch";
                 break;
@@ -200,32 +183,33 @@ public class NoCameraWorkout : MonoBehaviour
 
         SetVideoAddress();
         InvokeRepeating(nameof(updateAWSTable), 5.0f, 5.0f);
+
+        filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
+        conn = "URI=file:" + filepath;
     }
 
     void Update()
     {
         ShowTime();
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
+
+        #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-         if (webCamPermission && CamPermission==true)
+        #endif
+
+        if (webCamPermission && CamPermission == true)
         {
-            CamPermission=true;
+            CamPermission = true;
             SceneManager.LoadScene("WorkoutSpace");
         }
     }
 
     public void SetVideoAddress()
     {
-        videoPath= Application.streamingAssetsPath + "/TutorialClips/" + Exercise.Replace(' ', '_').ToLower() + "_tutorial.mp4";
-        videoPlayer.url =   videoPath;
+        videoPath = Application.streamingAssetsPath + "/TutorialClips/" + Exercise.Replace(' ', '_').ToLower() + "_tutorial.mp4";
+        videoPlayer.url = videoPath;
         videoPlayer.Play();
-
-       
-                time1 = Time.unscaledTime;
-        
-        
+        time1 = Time.unscaledTime;
     }
 
     
@@ -246,20 +230,13 @@ public class NoCameraWorkout : MonoBehaviour
 
         else
         {
-           Application.RequestUserAuthorization(UserAuthorization.WebCam);
+            Application.RequestUserAuthorization(UserAuthorization.WebCam);
             webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 
-#if PLATFORM_ANDROID
+            #if PLATFORM_ANDROID
                 Permission.RequestUserPermission(Permission.Camera);
                 webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-            
-            
-            /*if(webCamPermission)
-            {
-                SceneManager.LoadScene("WorkoutSpace");
-            }*/
+            #endif
         }
     }
 
@@ -270,7 +247,7 @@ public class NoCameraWorkout : MonoBehaviour
     public void ShowTime()
     {
         time2 = Time.unscaledTime;
-        Time_duration=(time2-time1);
+        Time_duration = (time2 - time1);
 
         if(timeText is null) timeText = GameObject.Find("Time").GetComponent<Text>();
         if (Time_duration > 0)
@@ -282,7 +259,7 @@ public class NoCameraWorkout : MonoBehaviour
 
             if (hours > 0)
                 timeText.text = $"{hours} hrs {(int)minutes} mins {seconds} seconds";
-            else if(hours==0 && minutes>0)
+            else if(hours == 0 && minutes > 0)
             {
                 timeText.text = $"{(int)minutes} mins {seconds} seconds";
 
@@ -308,8 +285,7 @@ public class NoCameraWorkout : MonoBehaviour
 
             foreach (UserData newuse in newuserlist.alluserdata)
             {
-                //AppUse newuse = AppUse.LoadAppUse();
-                Debug.Log("Time duration "+newuse.duration);
+                Debug.Log("Time duration " + newuse.duration);
                 ExerciseData newUser = new ExerciseData
                 {
                     FirstName = newuse.fname,
@@ -319,8 +295,8 @@ public class NoCameraWorkout : MonoBehaviour
                     date=newuse.date,
                     startTime = newuse.time,
                    
-                    UserKey = contactno.ToString()+newuse.date+newuse.time,
-                    duration=(int)newuse.duration
+                    UserKey = contactno.ToString() + newuse.date+newuse.time,
+                    duration = (int)newuse.duration
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {
@@ -332,14 +308,20 @@ public class NoCameraWorkout : MonoBehaviour
                 {
                     TableName = @"ExerciseData"
                 };
-                
 
+                // Save/Update contents to SQLite DB
+                using (dbconn = new SqliteConnection(conn))
+                {
+                    dbconn.Open(); //Open connection to the database.
+                    dbcmd = dbconn.CreateCommand();
+                    sqlQuery = string.Format("replace into ExerciseData (Start_Time, Exercise, ElapsedTime, Repcount) values (\"{0} {1}\",\"{2}\",{3},-1)", date, newuse.time, newuse.exercise, (int)newuse.duration);
+                    dbcmd.CommandText = sqlQuery;
+                    dbcmd.ExecuteScalar();
+                    dbconn.Close();
+
+                    Debug.Log("Insert Done");
+                }
             }
-
         }
-
-
     }
-    // Update is called once per frame
-   
 }
