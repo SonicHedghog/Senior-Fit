@@ -593,6 +593,8 @@ GameObject:
   - component: {fileID: 898375964}
   - component: {fileID: 898375963}
   - component: {fileID: 898375966}
+  - component: {fileID: 898375968}
+  - component: {fileID: 898375967}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -686,6 +688,95 @@ MonoBehaviour:
   GPSStatus: {fileID: 393522832}
   timestamp: {fileID: 1714365928}
   pause: 0
+--- !u!114 &898375967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898375962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae78a43a2d749e45a0cbfad830d2072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  latText: {fileID: 0}
+  lngText: {fileID: 0}
+  altText: {fileID: 0}
+  accuracyText: {fileID: 0}
+  bearingText: {fileID: 0}
+  speedText: {fileID: 0}
+  providerText: {fileID: 0}
+  distanceText: {fileID: 0}
+  locationAvailabilityText: {fileID: 0}
+  GPSStatus: {fileID: 0}
+  fileContents: 
+  fname: 
+  lname: 
+  contactno: 0
+  current_date: 
+  start_time: 
+  time1: 0
+  time2: 0
+  Time_duration: 0
+  new_duration: 0
+  pauseTime1: 0
+  pauseTime2: 0
+  hours: 0
+  minutes: 0
+  seconds: 0
+  timestamp: {fileID: 0}
+  walkStart: 0
+  onfocus: 1
+  pause: 0
+  NewDistance: 0
+  IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
+  CognitoPoolRegion: us-east-2
+  DynamoRegion: us-east-2
+  oldminutes: 0
+  MessageLoaded: 0
+--- !u!114 &898375968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898375962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb8af9da124b427a80e4e9156e95732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  latText: {fileID: 0}
+  lngText: {fileID: 0}
+  distanceText: {fileID: 0}
+  GPSStatus: {fileID: 0}
+  fileContents: 
+  fname: 
+  lname: 
+  contactno: 0
+  current_date: 
+  start_time: 
+  time1: 0
+  time2: 0
+  Time_duration: 0
+  new_duration: 0
+  pauseTime1: 0
+  pauseTime2: 0
+  hours: 0
+  minutes: 0
+  seconds: 0
+  minute: 0
+  second: 0
+  currentdistance: 0
+  totaldistance: 0
+  timestamp: {fileID: 0}
+  walkStart: 0
+  pause: 0
+  NewDistance: 0
+  IdentityPoolId: us-east-2:1e21968c-63d4-4870-b719-89219bdc8f34
+  CognitoPoolRegion: us-east-2
+  DynamoRegion: us-east-2
 --- !u!1 &1018593461
 GameObject:
   m_ObjectHideFlags: 0

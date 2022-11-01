@@ -321,7 +321,7 @@ public class BackgroundiOS : MonoBehaviour {
                 {
                     dbconn.Open(); //Open connection to the database.
                     dbcmd = dbconn.CreateCommand();
-                    sqlQuery = string.Format("replace into WalkData (Start_Time, EndTime, MilesWalked) values (\"{0} {1}\",\"{2}\",{3})", newuse.startTime, "", newuse.currentTime, (totaldistance * 0.62));
+                    sqlQuery = string.Format("replace into WalkData (StartTime,Date, EndTime, MilesWalked) values (\"{0} {1}\",\"{1}\",\"{2}\",{3})", newuse.startTime,newuse.currentDate, newuse.currentTime, (totaldistance * 0.62));
                     dbcmd.CommandText = sqlQuery;
                     dbcmd.ExecuteScalar();
                     dbconn.Close();

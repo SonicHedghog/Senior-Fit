@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
@@ -312,15 +312,18 @@ public class NoCameraWorkout : MonoBehaviour
                 // Save/Update contents to SQLite DB
                 using (dbconn = new SqliteConnection(conn))
                 {
+                    
                     dbconn.Open(); //Open connection to the database.
                     dbcmd = dbconn.CreateCommand();
-                    sqlQuery = string.Format("replace into ExerciseData (Start_Time,Date, Exercise, ElapsedTime, Repcount) values (\"{0}\",\" {1}\",\"{2}\",{3},-1)", date, newuse.time, newuse.exercise, (int)newuse.duration);
+                    sqlQuery = string.Format("replace into ExerciseData (Start_Time,Date, Exercise, ElapsedTime, Repcount) values (\"{0} {1}\",\"{0}\",\"{2}\",{3},-1)", newuse.date, newuse.time, newuse.exercise, (int)newuse.duration);
                     dbcmd.CommandText = sqlQuery;
                     dbcmd.ExecuteScalar();
                     dbconn.Close();
 
-                    Debug.Log("Insert Done");
+                    Debug.Log("exercise Insert Done "+newuse.date);
                 }
+
+                
             }
         }
     }

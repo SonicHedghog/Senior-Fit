@@ -11,6 +11,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
+using Mono.Data.Sqlite;
 
 
 /// <summary>
@@ -84,6 +85,12 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     public int width;
     public int height;
     public bool nameSet = false;
+
+    private SqliteConnection dbconn;
+    private string conn;
+    private SqliteCommand dbcmd;
+    private string sqlQuery;
+    string filepath;
 
     // ***************AWS set up*******************************************
 
@@ -286,7 +293,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         //************sending to dynamodbtable******************
         InvokeRepeating(nameof(updateAWSTable), 5.0f, 5.0f);
 
-         
+        filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
+        conn = "URI=file:" + filepath;
 
         /*UnityWebRequest webrequest = UnityWebRequest.Get("https://www.google.com/");
         webrequest.SendWebRequest();
@@ -341,22 +349,19 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 {
                     TableName = @"ExerciseData"
                 };
-                /*Client.DescribeTableAsync(request, (result) =>
+                
+                 // Save/Update contents to SQLite DB
+                using (dbconn = new SqliteConnection(conn))
                 {
-                    if (result.Exception != null)
-                    {
-                //resultText.text += result.Exception.Message;
-                Debug.Log(result.Exception);
-                        return;
-                    }
-                    var response = result.Response;
-                    TableDescription description = response.Table;
-                    Debug.Log("Name: " + description.TableName + "\n");
-                    Debug.Log("# of items: " + description.ItemCount + "\n");
+                    dbconn.Open(); //Open connection to the database.
+                    dbcmd = dbconn.CreateCommand();
+                    sqlQuery = string.Format("replace into ExerciseData (Start_Time,Date, Exercise, ElapsedTime, Repcount) values (\"{0} {1}\",\"{0}\",\"{2}\",{3},\"{4}\")", newuse.date, newuse.time, newuse.exercise, (int)newuse.duration,newuse.repCount);
+                    dbcmd.CommandText = sqlQuery;
+                    dbcmd.ExecuteScalar();
+                    dbconn.Close();
 
-
-                }, null);*/
-
+                    Debug.Log("Insert Done");
+                }
             }
 
         }

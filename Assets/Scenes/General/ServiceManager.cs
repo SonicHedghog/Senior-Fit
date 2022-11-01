@@ -26,7 +26,7 @@ public class ServiceManager : MonoBehaviour
         {
             if (focus)  
             {
-                InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
+                InvokeRepeating("UpdateAWSinfo", 0.1f, 15f);
                 onfocus = true;
             }  
             else            
@@ -75,6 +75,12 @@ public class ServiceManager : MonoBehaviour
     DateTime CheckTime;
 
     private bool appQuit = false;
+
+    private SqliteConnection dbconn;
+    private string conn;
+    private SqliteCommand dbcmd;
+    private string sqlQuery;
+    string filepath;
     // ***************AWS set up*******************************************
 
 
@@ -184,13 +190,17 @@ public class ServiceManager : MonoBehaviour
         contactno = data.contactno;
 
         CheckTime=DateTime.Now;
-        current_date = DateTime.Now.ToString("MM/dd/yyyy");
+        current_date = DateTime.Now.ToString("yyyy/MM/dd");
         start_time = DateTime.Now.ToString("HH:mm:ss");
+
+        filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
+        conn = "URI=file:" + filepath;
 
         UpdateAWSinfo();
 
         LoadMessages();
         NewDistance = 0.0;
+        
     }
 
     void Update()
@@ -346,10 +356,7 @@ public class ServiceManager : MonoBehaviour
     public int oldminutes = 0;
 
     public int MessageLoaded = 0;
-    private SqliteConnection dbconn;
-    private string conn;
-    private SqliteCommand dbcmd;
-    private string sqlQuery;
+    
 
     public void ShowTime()
     {
@@ -450,11 +457,11 @@ public class ServiceManager : MonoBehaviour
                 {
                     dbconn.Open(); //Open connection to the database.
                     dbcmd = dbconn.CreateCommand();
-                    sqlQuery = string.Format("replace into WalkData (Start_Time, EndTime, MilesWalked) values (\"{0} {1}\",\"{2}\",{3})", newuse.startTime, "", newuse.currentTime, NewDistance);
+                    sqlQuery = string.Format("replace into WalkData (StartTime,Date, EndTime, MilesWalked) values (\"{0} {1}\",\"{1}\",\"{2}\",{3})", newuse.startTime,newuse.currentDate, newuse.currentTime, NewDistance);
                     dbcmd.CommandText = sqlQuery;
                     dbcmd.ExecuteScalar();
                     dbconn.Close();
-                    Debug.Log("Insert Done");
+                    Debug.Log("walk insert Done "+newuse.currentDate);
                 }
             }
         }

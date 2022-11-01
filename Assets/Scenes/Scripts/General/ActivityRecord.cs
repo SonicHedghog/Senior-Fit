@@ -24,6 +24,7 @@ public class ActivityRecord : MonoBehaviour
     private static IDataReader reader;
     private GameObject activityButton;
     private GameObject g;
+    public static string setDate="";
     
    // private GameObject activityContainer;
    // public GameObject activityDetails;
@@ -66,6 +67,7 @@ public class ActivityRecord : MonoBehaviour
 		while (reader.Read())
 		{
             unique_dates.Add(reader[0].ToString());
+            Debug.Log("unique date "+reader[0].ToString());
 				
 		}
 
@@ -76,7 +78,9 @@ public class ActivityRecord : MonoBehaviour
 
         foreach (var item in unique_dates)
             {
+               
                 int exerciseCount=0,walkcount=0;
+                 Debug.Log("new unique date "+item);
                 using (dbconn = new SqliteConnection(conn))
                 {
                     dbconn.Open(); //Open connection to the database.
@@ -149,6 +153,7 @@ public class ActivityRecord : MonoBehaviour
 
     void activityButtonClick(string date)
     {
+        setDate=date;
         //ActivityDetails activityDetails=new ActivityDetails();
         ActivityDetails.queryDate=date;
         //activityDetails.setData(date);
@@ -157,6 +162,11 @@ public class ActivityRecord : MonoBehaviour
         //Debug.Log(activityContainer);
         //exerciseName.text=dictionary[date][0];
         //activityContainer.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text=dictionary[date][0];}
+    }
+
+    public static string getDate()
+    {
+        return setDate;
     }
 
     // Update is called once per frame

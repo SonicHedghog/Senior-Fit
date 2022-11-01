@@ -27,6 +27,7 @@ public class ActivityDetails : MonoBehaviour
     private GameObject g;
     public static string queryDate="";
     public Button infoButton;
+    private int checkIfFirstTime=0;
     
    // private GameObject activityContainer;
    // public GameObject activityDetails;
@@ -37,25 +38,38 @@ public class ActivityDetails : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DetailsButton=transform.GetChild(0).gameObject;
-         
-
+        
+        Debug.Log("start method called "+queryDate);
+        checkIfFirstTime=1;
         
        filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
         conn = "URI=file:" + filepath;
-        
-       updateDetails(queryDate);
+       // DetailsButton=transform.GetChild(0).gameObject;
+       //updateDetails(queryDate);
     }
-    /*void OnEnable()
-    {
-         DetailsButton=transform.GetChild(0).gameObject;
-           
-       filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
-        conn = "URI=file:" + filepath;
-        
-     updateDetails(queryDate);
-    }*/
 
+    void OnEnable()
+    {
+        Destroy(DetailsButton);
+        Invoke("callUpdate", 2.0f);
+        
+       
+    }
+    void callUpdate()
+    {
+        if(checkIfFirstTime!=0)
+        {
+        
+        Debug.Log("enabled "+queryDate);
+        
+        DetailsButton=transform.GetChild(0).gameObject;
+        
+        updateDetails(queryDate);
+
+        }
+
+    }
+    
      void updateDetails(string date)
     {
         
@@ -105,7 +119,7 @@ public class ActivityDetails : MonoBehaviour
         
 		dbcmd.CommandText = query1;
 		reader = dbcmd.ExecuteReader();
-       
+       Debug.Log("walk record "+reader[0]);
 
 		if (reader.Read())
 		{

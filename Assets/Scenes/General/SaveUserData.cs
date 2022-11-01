@@ -47,8 +47,8 @@ public static class SaveUserData
         dbconn = new SqliteConnection(conn);
         dbconn.Open();
         
-        string query1 = "CREATE TABLE ExerciseData (Start_Time TEXT PRIMARY KEY, Exercise TEXT, ElapsedTime INTEGER, RepCount INTEGER)";
-        string query2 = "CREATE TABLE WalkData (StartTime TEXT PRIMARY KEY, EndTime TEXT, MilesWalked INTEGER)";
+        string query1 = "CREATE TABLE ExerciseData (Start_Time TEXT PRIMARY KEY,Date TEXT, Exercise TEXT, ElapsedTime INTEGER, RepCount INTEGER)";
+        string query2 = "CREATE TABLE WalkData (StartTime TEXT PRIMARY KEY,Date TEXT, EndTime TEXT, MilesWalked INTEGER)";
         try
         {
             dbcmd = dbconn.CreateCommand(); // create empty command
