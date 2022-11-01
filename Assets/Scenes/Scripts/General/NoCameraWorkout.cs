@@ -314,7 +314,7 @@ public class NoCameraWorkout : MonoBehaviour
                 {
                     dbconn.Open(); //Open connection to the database.
                     dbcmd = dbconn.CreateCommand();
-                    sqlQuery = string.Format("replace into ExerciseData (Start_Time, Exercise, ElapsedTime, Repcount) values (\"{0} {1}\",\"{2}\",{3},-1)", date, newuse.time, newuse.exercise, (int)newuse.duration);
+                    sqlQuery = string.Format("replace into ExerciseData (Start_Time,Date, Exercise, ElapsedTime, Repcount) values (\"{0}\",\" {1}\",\"{2}\",{3},-1)", date, newuse.time, newuse.exercise, (int)newuse.duration);
                     dbcmd.CommandText = sqlQuery;
                     dbcmd.ExecuteScalar();
                     dbconn.Close();
