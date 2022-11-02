@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Mono.Data.Sqlite;
 using System.Data;
+using System.Linq;
 
 
 public class ActivityDetails : MonoBehaviour
@@ -25,7 +26,10 @@ public class ActivityDetails : MonoBehaviour
     private static IDataReader reader;
     private GameObject DetailsButton;
     private GameObject g;
+    
     public static string queryDate="";
+    public static string d="";
+    
     public Button infoButton;
     private int checkIfFirstTime=0;
     
@@ -34,13 +38,14 @@ public class ActivityDetails : MonoBehaviour
     public TextMeshProUGUI details;
     private Dictionary<string, List<string>> dictionary =
     new Dictionary<string,List<string>>();
+ 
    
     // Start is called before the first frame update
     void Start()
     {
         
         Debug.Log("start method called "+queryDate);
-        checkIfFirstTime=1;
+        //checkIfFirstTime=1;
         
        filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
         conn = "URI=file:" + filepath;
@@ -50,30 +55,61 @@ public class ActivityDetails : MonoBehaviour
 
     void OnEnable()
     {
-        Destroy(DetailsButton);
-        Invoke("callUpdate", 2.0f);
+        Destroy(g);
+       DetailsButton=transform.GetChild(0).gameObject;
+        Debug.Log(DetailsButton);
+        
+        
+       Debug.Log("enabled "+queryDate);
+      
+        Invoke("callUpdate", 1.0f);
+
+        
+        
         
        
     }
     void callUpdate()
     {
-        if(checkIfFirstTime!=0)
+        //if(checkIfFirstTime!=0)
         {
+            
+         g=Instantiate(DetailsButton,transform);
         
         Debug.Log("enabled "+queryDate);
         
-        DetailsButton=transform.GetChild(0).gameObject;
+       // DetailsButton=transform.GetChild(0).gameObject;
         
         updateDetails(queryDate);
+        
 
         }
 
     }
-    
-     void updateDetails(string date)
+    void OnDisable()
     {
+        Debug.Log("what is g"+g);
+    
+        var count = transform.childCount;
+        for (var i = 1; i != count; ++i)
+            Destroy(transform.GetChild(i).gameObject);
+         DetailsButton.gameObject.SetActive(true);
         
         
+    }
+
+
+    
+     public void updateDetails(string date)
+    {
+        Debug.Log("update details called");
+        Destroy(g);
+        
+
+        
+         
+
+      
          // Save/Update contents to SQLite DB
         using (dbconn = new SqliteConnection(conn))
                 {
@@ -90,8 +126,12 @@ public class ActivityDetails : MonoBehaviour
 		while (reader.Read())
 		{
 			Debug.Log("from database: " + reader[0].ToString());
+            DetailsButton.gameObject.SetActive(true);
+
+            
 
             g=Instantiate(DetailsButton,transform);
+          DetailsButton.gameObject.SetActive(false);
 
             string eName=reader[0].ToString();
             
@@ -101,6 +141,7 @@ public class ActivityDetails : MonoBehaviour
 
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text=eName;
             g.transform.GetComponent<Button>().onClick.AddListener(()=>detailsButtonClick(eName,date));
+           
 
             Debug.Log(g);
 			
@@ -125,7 +166,12 @@ public class ActivityDetails : MonoBehaviour
 		{
 			Debug.Log("from walking database: " + reader[0].ToString());
 
+            DetailsButton.gameObject.SetActive(true);
+
+            
+
             g=Instantiate(DetailsButton,transform);
+            DetailsButton.gameObject.SetActive(false);
 
             string eName="Outdoor Walking";
             
@@ -135,6 +181,7 @@ public class ActivityDetails : MonoBehaviour
             g.transform.GetComponent<Button>().onClick.AddListener(()=>detailsButtonClick(eName,date));
 
             Debug.Log(g);
+            
 			
 		}
 
@@ -143,7 +190,10 @@ public class ActivityDetails : MonoBehaviour
 
 
                 }
-                Destroy(DetailsButton);
+                
+                //Destroy(DetailsButton);
+                
+              
     }
 
     public void setData(string date){

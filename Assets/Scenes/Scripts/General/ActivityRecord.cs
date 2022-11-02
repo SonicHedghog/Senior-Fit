@@ -141,6 +141,8 @@ public class ActivityRecord : MonoBehaviour
                             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text=date+summary;
                             //g.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text=message;
                             g.transform.GetComponent<Button>().onClick.AddListener(()=>activityButtonClick(queryDate));
+                            //ActivityDetails activityDetails=new ActivityDetails();
+                            //g.transform.GetComponent<Button>().onClick.AddListener(()=>activityDetails.updateDetails(queryDate));
 
                             Debug.Log(g);
 			
