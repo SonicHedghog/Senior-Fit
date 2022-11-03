@@ -53,11 +53,11 @@ public class ActivityDetails : MonoBehaviour
        //updateDetails(queryDate);
     }
 
-    void OnEnable()
+      void OnEnable()
     {
         Destroy(g);
        DetailsButton=transform.GetChild(0).gameObject;
-        Debug.Log(DetailsButton);
+       DetailsButton.GetComponent<Button>().enabled=false;
         
         
        Debug.Log("enabled "+queryDate);
@@ -94,10 +94,10 @@ public class ActivityDetails : MonoBehaviour
         for (var i = 1; i != count; ++i)
             Destroy(transform.GetChild(i).gameObject);
          DetailsButton.gameObject.SetActive(true);
+         
         
         
     }
-
 
     
      public void updateDetails(string date)
@@ -128,7 +128,7 @@ public class ActivityDetails : MonoBehaviour
 			Debug.Log("from database: " + reader[0].ToString());
             DetailsButton.gameObject.SetActive(true);
 
-            
+            DetailsButton.GetComponent<Button>().enabled=true;
 
             g=Instantiate(DetailsButton,transform);
           DetailsButton.gameObject.SetActive(false);
@@ -206,6 +206,34 @@ public class ActivityDetails : MonoBehaviour
 
     }
 
+     public string SetTime(int Time_duration)
+     {
+    
+        string timeText="";
+        int hours,minutes,seconds;
+        
+        //if (Time_duration > 0)
+        {
+
+            hours = (int)(Time_duration / 3600);
+            minutes = ((Time_duration % 3600) / 60);
+            seconds = (int)(Time_duration % 60);
+
+            if (hours > 0)
+                timeText = $"{hours} hrs {(int)minutes} mins {seconds} seconds";
+            else if(hours==0 && minutes>0)
+            {
+                timeText = $"{(int)minutes} mins {seconds} seconds";
+
+            }
+            else
+            {
+                timeText = $"{seconds} seconds";
+            }
+        }
+        return timeText;
+    }
+
     public void detailsButtonClick(string name,string date)
     {
         string detail="";
@@ -230,9 +258,25 @@ public class ActivityDetails : MonoBehaviour
 
 		while (reader.Read())
 		{
-			Debug.Log("from database: " + reader[0].ToString());
+            string durationText=SetTime(Int32.Parse(reader[3].ToString()));
+            string repText;
+            System.DateTime startTime = System.DateTime.Parse(reader[0].ToString());
+            
+            string startTimeText=startTime.ToString("MM/dd/yyyy hh:mm:ss tt");
+            Debug.Log("no of repcounts "+Int32.Parse(reader[3].ToString()));
+            if(Int32.Parse(reader[4].ToString())==-1)
+            {
+                repText="No camera workout";
+            }
+            else
+            {
+                repText=reader[4].ToString();
+            }
+            
+			Debug.Log("from database exercise duration: " + durationText);
 
-            detail+="Start time: "+reader[0].ToString()+"\n"+"Duration: "+reader[3].ToString()+"\n"+"Repetitions: "+reader[4].ToString()+"\n\n\n";
+
+            detail+="Start time: "+startTimeText+"\n"+"Duration: "+durationText+"\n"+"Repetitions: "+repText+"\n\n\n";
             
             details.text=detail;
             Debug.Log(detail);
@@ -264,8 +308,14 @@ public class ActivityDetails : MonoBehaviour
 		while (reader.Read())
 		{
 			Debug.Log("from walking database: count");
+            System.DateTime startTime = System.DateTime.Parse(reader[0].ToString());
+            
+            string startTimeText=startTime.ToString("MM/dd/yyyy hh:mm:ss tt");
+            System.DateTime endTime = System.DateTime.Parse(reader[2].ToString());
+            
+            string endTimeText=startTime.ToString("MM/dd/yyyy hh:mm:ss tt");
 
-            detail+="Start time: "+reader[0].ToString()+"\n"+"End Time: "+reader[2].ToString()+"\n"+"Miles Walked: "+reader[3].ToString()+"\n\n\n";
+            detail+="Start time: "+startTimeText+"\n"+"End Time: "+endTimeText+"\n"+"Miles Walked: "+reader[3].ToString()+"\n\n\n";
             
             details.text=detail;
             Debug.Log(g);
@@ -281,4 +331,6 @@ public class ActivityDetails : MonoBehaviour
         }
         
     }
+
+   
 }

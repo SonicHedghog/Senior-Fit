@@ -48,7 +48,7 @@ public static class SaveUserData
         dbconn.Open();
         
         string query1 = "CREATE TABLE ExerciseData (Start_Time TEXT PRIMARY KEY,Date TEXT, Exercise TEXT, ElapsedTime INTEGER, RepCount INTEGER)";
-        string query2 = "CREATE TABLE WalkData (StartTime TEXT PRIMARY KEY,Date TEXT, EndTime TEXT, MilesWalked INTEGER)";
+        string query2 = "CREATE TABLE WalkData (StartTime TEXT PRIMARY KEY,Date TEXT, EndTime TEXT, MilesWalked FLOAT)";
         try
         {
             dbcmd = dbconn.CreateCommand(); // create empty command

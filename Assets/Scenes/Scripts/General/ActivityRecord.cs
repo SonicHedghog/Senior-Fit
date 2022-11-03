@@ -75,8 +75,18 @@ public class ActivityRecord : MonoBehaviour
 		dbconn.Close();
 
                 }
+            if(unique_dates.Count==0)
+            {
+                g=Instantiate(activityButton,transform);
+                g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text="No activities yet";
+                
+                g.transform.GetComponent<Button>().enabled=false;
+                            
 
-        foreach (var item in unique_dates)
+            }
+            else
+            {
+                foreach (var item in unique_dates)
             {
                
                 int exerciseCount=0,walkcount=0;
@@ -120,7 +130,7 @@ public class ActivityRecord : MonoBehaviour
                     }
                 else{
                     if(walkcount==0)
-                        summary="\nexercise: "+exerciseCount.ToString();
+                        summary="\nNo. of Exercises: "+exerciseCount.ToString();
 
                     if(exerciseCount==0)
                         summary="\nOutdoor Walking";
@@ -140,6 +150,7 @@ public class ActivityRecord : MonoBehaviour
                             Debug.Log("distinct date "+queryDate);
                             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text=date+summary;
                             //g.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text=message;
+                             g.transform.GetComponent<Button>().enabled=true;
                             g.transform.GetComponent<Button>().onClick.AddListener(()=>activityButtonClick(queryDate));
                             //ActivityDetails activityDetails=new ActivityDetails();
                             //g.transform.GetComponent<Button>().onClick.AddListener(()=>activityDetails.updateDetails(queryDate));
@@ -148,6 +159,10 @@ public class ActivityRecord : MonoBehaviour
 			
 		                
             }
+
+            }
+
+        
         
         
         Destroy(activityButton);
