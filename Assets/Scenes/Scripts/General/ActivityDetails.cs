@@ -318,7 +318,7 @@ public class ActivityDetails : MonoBehaviour
             string startTimeText=startTime.ToString("MM/dd/yyyy hh:mm:ss tt");
             System.DateTime endTime = System.DateTime.Parse(reader[2].ToString());
             
-            string endTimeText=startTime.ToString("MM/dd/yyyy hh:mm:ss tt");
+            string endTimeText=endTime.ToString("MM/dd/yyyy hh:mm:ss tt");
 
             detail+="Start time: "+startTimeText+"\n"+"End Time: "+endTimeText+"\n"+"Miles Walked: "+reader[3].ToString()+"\n\n\n";
             
