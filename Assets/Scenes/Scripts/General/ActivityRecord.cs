@@ -132,7 +132,7 @@ public class ActivityRecord : MonoBehaviour
 
                 if(exerciseCount!=0 && walkcount!=0)
                     {
-                        summary="\nexercise: "+exerciseCount.ToString()+"\nOutdoor Walking";
+                        summary="\nNo. of Exercises: "+exerciseCount.ToString()+"\nOutdoor Walking";
 
                     }
                 else{
