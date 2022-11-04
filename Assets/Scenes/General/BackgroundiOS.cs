@@ -39,17 +39,17 @@ public class BackgroundiOS : MonoBehaviour {
     public string lname;
     public long contactno;
     public string current_date, start_time;
-    public float time1 = 0, time2 = 0, Time_duration=0,new_duration=0,pauseTime1=0,pauseTime2=0;
-    public float hours,minutes, seconds;
-     public int minute, second;
-     public double currentdistance;
-     public double totaldistance;
-     public Text timestamp;
-    public bool walkStart=false;
+    public float time1 = 0, time2 = 0, Time_duration = 0, new_duration = 0, pauseTime1 = 0, pauseTime2 = 0;
+    public float hours, minutes, seconds;
+    public int minute, second;
+    public double currentdistance;
+    public double totaldistance;
+    public Text timestamp;
+    public bool walkStart = false;
 
-     public bool pause=false;
+    public bool pause = false;
 
-    public double NewDistance=0.0;
+    public double NewDistance = 0.0;
 
 
     // ***************AWS set up*******************************************
@@ -152,7 +152,7 @@ public class BackgroundiOS : MonoBehaviour {
         fname = data.fname;
         lname = data.lname;
         contactno = data.contactno;
-        current_date = DateTime.Now.ToString("yyyy/MM/dd");
+        current_date = DateTime.Now.ToString("MM/dd/YYYY");
         start_time = DateTime.Now.ToString("HH:mm:ss");
       
         LoadMessages();
@@ -166,10 +166,10 @@ public class BackgroundiOS : MonoBehaviour {
 		#if UNITY_EDITOR		
 		#elif UNITY_IOS
 
-        backgroundLaunch (fname,lname,contactno,start_time,current_date, Application.persistentDataPath + "/userlocation.json");
+        backgroundLaunch (fname, lname, contactno, start_time, current_date, Application.persistentDataPath + "/userlocation.json");
         walkStart = true;
         time1 = Time.unscaledTime;
-        pause=false;
+        pause = false;
 		#endif
 	}
 
@@ -178,8 +178,8 @@ public class BackgroundiOS : MonoBehaviour {
 		#if UNITY_EDITOR				
 		#elif UNITY_IOS
 			backgroundStop ();
-            walkStart=false;
-            pause=false;
+            walkStart = false;
+            pause = false;
 		#endif
         SceneManager.LoadScene("MainMenu");
 	}
@@ -188,19 +188,16 @@ public class BackgroundiOS : MonoBehaviour {
 
      public void OnClickPauseTimer()
     {
-        if(pause==false)
+        if(pause == false)
         {
-            pause=true;
-            pauseTime1=Time.unscaledTime;
-            // new_duration=0;
-
-
+            pause = true;
+            pauseTime1 = Time.unscaledTime;
         }
         else
         {
-            pause=false;
-            pauseTime2=Time.unscaledTime;
-            new_duration=new_duration+(pauseTime2-pauseTime1);
+            pause = false;
+            pauseTime2 = Time.unscaledTime;
+            new_duration = new_duration+(pauseTime2-pauseTime1);
         }
 
     }	
@@ -321,7 +318,7 @@ public class BackgroundiOS : MonoBehaviour {
                 {
                     dbconn.Open(); //Open connection to the database.
                     dbcmd = dbconn.CreateCommand();
-                    sqlQuery = string.Format("replace into WalkData (StartTime,Date, EndTime, MilesWalked) values (\"{0} {1}\",\"{1}\",\"{2}\",{3})", newuse.startTime,newuse.currentDate, newuse.currentTime, (totaldistance * 0.62));
+                    sqlQuery = string.Format("replace into WalkData (StartTime, Date, EndTime, MilesWalked) values (\"{0} {1}\",\"{1}\",\"{2}\",{3})", newuse.startTime, newuse.currentDate, newuse.currentTime, (totaldistance * 0.62));
                     dbcmd.CommandText = sqlQuery;
                     dbcmd.ExecuteScalar();
                     dbconn.Close();

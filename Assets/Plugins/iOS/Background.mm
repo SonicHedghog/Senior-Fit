@@ -11,6 +11,8 @@ UIBackgroundTaskIdentifier bgTask;
 NSString *prevlat = nil;
 NSString *prevlong = nil;
 NSDate *starttime = nil;
+NSDateFormatter* df_local;
+NSTimeZone *timeZone;
 
 NSString *fname;
 NSString *lname;
@@ -26,6 +28,13 @@ NSString *filename;
     prevlong = nil;
     starttime = nil;
     locationManager = [[CLLocationManager alloc] init];
+
+    df_local = [[NSDateFormatter alloc] init];
+    timeZone = [NSTimeZone localTimeZone];
+    
+    [df_local setTimeZone:timeZone];
+    [df_local setDateFormat:@"MM/dd/yyyy HH:mm:ss"];
+
     if([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
                 //iOS 8.0 onwards
                 [locationManager requestAlwaysAuthorization];
@@ -61,7 +70,7 @@ NSString *filename;
             
         }
         
-        locs[x++] = [NSString stringWithFormat:@"{\"firstName\": \"%@\", \"lastName\": \"%@\", \"contactNo\": %@, \"startTime\": \"%@\", \"currentDate\": \"%@\", \"latitude\": %@, \"longitude\": %@, \"currentTime\": \"%@\"}", fname, lname, contactno, start_time, current_date, latitude, longitude, location.timestamp];
+        locs[x++] = [NSString stringWithFormat:@"{\"firstName\": \"%@\", \"lastName\": \"%@\", \"contactNo\": %@, \"startTime\": \"%@\", \"currentDate\": \"%@\", \"latitude\": %@, \"longitude\": %@, \"currentTime\": \"%@\"}", fname, lname, contactno, start_time, current_date, latitude, longitude, [df_local stringFromDate:location.timestamp]];
         UnitySendMessage("Main Camera", "OnDistanceChanged", [[NSString stringWithFormat:@"%@ %@ %@ %@", prevlat,latitude, prevlong, longitude] UTF8String]);
         prevlat = latitude;
         prevlong = longitude;
@@ -82,7 +91,7 @@ NSString *filename;
     [contents writeToFile:filename atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     UnitySendMessage("Main Camera", "WriteLocationToUI", "Message to send");
-    UnitySendMessage("Main Camera", "onTimeChanged", [[NSString stringWithFormat:@"%d", -1 * (int)[starttime timeIntervalSinceNow]] UTF8String]);
+    // UnitySendMessage("Main Camera", "onTimeChanged", [[NSString stringWithFormat:@"%d", -1 * (int)[starttime timeIntervalSinceNow]] UTF8String]);
 }
 
 -(void)endTask {
@@ -124,6 +133,6 @@ extern "C" {
     void backgroundStop () {
         if (bg != NULL)
             [bg endTask];
-    }    
+    }
 }
 @end
