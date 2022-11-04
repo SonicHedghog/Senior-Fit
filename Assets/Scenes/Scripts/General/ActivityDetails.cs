@@ -31,6 +31,7 @@ public class ActivityDetails : MonoBehaviour
     public static string d="";
     
     public Button infoButton;
+    public Button backButton;
     private int checkIfFirstTime=0;
     
    // private GameObject activityContainer;
@@ -56,8 +57,10 @@ public class ActivityDetails : MonoBehaviour
       void OnEnable()
     {
         Destroy(g);
+         backButton.gameObject.SetActive(false);
        DetailsButton=transform.GetChild(0).gameObject;
        DetailsButton.GetComponent<Button>().enabled=false;
+       
         
         
        Debug.Log("enabled "+queryDate);
@@ -73,7 +76,7 @@ public class ActivityDetails : MonoBehaviour
     {
         //if(checkIfFirstTime!=0)
         {
-            
+           
          g=Instantiate(DetailsButton,transform);
         
         Debug.Log("enabled "+queryDate);
@@ -94,6 +97,7 @@ public class ActivityDetails : MonoBehaviour
         for (var i = 1; i != count; ++i)
             Destroy(transform.GetChild(i).gameObject);
          DetailsButton.gameObject.SetActive(true);
+        
          
         
         
@@ -104,7 +108,7 @@ public class ActivityDetails : MonoBehaviour
     {
         Debug.Log("update details called");
         Destroy(g);
-        
+        backButton.gameObject.SetActive(true); 
 
         
          
@@ -141,6 +145,7 @@ public class ActivityDetails : MonoBehaviour
 
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text=eName;
             g.transform.GetComponent<Button>().onClick.AddListener(()=>detailsButtonClick(eName,date));
+            
            
 
             Debug.Log(g);

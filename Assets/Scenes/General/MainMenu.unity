@@ -9959,7 +9959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1166607590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10820,6 +10820,7 @@ MonoBehaviour:
   exerciseSprite: {fileID: 21300000, guid: 2378ab696e2771b469e023fb9a3484e2, type: 3}
   walkSprite: {fileID: 21300000, guid: d42efbb90f73dd3408e7aac3c3edcc51, type: 3}
   infoButton: {fileID: 1699829010}
+  backButton: {fileID: 1166607590}
   details: {fileID: 293322829}
 --- !u!114 &1210502458
 MonoBehaviour:
@@ -13313,7 +13314,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1402531580
 MonoBehaviour:
