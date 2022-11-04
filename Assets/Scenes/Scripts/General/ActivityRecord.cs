@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Mono.Data.Sqlite;
 using System.Data;
+using System.Linq;
 
 public class ActivityRecord : MonoBehaviour
 {
@@ -75,7 +76,13 @@ public class ActivityRecord : MonoBehaviour
 		dbconn.Close();
 
                 }
-            if(unique_dates.Count==0)
+
+            var orderedList = unique_dates.OrderByDescending(x => DateTime.Parse(x)).ToList();
+            foreach(var d in orderedList)
+            {
+                Debug.Log("Ordered date: "+d);
+            }
+            if(orderedList.Count==0)
             {
                 g=Instantiate(activityButton,transform);
                 g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text="No activities yet";
@@ -86,7 +93,7 @@ public class ActivityRecord : MonoBehaviour
             }
             else
             {
-                foreach (var item in unique_dates)
+                foreach (var item in orderedList)
             {
                
                 int exerciseCount=0,walkcount=0;
