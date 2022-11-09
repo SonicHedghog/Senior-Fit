@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 #if UNITY_ANDROID
-
 using Unity.Notifications.Android;
 #endif
 
@@ -14,49 +13,30 @@ using Unity.Notifications.Android;
 using Unity.Notifications.iOS;
 #endif
 
-/*using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.CognitoIdentity;
-using Amazon.Runtime;
-using Amazon;*/
-
 public class loginscript : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Button loginButton;
     public Button okButton;
     public InputField firstname;
     public InputField lastname;
     public Text DisclaimerText;
-
     public InputField ContactNumber;
     public long contactno;
     public string fname;
-
     public string lname;
-
     public string version;
-
     public DateTime LoginTime;
-
-
     public string[] lines;
-
     public string[] messages;
-    //public string[] url;
     NotificationList newnotification;
-
-   // private static string new_url = "";
-   private static List<string> new_url=new List<string>();
+   private static List<string> new_url = new List<string>();
    
 
     //**********************************************************************
 
     async void Start()
     {
-        //UnityInitializer.AttachToGameObject(this.gameObject);
-         Screen.orientation = ScreenOrientation.Portrait;
+        Screen.orientation = ScreenOrientation.Portrait;
         loginButton.onClick.AddListener(LoginButtonClick);
         okButton.onClick.AddListener(LoadStartMenu);
         newnotification = SaveData.LoadNotifications();
@@ -64,79 +44,15 @@ public class loginscript : MonoBehaviour
         {
             new_url.Add(noti.url);
         }
-        showDisclaimer();
-        //DontDestroyOnLoad(this.gameObject);
-        
-
+        showDisclaimer();        
     }
 
-
-    /*public void LoadNotifications()
-    {
-        string[] paths = { Application.streamingAssetsPath, "Routines", "PushNotifications.csv" };
-
-        
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
-            www.SendWebRequest();
-            while (!www.isDone)
-            {
-            }
-            lines = www.downloadHandler.text.Split('\n');
-            Debug.Log(lines);
-
-
-        }
-        else
-        {
-            lines = File.ReadAllLines(Application.streamingAssetsPath + "/Routines/" +  "PushNotifications.csv");
-            Debug.Log(lines[0]);
-        }
-
-
-       
-    }*/
-
-    int count=0;
+    int count = 0;
     public void EventAlarmTest(int minutesOnTheHour, string firstname, string body,string link)
     {
         count++;
-        Debug.Log("Notification called "+count);
-       /*
-        #if UNITY_ANDROID
-        var c1 = new AndroidNotificationChannel()
-        {
-            Id = "notification_id",
-            Name = "Default Channel",
-            Importance = Importance.Default,
-            Description = "Reminder notifications",
-        };
-        AndroidNotificationCenter.RegisterNotificationChannel(c1);
+        Debug.Log("Notification called " + count);
 
-        var notification = new AndroidNotification();
-        notification.Title = "Senior Fit";
-        //string body = "Hi " + firstname + " ! " + lines[1];
-        notification.Text = body;
-        notification.FireTime = System.DateTime.Now.AddMinutes(minutesOnTheHour);
-        notification.ShouldAutoCancel = true;
-        notification.ShowTimestamp = true;
-        notification.IntentData = link;
-        notification.Style = NotificationStyle.BigTextStyle;
-
-        var notification_id = AndroidNotificationCenter.SendNotification(notification, "notification_id");
-
-        Debug.Log($"notification status - {AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id)}");
-        var notificationStatus = AndroidNotificationCenter.CheckScheduledNotificationStatus(notification_id);
-        if (notificationStatus == NotificationStatus.Delivered)
-        {
-            // Remove the previously shown notification from the status bar.
-            AndroidNotificationCenter.CancelNotification(notification_id);
-        }
-
-
-
-    #endif*/
 
         #if UNITY_ANDROID
         SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
@@ -150,44 +66,35 @@ public class loginscript : MonoBehaviour
     void LoginButtonClick()
     {
         contactno = long.Parse(ContactNumber.text);
-        fname = firstname.text;
-        lname = lastname.text;
-        LoginTime=DateTime.Now;
-        version=SaveData.IsNotificationScheduled();
+        fname = firstname.text.Trim();
+        lname = lastname.text.Trim();
+        LoginTime = DateTime.Now;
+        version = SaveData.IsNotificationScheduled();
         SaveUserData.SaveUser(this);
         
-        int time=0;
+        int time = 0;
         string body;
         
         Debug.Log("first time log in & notification : ");
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            time=noti.interval;
-            //time=noti.interval/2;
+            time = noti.interval;
             body = "Hi " + fname + " ! " + noti.message;
             Debug.Log("body " + body);
             string link = noti.url;
-            //SceneChange.OpenNewLink(newnotification.allnotifications[0].url);
             EventAlarmTest(time, fname, body,link);
-            Debug.Log("notification successful");
+            Debug.Log("Notification Successful!");
         }
-        //showDisclaimer();
-        //SceneManager.LoadScene("MainMenu");
-       
-    
     }
 
     public void showDisclaimer()
     {
         DisclaimerText.text="Disclaimer: Note that you are not being recorded.\nWe are using your phone camera to capture your movement to count the exercise repetition, and we do NOT store any of your recordings.";
-
-        
-
     }
     public void LoadStartMenu()
     {
-            SceneManager.LoadScene("MainMenu");
-            Debug.Log("concent button clicked");
+        SceneManager.LoadScene("MainMenu");
+        Debug.Log("concent button clicked");
     }
 
     public static List<string> GetLink()
@@ -283,5 +190,4 @@ public class loginscript : MonoBehaviour
         }
     }
     #endif
-    
 }
