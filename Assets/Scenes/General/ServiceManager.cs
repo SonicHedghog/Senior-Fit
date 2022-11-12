@@ -26,7 +26,9 @@ public class ServiceManager : MonoBehaviour
         {
             if (focus)  
             {
+                InvokeRepeating("showDistance", 0.1f, 15f);
                 InvokeRepeating("UpdateAWSinfo", 0.1f, 15f);
+                
                 onfocus = true;
             }  
             else            
@@ -71,6 +73,8 @@ public class ServiceManager : MonoBehaviour
     public bool pause = false;
 
     public double NewDistance;
+    public static double newTotalDistance=0.0;
+    public double storeDistance=0.0;
 
     DateTime CheckTime;
 
@@ -255,7 +259,8 @@ public class ServiceManager : MonoBehaviour
 
     private void OnDistanceChanged(double _distance)
     {
-         Debug.Log("Inside distance changed");
+         Debug.Log("Inside distance changed "+_distance);
+         newTotalDistance=_distance;
         //if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
         distanceText.text = $"Distance walked: {_distance} miles";
 
@@ -285,6 +290,8 @@ public class ServiceManager : MonoBehaviour
         }
 
     }*/
+
+    
 
     private void OnApplicationPause(bool _isPaused)
     {
@@ -400,12 +407,28 @@ public class ServiceManager : MonoBehaviour
                 UpdateAWSinfo();
             }
 
-            distanceText.text = "Distance walked: " + NewDistance.ToString() + " miles";
+            Debug.Log("check distance "+NewDistance.ToString());
+
+            //distanceText.text = "Distance walked: " + NewDistance.ToString() + " miles";
         }
         else
         {
             GPSStatus.text = "Let's get started!!";
         }
+    }
+
+    void showDistance()
+    {
+        Debug.Log("without internet "+newTotalDistance.ToString());
+
+        
+
+        if(newTotalDistance > NewDistance)
+            {
+                NewDistance = newTotalDistance;
+                distanceText.text = "Distance walked: " + NewDistance.ToString() + " miles";
+                Debug.Log("without internet new total distance "+ NewDistance);
+            }
     }
 
     void UpdateAWSinfo()
@@ -446,10 +469,12 @@ public class ServiceManager : MonoBehaviour
 
                 DateTime newTime = DateTime.Parse(newuse.currentTime, System.Globalization.CultureInfo.CurrentCulture);
 
-                if(newuse.totaldistance > NewDistance && DateTime.Compare(CheckTime,newTime) <= 0)
+                
+
+                if(newuse.totaldistance > storeDistance && DateTime.Compare(CheckTime,newTime) <= 0)
                 {
-                    NewDistance = newuse.totaldistance;
-                    Debug.Log("new total distance "+ NewDistance);
+                    storeDistance = newuse.totaldistance;
+                   
                 }
 
                 // Save/Update contents to SQLite DB
@@ -457,7 +482,7 @@ public class ServiceManager : MonoBehaviour
                 {
                     dbconn.Open(); //Open connection to the database.
                     dbcmd = dbconn.CreateCommand();
-                    sqlQuery = string.Format("replace into WalkData (StartTime,Date, EndTime, MilesWalked) values (\"{0} {1}\",\"{1}\",\"{2}\",{3})", newuse.startTime,newuse.currentDate, newuse.currentTime, NewDistance);
+                    sqlQuery = string.Format("replace into WalkData (StartTime,Date, EndTime, MilesWalked) values (\"{0} {1}\",\"{1}\",\"{2}\",{3})", newuse.startTime,newuse.currentDate, newuse.currentTime, storeDistance);
                     dbcmd.CommandText = sqlQuery;
                     dbcmd.ExecuteScalar();
                     dbconn.Close();

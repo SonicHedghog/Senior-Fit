@@ -172,8 +172,9 @@ public class ActivityDetails : MonoBehaviour
 			Debug.Log("from walking database: " + reader[0].ToString());
 
             DetailsButton.gameObject.SetActive(true);
+            DetailsButton.GetComponent<Button>().enabled=true;
 
-            
+                       
 
             g=Instantiate(DetailsButton,transform);
             DetailsButton.gameObject.SetActive(false);
@@ -184,6 +185,7 @@ public class ActivityDetails : MonoBehaviour
 
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text=eName;
             g.transform.GetComponent<Button>().onClick.AddListener(()=>detailsButtonClick(eName,date));
+
 
             Debug.Log(g);
             
