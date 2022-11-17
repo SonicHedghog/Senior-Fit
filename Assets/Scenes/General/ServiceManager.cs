@@ -73,8 +73,8 @@ public class ServiceManager : MonoBehaviour
     public bool pause = false;
 
     public double NewDistance;
-    public static double newTotalDistance=0.0;
-    public double storeDistance=0.0;
+    public static double newTotalDistance;
+    public double storeDistance;
 
     DateTime CheckTime;
 
@@ -204,6 +204,8 @@ public class ServiceManager : MonoBehaviour
 
         LoadMessages();
         NewDistance = 0.0;
+        newTotalDistance=0.0;
+        storeDistance=0.0;
         
     }
 
