@@ -16,6 +16,7 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
     public Button pause;
     public Button back;
     public Text name;
+    //public GameObject tutorialType;
 
     public DateTime startTime;
 
@@ -100,7 +101,80 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public void SetTutorialAddress()
         {
-            if(SceneChange.GetTutorialNumber()==1)
+            int tutorialNo = SceneChange.GetTutorialNumber();
+switch (tutorialNo) 
+{
+  case 1:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";
+    name.text="Shoulder Touch";
+    break;
+  case 2:
+    videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/ChairSitStandInstructions.mp4";
+    name.text="Chair Sit to Stand";
+    break;
+  case 3:
+    videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/SingleLegStanceInstructions.mp4";
+    name.text="Single Leg Stance";
+    break;
+  case 4:
+    videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/SeatedHamstringStretchInstructions.mp4";
+    name.text="Seated Hamstring Stretch";
+    break;
+  case 5:
+    videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/MarchingInPlaceInstructions.mp4";
+    name.text="Marching in Place";
+    break;
+  case 6:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/HeeltoToeWalkingInstructions.mp4";
+    name.text="Heel to Toe Walking";
+    break;
+  case 7:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/RocktheBoatInstructions.mp4";
+    name.text="Rock the Boat";
+    break;
+  case 8:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/ShoulderStretchInstructions.mp4";
+    name.text="Shoulder Stretch with Towel";
+    break;
+  case 9:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/SideSteppingCrossoversInstructions.mp4";
+    name.text="Side Stepping Crossovers";
+    break;
+  case 10:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/StandingCalfStretchInstructions.mp4";
+    name.text="Standing Calf Stretch";
+    break;
+  case 11:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/StandingLegCurlInstructions.mp4";
+    name.text="Standing Leg Curl";
+    break;
+  case 12:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/StandingThighStretchInstructions.mp4";
+    name.text="Standing Thigh Stretch";
+    break;
+  case 13:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/WalkingInstructions.mp4";
+    name.text="Walking";
+    break;
+  case 14:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/WalkingwithArmSwingsInstructions.mp4";
+    name.text="Walking with Arm Swings";
+    break;
+  case 15:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/WalkingwithHighKneesInstructions.mp4";
+    name.text="Walking with High Knees";
+    break;
+  case 16:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/WallPushUpsInstructions.mp4";
+    name.text="Wall Push Ups";
+    break;
+  default:
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";
+    name.text="Shoulder Touch";
+    break;
+
+}
+            /*if(SceneChange.GetTutorialNumber()==1)
             {
                  videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";
                  name.text="Shoulder Touch";
@@ -132,7 +206,9 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
             }
             else
             videoPath=Application.streamingAssetsPath+"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";
-           
+           */
+
+
             videoPlayer.url =   videoPath;
              videoPlayer.Play();
 
@@ -150,5 +226,6 @@ public class VidelTutorial : MonoBehaviour, IDragHandler, IPointerDownHandler
     public void backButton()
     {
         SceneManager.LoadScene("MainMenu");
+        //tutorialType.SetActive(true);
     }
 }

@@ -448,6 +448,73 @@ public class SceneChange : MonoBehaviour
 
         SceneManager.LoadScene("VideoTutorial");
     }
+     public void HeeltoToeTutorial()
+    {
+        tutorialNumber=6;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+     public void RocktheBoatTutorial()
+    {
+        tutorialNumber=7;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+     public void ShoulderStretchTutorial()
+    {
+        tutorialNumber=8;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void SideSteppingTutorial()
+    {
+        tutorialNumber=9;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void StandingCalfStretchTutorial()
+    {
+        tutorialNumber=10;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void StandingLegCurlTutorial()
+    {
+        tutorialNumber=11;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void StandingThighStretchTutorial()
+    {
+        tutorialNumber=12;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void WalkingInstructions()
+    {
+        tutorialNumber=13;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void WalkingwithArmSwingsTutorial()
+    {
+        tutorialNumber=14;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void WalkingwithHighKneesTutorial()
+    {
+        tutorialNumber=15;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+    public void WallPushUpsTutorial()
+    {
+        tutorialNumber=16;
+
+        SceneManager.LoadScene("VideoTutorial");
+    }
+
 
     int count=0;
   
