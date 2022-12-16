@@ -40,7 +40,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
     public int exercisenumber;
     public string Exercise;
-    public string date,time,repCount="",newrepcount;
+    public string date, time, repCount = "", newrepcount;
     public string fname;
     public string lname;
     public long contactno;
@@ -183,7 +183,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
     {
         // Init model
         UnityInitializer.AttachToGameObject(this.gameObject);
-        AWSConfigs.HttpClient= AWSConfigs.HttpClientOption.UnityWebRequest;
+        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         Screen.orientation = ScreenOrientation.LandscapeLeft;
         string detectionPath = Path.Combine(Application.streamingAssetsPath, poseDetectionModelFile);
         string landmarkPath = Path.Combine(Application.streamingAssetsPath, poseLandmarkModelFile);
@@ -194,7 +194,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         
 
         // Init camera 
-        requestedFPS=SceneChange.GetFPS();
+        requestedFPS = SceneChange.GetFPS();
         try{
 
            
@@ -207,8 +207,8 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 }
             }
 
-            height=Screen.height;
-            width= Screen.width;
+            height = Screen.height;
+            width = Screen.width;
             webcamTexture = new WebCamTexture(frontCamName, width, height, requestedFPS);
             
             
@@ -233,42 +233,80 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         worldJoints = new Vector4[PoseLandmarkDetect.JointCount];
 
         cancellationToken = this.GetCancellationTokenOnDestroy();
-        exercisenumber= SceneChange.GetExerciseNumber();
+        exercisenumber = SceneChange.GetExerciseNumber();
         Debug.Log("EXERCISE NUMBER: "+ exercisenumber);
         switch(exercisenumber)
         {
             case 1:
-                Exercise="Seated March";
+                Exercise = "Seated March";
                 script = new Interpreter();
                 script.AddCommand("SeatedMarch -1");
                 break;
             case 2:
-                Exercise="Single Leg Stance";
+                Exercise = "Single Leg Stance";
                 script = new Interpreter();
                 script.AddCommand("SingleLegStance -1");
                 break;
             case 3:
-                Exercise="Shoulder Touch";
+                Exercise = "Shoulder Touch";
                 script = new Interpreter();
                 script.AddCommand("ShoulderTouch -1");
                 break;
             case 4:
-                Exercise="Chair Sit to Stand";
+                Exercise = "Chair Sit to Stand";
                 script = new Interpreter();
                 script.AddCommand("ChairSitToStand -1");
                 break;
             case 5:
-                Exercise="Marching in Place";
+                Exercise = "Marching in Place";
                 script = new Interpreter();
                 script.AddCommand("MarchingInPlace -1");
                 break;
-
             case 6:
-                Exercise="Seated Hamstring Stretch";
+                Exercise = "Seated Hamstring Stretch";
                 script = new Interpreter();
                 script.AddCommand("SeatedHamstringStretch -1");
                 break;
-
+            case 7:
+                Exercise = "Rock The Boat";
+                script = new Interpreter();
+                script.AddCommand("RockTheBoat -1");
+                break;
+            case 8:
+                Exercise = "Shoulder Stretch";
+                script = new Interpreter();
+                script.AddCommand("ShoulderStretch -1");
+                break;
+            case 9:
+                Exercise = "Standing Calf Stretch";
+                script = new Interpreter();
+                script.AddCommand("StandingCalfStretch -1");
+                break;
+            case 10:
+                Exercise = "Standing Leg Curl";
+                script = new Interpreter();
+                script.AddCommand("StandingLegCurl -1");
+                break;
+            case 11:
+                Exercise = "Standing Thigh Stretch";
+                script = new Interpreter();
+                script.AddCommand("StandingThighStretch -1");
+                break;
+            case 12:
+                Exercise = "Wall Push Ups";
+                script = new Interpreter();
+                script.AddCommand("WallPushUps -1");
+                break;
+            case 13:
+                Exercise = "Side Stepping";
+                script = new Interpreter();
+                script.AddCommand("SideStepping -1");
+                break;
+            case 14:
+                Exercise = "Heel To Toe Walking";
+                script = new Interpreter();
+                script.AddCommand("HeelToToeWalking -1");
+                break;
             case 0:
                 script = new Interpreter(file);
                 break;
@@ -277,42 +315,21 @@ public sealed class ExerciseRecognizer : MonoBehaviour
         }
         userdata data = SaveUserData.LoadUser();
 
-        fname=data.fname;
-        lname=data.lname;
-        contactno=data.contactno;
-        date=DateTime.Now.ToString("yyyy/MM/dd");
-        time= DateTime.Now.ToString("HH:mm:ss");
+        fname = data.fname;
+        lname = data.lname;
+        contactno = data.contactno;
+        date = DateTime.Now.ToString("yyyy/MM/dd");
+        time = DateTime.Now.ToString("HH:mm:ss");
         SaveData.SaveIntoJson(this);
-       
-
-
-        
-        //filenametest="";
-
 
         //************sending to dynamodbtable******************
         InvokeRepeating(nameof(updateAWSTable), 5.0f, 5.0f);
 
         filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
         conn = "URI=file:" + filepath;
-
-        /*UnityWebRequest webrequest = UnityWebRequest.Get("https://www.google.com/");
-        webrequest.SendWebRequest();
-
-        if (webrequest.error == null)
-        {
-            //updateAWSTable();
-            //return false;
-            Debug.Log("No internet");
-        }
-        else
-        {
-           
-           Debug.LogWarning("No internet connection");
-        }*/
     }
     
-     void updateAWSTable()
+    void updateAWSTable()
     {
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
@@ -333,11 +350,11 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     LastName = newuse.lname,
                     ContactNumber = newuse.contactno,
                     ExerciseName = newuse.exercise,
-                    date=newuse.date,
+                    date = newuse.date,
                     startTime = newuse.time,
-                    repCount=newuse.repCount,
+                    repCount = newuse.repCount,
                     UserKey = contactno.ToString()+newuse.date+newuse.time,
-                    duration=(int)newuse.duration
+                    duration = (int)newuse.duration
                 };
                 Context.SaveAsync(newUser, (result) =>
                 {
@@ -380,19 +397,19 @@ public sealed class ExerciseRecognizer : MonoBehaviour
    public void ShowTime()
     {
         time2 = Time.unscaledTime;
-        Time_duration=(time2-time1)-new_duration;
+        Time_duration = (time2 - time1) - new_duration;
 
         if(timeText is null) timeText = GameObject.Find("Time").GetComponent<Text>();
-        if (Time_duration > 0)
+        if(Time_duration > 0)
         {
 
             hours = (int)(Time_duration / 3600);
             minutes = ((Time_duration % 3600) / 60);
             seconds = (int)(Time_duration % 60);
 
-            if (hours > 0)
+            if(hours > 0)
                 timeText.text = $"{hours} hrs {(int)minutes} mins {seconds} seconds";
-            else if(hours==0 && minutes>0)
+            else if(hours == 0 && minutes > 0)
             {
                 timeText.text = $"{(int)minutes} mins {seconds} seconds";
 
@@ -421,7 +438,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
         if(repCount!=newrepcount)
         {
-            repCount=newrepcount;
+            repCount = newrepcount;
             SaveData.SaveIntoJson(this);
         }
 
@@ -477,7 +494,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             webcamTexture.Pause();
             videoPlayer.Pause();
             menu = true;
-            pauseTime1=Time.unscaledTime;
+            pauseTime1 = Time.unscaledTime;
             Debug.Log("puz: " + pauseTime1 + " " + pauseTime2);
         }
         else if(menu && !PauseMenu.GetIsPaused())
@@ -485,23 +502,22 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             webcamTexture.Play();
             videoPlayer.Play();
             menu = false;
-            pauseTime2=Time.unscaledTime;
-            new_duration=new_duration+(pauseTime2-pauseTime1);
+            pauseTime2 = Time.unscaledTime;
+            new_duration = new_duration+(pauseTime2-pauseTime1);
             Debug.Log("puz: " + pauseTime1 + " " + pauseTime2);
         }
         if(!PauseMenu.GetIsPaused() && exerciseName.text != "Exercise Name") ShowTime();
 
-        if(ResultUI!=null) ResultUI.SetActive(true);
-        if (runBackground)
+        if(ResultUI != null) ResultUI.SetActive(true);
+        if(runBackground)
         {
-            if (task.Status.IsCompleted())
+            if(task.Status.IsCompleted())
             {
                 task = InvokeAsync();
             }
         }
         else
         {
-           //if(this.gameObject!=null)
             Invoke();
         }
         
