@@ -20,13 +20,13 @@ public class BackgroundiOS : MonoBehaviour {
 		[DllImport ("__Internal")]
 		private static extern void backgroundStop ();		
 
-        void OnApplicationFocus ( bool focus )
-     {
-         if ( focus )  
-         {
-             InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
-         }  
-     }
+    //     void OnApplicationFocus ( bool focus )
+    //  {
+    //      if ( focus )  
+    //      {
+    //          InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
+    //      }  
+    //  }
 	#endif
 
     [SerializeField] public Text latText;
@@ -152,13 +152,15 @@ public class BackgroundiOS : MonoBehaviour {
         fname = data.fname;
         lname = data.lname;
         contactno = data.contactno;
-        current_date = DateTime.Now.ToString("MM/dd/YYYY");
+        current_date = DateTime.Now.ToString("MM/dd/yyyy");
         start_time = DateTime.Now.ToString("HH:mm:ss");
       
         LoadMessages();
 
         filepath = Application.persistentDataPath + "/SeniorFitDB.s3db";
         conn = "URI=file:" + filepath;
+
+        InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
     }
 
 	// Start background task
@@ -213,14 +215,14 @@ public class BackgroundiOS : MonoBehaviour {
             fileContents = File.ReadAllText(path);
            // fileContents="{ \"allgpsdata\" : "+fileContents+"}";
            
-            status="true";
+            status = "true";
             //Debug.Log("filecontent: "+ fileContents);
 
         }
         else
         {
-            fileContents="empty";
-            status="false";
+            fileContents = "empty";
+            status = "false";
             Debug.Log("File not found!");
         }    
     }
@@ -232,7 +234,7 @@ public class BackgroundiOS : MonoBehaviour {
             , double.Parse(message.Split(' ')[2]), double.Parse(message.Split(' ')[3]));
 
         totaldistance += currentdistance;
-        totaldistance=(float)Math.Round(totaldistance * 100) / 100;
+        totaldistance = (float)Math.Round(totaldistance * 100) / 100;
         if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
         distanceText.text = "Distance walked: " + (totaldistance * 0.62).ToString("N2") + " miles";
     }
@@ -240,7 +242,7 @@ public class BackgroundiOS : MonoBehaviour {
     public void ShowTime()
     {
         time2 = Time.unscaledTime;
-        Time_duration=(time2-time1)-new_duration;
+        Time_duration = (time2-time1)-new_duration;
 
         if(GPSStatus is null) GPSStatus = GameObject.Find("GPSMsg").GetComponent<Text>();
         if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();

@@ -322,7 +322,7 @@ public class ActivityDetails : MonoBehaviour
             
             string endTimeText=endTime.ToString("MM/dd/yyyy hh:mm:ss tt");
 
-            detail+="Start time: "+startTimeText+"\n"+"End Time: "+endTimeText+"\n"+"Miles Walked: "+reader[3].ToString()+"\n\n\n";
+            detail+="Start time: "+startTimeText+"\n"+"End Time: "+endTimeText+"\n"+"Miles Walked: "+ Convert.ToDouble(reader[3].ToString()).ToString("F")+"\n\n\n";
             
             details.text=detail;
             Debug.Log(g);
