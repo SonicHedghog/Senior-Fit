@@ -321,23 +321,7 @@ public class SceneChange : MonoBehaviour
         req_fps = 30;
         LoadWorkoutScene();
 
-       
-
-     /*  bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
-            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-        
-        if (webCamPermission)
-       {
-            SceneManager.LoadScene("WorkoutSpace");
-       }
-       else
-       {
-            SceneManager.LoadScene("NoCameraWorkout");
-       }*/
-      
+     
 
     }
 
@@ -373,6 +357,62 @@ public class SceneChange : MonoBehaviour
         
 
         exercisenumber = 2;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+
+     public void WallPushUp()
+    {
+        
+
+        exercisenumber = 7;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+     public void LegCurl()
+    {
+        
+
+        exercisenumber = 8;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+     public void CalfStretch()
+    {
+        
+
+        exercisenumber = 9;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+     public void ThighStretch()
+    {
+        
+
+        exercisenumber = 10;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+     public void ShoulderStretch()
+    {
+        
+
+        exercisenumber = 11;
         req_fps = 25;
        
         LoadWorkoutScene();

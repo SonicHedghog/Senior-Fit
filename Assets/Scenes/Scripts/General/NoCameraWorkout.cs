@@ -166,6 +166,22 @@ public class NoCameraWorkout : MonoBehaviour
             case 6:
                 Exercise = "Seated Hamstring Stretch";
                 break;
+            case 7:
+                Exercise="Wall Push-Up";
+                break;
+
+            case 8:
+                Exercise="Standing Leg Curl";
+                break;
+            case 9:
+                Exercise="Standing Calf Stretch";
+                break;
+            case 10:
+                Exercise="Standing Thigh Stretch";
+                break;
+            case 11:
+                Exercise="Shoulder Stretch with Towel";
+                break;
             default:
                 Exercise="Seated Hamstring Stretch";
                 break;
