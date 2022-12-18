@@ -327,6 +327,8 @@ public class SceneChange : MonoBehaviour
 
     
 
+    
+
     public void ChairSitToStand()
     {
        
@@ -364,7 +366,7 @@ public class SceneChange : MonoBehaviour
        
     }
 
-     public void WallPushUp()
+    public void RockTheBoat()
     {
         
 
@@ -375,11 +377,23 @@ public class SceneChange : MonoBehaviour
         
        
     }
+
+     public void WallPushUp()
+    {
+        
+
+        exercisenumber = 12;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
      public void LegCurl()
     {
         
 
-        exercisenumber = 8;
+        exercisenumber = 10;
         req_fps = 25;
        
         LoadWorkoutScene();
@@ -401,7 +415,7 @@ public class SceneChange : MonoBehaviour
     {
         
 
-        exercisenumber = 10;
+        exercisenumber = 11;
         req_fps = 25;
        
         LoadWorkoutScene();
@@ -412,13 +426,37 @@ public class SceneChange : MonoBehaviour
     {
         
 
-        exercisenumber = 11;
+        exercisenumber = 8;
         req_fps = 25;
        
         LoadWorkoutScene();
         
        
     }
+     public void SideStepping()
+    {
+        
+
+        exercisenumber = 13;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+
+     public void HeelToToe()
+    {
+        
+
+        exercisenumber = 14;
+        req_fps = 25;
+       
+        LoadWorkoutScene();
+        
+       
+    }
+
 
 
 
