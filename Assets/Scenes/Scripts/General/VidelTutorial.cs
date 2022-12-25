@@ -165,8 +165,8 @@ switch (tutorialNo)
     name.text="Walking with High Knees";
     break;
   case 16:
-    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/WallPushUpsInstructions.mp4";
-    name.text="Wall Push Ups";
+    videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/WallPushUpInstructions.mp4";
+    name.text="Wall Push-Up";
     break;
   default:
     videoPath=Application.streamingAssetsPath +"/TutorialClips/InstructionalVideos/ShoulderTouchInstructions.mp4";

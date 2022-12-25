@@ -293,9 +293,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 script.AddCommand("StandingThighStretch -1");
                 break;
             case 12:
-                Exercise = "Wall Push Ups";
+                Exercise = "Wall Push Up";
                 script = new Interpreter();
-                script.AddCommand("WallPushUps -1");
+                script.AddCommand("WallPushUp -1");
                 break;
             case 13:
                 Exercise = "Side Stepping";
