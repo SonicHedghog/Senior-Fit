@@ -14,10 +14,10 @@ namespace Poses
             get
             {
                 return new int[] {
-                    PoseLandmarkDetect.LEFT_EYE,
-                    PoseLandmarkDetect.RIGHT_EYE,
-                    PoseLandmarkDetect.LEFT_HIP,
-                    PoseLandmarkDetect.RIGHT_HIP,
+                    PoseLandmarkDetect.LEFT_WRIST,
+                    PoseLandmarkDetect.RIGHT_WRIST,
+                    PoseLandmarkDetect.LEFT_ELBOW,
+                    PoseLandmarkDetect.RIGHT_ELBOW,
                     PoseLandmarkDetect.LEFT_KNEE,
                     PoseLandmarkDetect.RIGHT_KNEE,
                     PoseLandmarkDetect.LEFT_ANKLE,

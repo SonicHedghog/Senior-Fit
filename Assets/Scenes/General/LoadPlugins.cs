@@ -8,6 +8,9 @@ public class LoadPlugins : MonoBehaviour
 
     public Button StartWalking;
     public Button StopWalking;
+    public GameObject DialoguePanel;
+    public GameObject WalkPanel;
+    public Button OK;
 
     public Button PauseTimer;
     public Button Back;
@@ -25,6 +28,17 @@ public class LoadPlugins : MonoBehaviour
     private BackgroundiOS locationService; 
 
     #endif
+
+    void Start()
+    {
+
+    }
+
+    public void DisclaimerAccepted()
+    {
+        DialoguePanel.SetActive(false);
+        WalkPanel.SetActive(true);
+    }
 
     void OnEnable()
     {

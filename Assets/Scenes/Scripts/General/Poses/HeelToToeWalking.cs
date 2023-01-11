@@ -14,14 +14,18 @@ namespace Poses
             get
             {
                 return new int[] {
-                    PoseLandmarkDetect.LEFT_EYE,
-                    PoseLandmarkDetect.RIGHT_EYE,
+            
                     PoseLandmarkDetect.LEFT_HIP,
                     PoseLandmarkDetect.RIGHT_HIP,
                     PoseLandmarkDetect.LEFT_KNEE,
                     PoseLandmarkDetect.RIGHT_KNEE,
                     PoseLandmarkDetect.LEFT_ANKLE,
-                    PoseLandmarkDetect.RIGHT_ANKLE
+                    PoseLandmarkDetect.RIGHT_ANKLE,
+                    PoseLandmarkDetect.LEFT_HEEL,
+                    PoseLandmarkDetect.RIGHT_HEEL,
+                    PoseLandmarkDetect.LEFT_FOOT_INDEX,
+                    PoseLandmarkDetect.RIGHT_FOOT_INDEX,
+
                 };
             }
         }
