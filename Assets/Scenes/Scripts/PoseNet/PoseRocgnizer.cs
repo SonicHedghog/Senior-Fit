@@ -138,6 +138,13 @@ public class PoseRocgnizer : MonoBehaviour
             curPose = script.AdvanceScript();
             Debug.Log(curPose);
 
+            if(curPose == null && script.GetCommand() == "repeat")
+            {
+                script = new Interpreter(file);
+                completed = addedExercise = false;
+                curPose = script.AdvanceScript();
+            }
+
             videoPlayer.url = curPose.GetTutorialAddress();
             videoPlayer.Play();
         }
@@ -151,6 +158,12 @@ public class PoseRocgnizer : MonoBehaviour
             completed = false;
         }
 
+        if(videoPlayer.url != curPose.GetTutorialAddress())
+        {
+            videoPlayer.url = curPose.GetTutorialAddress();
+            videoPlayer.Play();
+        }
+        
         if(curPose!=null)
         {
             // Debug.Log("Yes");

@@ -39,7 +39,7 @@ namespace Poses
             t.text = name + " x " + Math.Abs((int)_repCount);
         }
 
-        public string GetTutorialAddress()
+        public virtual string GetTutorialAddress()
         {
             return Application.streamingAssetsPath + "/TutorialClips/" + name.Replace(' ', '_').ToLower() + "_tutorial.mp4";
         }
