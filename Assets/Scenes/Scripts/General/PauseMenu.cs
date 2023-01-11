@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI = null;
+    [SerializeField] private AudioSource music = null;
     private static bool isPaused = false;
     private static bool isFlipped = false;
     private static bool higherAccuracy = false;
@@ -32,9 +33,14 @@ public class PauseMenu : MonoBehaviour
         higherAccuracy = !higherAccuracy;
     }
 
-     public void FlipCamera()
+    public void FlipCamera()
     {
         isFlipped = !isFlipped;
+    }
+
+    public void ToggleMute()
+    {
+        music.mute = !music.mute;
     }
 
     public void Reset()
