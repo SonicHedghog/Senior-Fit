@@ -16,8 +16,6 @@ namespace Poses
             get
             {
                 return new int[] {
-                    PoseLandmarkDetect.LEFT_EYE,
-                    PoseLandmarkDetect.RIGHT_EYE,
                     PoseLandmarkDetect.LEFT_HIP,
                     PoseLandmarkDetect.RIGHT_HIP,
                     PoseLandmarkDetect.LEFT_KNEE,
@@ -28,14 +26,14 @@ namespace Poses
             }
         }
 
-        bool legCheck = false;
         public SeatedHamstringStretch(string repCount) : base(repCount) 
         { 
             name = "Seated Hamstring Stretch";
 
             // Set up Pose Classifier Processor
             processor = new PoseClassifierProcessor("Seated_Hamstring_Stretch_CSV", true,7.0f,6.0f);
-        }     
+        }
+
         public override bool IsFinished(Result result, Text t)
         {
             if(result == null) return false;
@@ -59,8 +57,6 @@ namespace Poses
             else NoRepAction(t);
             return _repCount == 0;
         }
-
-        
 
         public override bool IsFinished(TensorFlowLite.PoseNet.Result[] result, Text t){ return false; }
     }

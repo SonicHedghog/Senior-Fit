@@ -1,1 +1,4 @@
-ShoulderTouch -1
+ShoulderStretch 10
+StandingCalfStretch 10
+StandingLegCurl 10
+StandingThighStretch 10
