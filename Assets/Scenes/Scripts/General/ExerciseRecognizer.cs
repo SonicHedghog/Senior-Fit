@@ -215,7 +215,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             cameraView.texture = webcamTexture;
             if(Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                cameraView.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
             }
             webcamTexture.Play();
             Debug.Log($"Starting camera: {frontCamName}");
@@ -453,7 +453,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 cameraView.texture = webcamTexture;
                 if(Application.platform == RuntimePlatform.IPhonePlayer)
                 {
-                    cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                    cameraView.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
                 }
                 webcamTexture.Play();
             }
@@ -474,7 +474,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                     cameraView.texture = webcamTexture;
                     if(Application.platform == RuntimePlatform.IPhonePlayer)
                     {
-                        cameraView.transform.Rotate(new Vector3(0f,180f,0f), Space.Self);
+                        cameraView.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
                     }
                     webcamTexture.Play();
                 }
@@ -526,6 +526,13 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             completed = addedExercise = false;
             curPose = script.AdvanceScript();
             Debug.Log(curPose);
+            
+            if(curPose == null && script.GetCommand() == "repeat")
+            {
+                script = new Interpreter(file);
+                completed = addedExercise = false;
+                curPose = script.AdvanceScript();
+            }
 
             videoPlayer.url = curPose.GetTutorialAddress();
             videoPlayer.Play();
@@ -538,6 +545,12 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             videoPlayer.Pause();
             curPose = null;
             completed = false;
+        }
+
+        if(videoPlayer.url != curPose.GetTutorialAddress())
+        {
+            videoPlayer.url = curPose.GetTutorialAddress();
+            videoPlayer.Play();
         }
 
         if(curPose!=null)
