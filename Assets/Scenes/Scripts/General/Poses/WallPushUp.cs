@@ -19,9 +19,7 @@ namespace Poses
                     PoseLandmarkDetect.LEFT_ELBOW,
                     PoseLandmarkDetect.RIGHT_ELBOW,
                     PoseLandmarkDetect.LEFT_KNEE,
-                    PoseLandmarkDetect.RIGHT_KNEE,
-                    PoseLandmarkDetect.LEFT_ANKLE,
-                    PoseLandmarkDetect.RIGHT_ANKLE
+                    PoseLandmarkDetect.RIGHT_KNEE
                 };
             }
         }

@@ -182,7 +182,7 @@ public class NoCameraWorkout : MonoBehaviour
                 Exercise = "Standing Thigh Stretch";;
                 break;
             case 12:
-                Exercise = "Wall Push Ups";
+                Exercise = "Wall Push Up";
                 break;
             case 13:
                 Exercise = "Side Stepping";

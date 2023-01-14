@@ -18,8 +18,8 @@ public class ChairSitToStand : Pose
                     PoseLandmarkDetect.RIGHT_EYE,
                     PoseLandmarkDetect.LEFT_HIP,
                     PoseLandmarkDetect.RIGHT_HIP,
-                    PoseLandmarkDetect.LEFT_ANKLE,
-                    PoseLandmarkDetect.RIGHT_ANKLE,
+                    PoseLandmarkDetect.LEFT_KNEE,
+                    PoseLandmarkDetect.RIGHT_KNEE
                     
 
                 };

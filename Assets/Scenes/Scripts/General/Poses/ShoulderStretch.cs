@@ -61,7 +61,7 @@ namespace Poses
 
         public override string GetTutorialAddress()
         {
-            if(lastExercise.Contains("FR"))
+            if(lastExercise.Contains("Right"))
                 return Application.streamingAssetsPath + "/TutorialClips/" + name.Replace(' ', '_').ToLower() + "_right_tutorial.mp4";
             else return Application.streamingAssetsPath + "/TutorialClips/" + name.Replace(' ', '_').ToLower() + "_left_tutorial.mp4";
         }

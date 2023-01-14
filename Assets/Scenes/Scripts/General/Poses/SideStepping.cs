@@ -16,8 +16,6 @@ namespace Poses
                 return new int[] {
                     PoseLandmarkDetect.LEFT_EYE,
                     PoseLandmarkDetect.RIGHT_EYE,
-                    PoseLandmarkDetect.LEFT_HIP,
-                    PoseLandmarkDetect.RIGHT_HIP,
                     PoseLandmarkDetect.LEFT_KNEE,
                     PoseLandmarkDetect.RIGHT_KNEE,
                     PoseLandmarkDetect.LEFT_ANKLE,
@@ -36,7 +34,7 @@ namespace Poses
             name = "Side Stepping";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Side_Stepping", true,8.5f,7.0f);
+            processor = new PoseClassifierProcessor("Side_Stepping", true,7.5f,6.0f);
         }     
         public override bool IsFinished(Result result, Text t)
         {

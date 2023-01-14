@@ -16,8 +16,7 @@ namespace Poses
             get
             {
                 return new int[] {
-                    PoseLandmarkDetect.LEFT_HIP,
-                    PoseLandmarkDetect.RIGHT_HIP,
+                   
                     PoseLandmarkDetect.LEFT_KNEE,
                     PoseLandmarkDetect.RIGHT_KNEE,
                     PoseLandmarkDetect.LEFT_ANKLE,

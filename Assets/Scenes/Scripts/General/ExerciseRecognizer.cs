@@ -302,15 +302,13 @@ public sealed class ExerciseRecognizer : MonoBehaviour
                 break;
             case 13:
                 Exercise = "Side Stepping";
-                DialoguePanel.SetActive(true);
-                ExercisePanel.SetActive(false);
+               
                 script = new Interpreter();
                 script.AddCommand("SideStepping -1");
                 break;
             case 14:
                 Exercise = "Heel To Toe Walking";
-                DialoguePanel.SetActive(true);
-                ExercisePanel.SetActive(false);
+               
                 script = new Interpreter();
                 script.AddCommand("HeelToToeWalking -1");
                 break;
