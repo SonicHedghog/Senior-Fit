@@ -1375,7 +1375,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Disclaimer: Note that you are not being recorded.
+
+    We are using your
+    phone camera to capture your movement to count the exercise repetition, and we
+    do NOT store any of your recordings.'
 --- !u!222 &1471363410
 CanvasRenderer:
   m_ObjectHideFlags: 0

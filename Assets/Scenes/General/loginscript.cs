@@ -17,10 +17,10 @@ public class loginscript : MonoBehaviour
 {
     public Button loginButton;
     public Button okButton;
-    public InputField firstname;
-    public InputField lastname;
+    public InputField FirstNameField;
+    public InputField LastNameField;
+    public InputField ContactNumberField;
     public Text DisclaimerText;
-    public InputField ContactNumber;
     public long contactno;
     public string fname;
     public string lname;
@@ -34,7 +34,7 @@ public class loginscript : MonoBehaviour
 
     //**********************************************************************
 
-    async void Start()
+    void Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
         loginButton.onClick.AddListener(LoginButtonClick);
@@ -44,7 +44,11 @@ public class loginscript : MonoBehaviour
         {
             new_url.Add(noti.url);
         }
-        showDisclaimer();        
+    }
+
+    void Update()
+    {
+        loginButton.interactable = FirstNameField.text.Length > 0 && LastNameField.text.Length > 0 && ContactNumberField.text.Length >= 10;
     }
 
     int count = 0;
@@ -65,9 +69,9 @@ public class loginscript : MonoBehaviour
 
     void LoginButtonClick()
     {
-        contactno = long.Parse(ContactNumber.text);
-        fname = firstname.text.Trim();
-        lname = lastname.text.Trim();
+        contactno = long.Parse(ContactNumberField.text);
+        fname = FirstNameField.text.Trim();
+        lname = LastNameField.text.Trim();
         LoginTime = DateTime.Now;
         version = SaveData.IsNotificationScheduled();
         SaveUserData.SaveUser(this);
@@ -87,10 +91,6 @@ public class loginscript : MonoBehaviour
         }
     }
 
-    public void showDisclaimer()
-    {
-        DisclaimerText.text="Disclaimer: Note that you are not being recorded.\nWe are using your phone camera to capture your movement to count the exercise repetition, and we do NOT store any of your recordings.";
-    }
     public void LoadStartMenu()
     {
         SceneManager.LoadScene("MainMenu");
@@ -168,7 +168,6 @@ public class loginscript : MonoBehaviour
         };
 
         iOSNotificationCenter.ScheduleNotification(notification);
-
     }
 
     IEnumerator RequestAuthorization()
