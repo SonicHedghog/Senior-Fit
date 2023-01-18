@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveData
 {
@@ -399,6 +400,84 @@ public class SaveData
 
     }
 
+    public static void UpdateSoundData(bool newSoundState )
+    {
+   
+        string path = Application.persistentDataPath + "/SoundData.data";
+       
+
+        if(File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream=new FileStream(path,FileMode.Open);
+            SOundState data= formatter.Deserialize(stream) as SOundState;
+            data.soundState=newSoundState;
+            Debug.Log("inside sound update : "+data.soundState);            
+            stream.Close();
+
+            
+                BinaryFormatter OutputFormatter =new BinaryFormatter();
+        
+        FileStream outStream= new FileStream(path, FileMode.Create);
+
+        SOundState NewData= data;
+
+        OutputFormatter.Serialize(outStream, data);
+        outStream.Close();
+
+            
+            
+           
+
+        }
+        else
+        {
+            Debug.Log("Sound config not found");
+            BinaryFormatter formatter = new BinaryFormatter();
+        
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        SOundState data = new SOundState(true);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+
+            
+        }
+
+       
+
+
+
+    }
+
+     public static SOundState LoadSoundState()
+    {
+        string path = Application.persistentDataPath + "/SoundData.data";
+    
+        
+        if(File.Exists(path))
+        {
+            
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream=new FileStream(path,FileMode.Open);
+            SOundState data= formatter.Deserialize(stream) as SOundState;
+            Debug.Log("Sound data");
+            Debug.Log(data.soundState.ToString());
+            stream.Close();
+            return data;
+
+        }
+        else
+        {
+            Debug.Log("Saved file not found");
+            return null;
+        }
+
+
+    }
+
+
 
     
 }
@@ -486,6 +565,19 @@ public class CameraState
     
 }
 
+[System.Serializable]
+public class SOundState
+{
+   
+    public bool soundState;
+
+    public SOundState(bool newSoundstate)
+    {
+        soundState=newSoundstate;
+    }
+
+    
+}
 
 
 

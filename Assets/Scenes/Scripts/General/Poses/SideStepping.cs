@@ -34,7 +34,7 @@ namespace Poses
             name = "Side Stepping";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Side_Stepping", true,7.5f,6.0f);
+            processor = new PoseClassifierProcessor("Side_Stepping", true,7.5f,4.0f);
         }     
         public override bool IsFinished(Result result, Text t)
         {

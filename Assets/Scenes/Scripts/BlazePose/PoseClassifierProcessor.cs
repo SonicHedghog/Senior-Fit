@@ -44,9 +44,10 @@ namespace TensorFlowLite
     private static readonly String Shoulder_Stretch_Left= "Shoulder_Stretch_Left";
     private static readonly String Shoulder_Stretch_Right="Shoulder_Stretch_Right";
 
-     private static readonly String Leg_Curl_Left= "Leg_Curl_Left";
-    private static readonly String Leg_Curl_Down="Leg_Curl_Down";
-     private static readonly String Leg_Curl_Right= "Leg_Curl_Right";
+     private static readonly String Leg_Curl_Left_Up= "Leg_Curl_Left_Up";
+    
+     private static readonly String Leg_Curl_Right_Up= "Leg_Curl_Right_Up";
+     //private static readonly String Leg_Curl_Down= "Leg_Curl_Down";
 
      private static readonly String Standing_Thigh_Stretch_FL= "Standing_Thigh_Stretch_FL";
     private static readonly String Standing_Thigh_Stretch_FR="Standing_Thigh_Stretch_FR";
@@ -55,7 +56,7 @@ namespace TensorFlowLite
 
 
     private static readonly String[] POSE_CLASSES = {
-      Standing_Thigh_Stretch_FL,Standing_Thigh_Stretch_FR,Leg_Curl_Left,Leg_Curl_Down,Leg_Curl_Right,Shoulder_Stretch_Left,Shoulder_Stretch_Right,Standing_Calf_Stretch_Left,Standing_Calf_Stretch_Right,Wall_Push_Up_Down,Wall_Push_Up_Up,Side_Stepping_Stand,Side_Stepping_Step,Heel_To_Toe_Walking_Left,Heel_To_Toe_Walking_Right,Seated_Hamstring_Stretch_Right,Seated_Hamstring_Stretch_Left,Single_Leg_Stance_Left,Single_Leg_Stance_Right,Shoulder_touch,Touch_down,Chair_Sit,Chair_Stand,March_Right,March_Left    };
+      Standing_Thigh_Stretch_FL,Standing_Thigh_Stretch_FR,Leg_Curl_Left_Up,Leg_Curl_Right_Up,Shoulder_Stretch_Left,Shoulder_Stretch_Right,Standing_Calf_Stretch_Left,Standing_Calf_Stretch_Right,Wall_Push_Up_Down,Wall_Push_Up_Up,Side_Stepping_Stand,Side_Stepping_Step,Heel_To_Toe_Walking_Left,Heel_To_Toe_Walking_Right,Seated_Hamstring_Stretch_Right,Seated_Hamstring_Stretch_Left,Single_Leg_Stance_Left,Single_Leg_Stance_Right,Shoulder_touch,Touch_down,Chair_Sit,Chair_Stand,March_Right,March_Left    };
 
     private readonly bool isStreamMode;
 

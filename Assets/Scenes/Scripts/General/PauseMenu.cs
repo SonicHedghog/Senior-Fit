@@ -9,6 +9,19 @@ public class PauseMenu : MonoBehaviour
     private static bool isFlipped = false;
     private static bool higherAccuracy = false;
 
+    void Start()
+    {
+        if(SaveData.LoadSoundState()==null)
+        {
+            SaveData.UpdateSoundData(music.mute);
+        }
+        else
+        {
+            SOundState data = SaveData.LoadSoundState();
+            music.mute=data.soundState;
+        }
+    }
+
     public static bool GetIsPaused()
     {
         return isPaused;
@@ -41,6 +54,8 @@ public class PauseMenu : MonoBehaviour
     public void ToggleMute()
     {
         music.mute = !music.mute;
+        SaveData.UpdateSoundData(music.mute);
+        
     }
 
     public void Reset()
