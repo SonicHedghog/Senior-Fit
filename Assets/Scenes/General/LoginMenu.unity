@@ -2336,10 +2336,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loginButton: {fileID: 1854960318}
   okButton: {fileID: 679739641}
-  firstname: {fileID: 1186539847}
-  lastname: {fileID: 1860548081}
+  FirstNameField: {fileID: 1186539847}
+  LastNameField: {fileID: 1860548081}
+  ContactNumberField: {fileID: 1959286690}
   DisclaimerText: {fileID: 1471363409}
-  ContactNumber: {fileID: 1959286690}
   contactno: 0
   fname: 
   lname: 
