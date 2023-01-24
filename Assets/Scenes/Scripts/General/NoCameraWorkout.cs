@@ -124,11 +124,6 @@ public class NoCameraWorkout : MonoBehaviour
 
     }
 
-
-    //**********************************************************************
-
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -196,7 +191,7 @@ public class NoCameraWorkout : MonoBehaviour
 
             
         }
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
 
         fname=data.fname;
         lname=data.lname;
@@ -305,9 +300,9 @@ public class NoCameraWorkout : MonoBehaviour
 
         else
         {
-            UserList newuserlist = SaveData.LoadData();
+            global::ExerciseData newuserlist = SaveData.LoadData();
 
-            foreach (UserData newuse in newuserlist.alluserdata)
+            foreach (ExerciseInfo newuse in newuserlist.alluserdata)
             {
                 Debug.Log("Time duration " + newuse.duration);
                 ExerciseData newUser = new ExerciseData

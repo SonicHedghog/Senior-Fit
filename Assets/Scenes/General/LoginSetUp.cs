@@ -13,7 +13,7 @@ using Unity.Notifications.Android;
 using Unity.Notifications.iOS;
 #endif
 
-public class loginscript : MonoBehaviour
+public class LoginSetUp : MonoBehaviour
 {
     public Button loginButton;
     public Button okButton;
@@ -29,11 +29,8 @@ public class loginscript : MonoBehaviour
     public string[] lines;
     public string[] messages;
     NotificationList newnotification;
-   private static List<string> new_url = new List<string>();
+    private static List<string> new_url = new List<string>();
    
-
-    //**********************************************************************
-
     void Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
@@ -57,7 +54,6 @@ public class loginscript : MonoBehaviour
         count++;
         Debug.Log("Notification called " + count);
 
-
         #if UNITY_ANDROID
         SetUpAndroidNotifications(minutesOnTheHour, firstname, body, link);
         #elif UNITY_IOS
@@ -65,8 +61,6 @@ public class loginscript : MonoBehaviour
         #endif
     }
     
-
-
     void LoginButtonClick()
     {
         contactno = long.Parse(ContactNumberField.text);
@@ -79,7 +73,7 @@ public class loginscript : MonoBehaviour
         int time = 0;
         string body;
         
-        Debug.Log("first time log in & notification : ");
+        Debug.Log("First Time Login & Notification: ");
         foreach (UserNotification noti in newnotification.allnotifications)
         {
             time = noti.interval;
@@ -94,7 +88,7 @@ public class loginscript : MonoBehaviour
     public void LoadStartMenu()
     {
         SceneManager.LoadScene("MainMenu");
-        Debug.Log("concent button clicked");
+        Debug.Log("Concent Button Clicked");
     }
 
     public static List<string> GetLink()
@@ -102,14 +96,11 @@ public class loginscript : MonoBehaviour
         return new_url;
     }
 
-   
     public void loadUser()
     {
-        userdata data = SaveUserData.LoadUser();
-
+        UserData data = SaveUserData.LoadUser();
         Debug.Log("Saved user name : " + data.fname + " and number : " + data.contactno);
     }
-
 
     #if UNITY_ANDROID
     void SetUpAndroidNotifications(int minutesOnTheHour, string firstname, string body,string link)

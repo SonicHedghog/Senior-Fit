@@ -13,12 +13,6 @@ using Amazon.Runtime;
 using Amazon;
 using Mono.Data.Sqlite;
 
-
-/// <summary>
-/// BlazePose form MediaPipe
-/// https://github.com/google/mediapipe
-/// https://viz.mediapipe.dev/demo/pose_tracking
-/// </summary>
 public sealed class ExerciseRecognizer : MonoBehaviour
 {
 
@@ -318,7 +312,7 @@ public sealed class ExerciseRecognizer : MonoBehaviour
             default:
                 break;
         }
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
 
         fname = data.fname;
         lname = data.lname;
@@ -343,9 +337,9 @@ public sealed class ExerciseRecognizer : MonoBehaviour
 
         else
         {
-            UserList newuserlist = SaveData.LoadData();
+            global::ExerciseData newuserlist = SaveData.LoadData();
 
-            foreach (UserData newuse in newuserlist.alluserdata)
+            foreach (ExerciseInfo newuse in newuserlist.alluserdata)
             {
                 //AppUse newuse = AppUse.LoadAppUse();
 

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
@@ -123,7 +121,7 @@ public class Feedback : MonoBehaviour
     {
          UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
        
         fname = data.fname;
         lname = data.lname;

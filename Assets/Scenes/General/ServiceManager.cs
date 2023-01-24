@@ -1,7 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Android;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Amazon.DynamoDBv2;
@@ -75,16 +72,14 @@ public class ServiceManager : MonoBehaviour
     public double NewDistance;
     public static double newTotalDistance;
     public double storeDistance;
-
     DateTime CheckTime;
-
     private bool appQuit = false;
-
     private SqliteConnection dbconn;
     private string conn;
     private SqliteCommand dbcmd;
     private string sqlQuery;
     string filepath;
+
     // ***************AWS set up*******************************************
 
 
@@ -183,11 +178,10 @@ public class ServiceManager : MonoBehaviour
         plugin.OnLocation += OnLocationReceived;
         plugin.OnAvailability += OnLocationAvailability;
         plugin.OnDistanceChanged += OnDistanceChanged;
-       // plugin.onTimeChanged += onTimeChanged;
 
         plugin.checkPermission();
         Screen.orientation = ScreenOrientation.Portrait;
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
 
         fname = data.fname;
         lname = data.lname;
@@ -204,9 +198,8 @@ public class ServiceManager : MonoBehaviour
 
         LoadMessages();
         NewDistance = 0.0;
-        newTotalDistance=0.0;
-        storeDistance=0.0;
-        
+        newTotalDistance = 0.0;
+        storeDistance = 0.0;
     }
 
     void Update()
@@ -227,8 +220,6 @@ public class ServiceManager : MonoBehaviour
         walkStart = false;
         pause=false;
         plugin.StopLocationService();
-        //UpdateAWSinfo();
-        //Application.Quit();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -245,7 +236,6 @@ public class ServiceManager : MonoBehaviour
             pauseTime2 = Time.unscaledTime;
             new_duration = new_duration + (pauseTime2 - pauseTime1);
         }
-
     }
 
     private void OnLocationReceived(LocationData _location)
@@ -261,39 +251,13 @@ public class ServiceManager : MonoBehaviour
 
     private void OnDistanceChanged(double _distance)
     {
-         Debug.Log("Inside distance changed "+_distance);
-         newTotalDistance=_distance;
-        //if(distanceText is null) distanceText = GameObject.Find("distance").GetComponent<Text>();
+        Debug.Log("Inside distance changed "+_distance);
+        newTotalDistance=_distance;
         distanceText.text = $"Distance walked: {_distance} miles";
 
        
         
     }
-   /* private void onTimeChanged(long _duration)
-    {
-        long diffSeconds = _duration / 1000;
-        long seconds = diffSeconds % 60;
-        long diffMinutes = diffSeconds / 60;
-        long diffHours = diffMinutes / 60;
-
-        if (diffHours > 0)
-        {
-            //timestamp.text = $"Duration: {diffHours} hrs {diffMinutes} mins {seconds} seconds";
-
-        }
-        else if (diffHours == 0 && diffMinutes > 0)
-        {
-           // timestamp.text = $"Duration: {diffMinutes} mins {seconds} seconds";
-
-        }
-        else
-        {
-           // timestamp.text = $"Duration: {diffSeconds} seconds";
-        }
-
-    }*/
-
-    
 
     private void OnApplicationPause(bool _isPaused)
     {
@@ -302,7 +266,6 @@ public class ServiceManager : MonoBehaviour
             WriteLocationToUI(plugin.LastLocation);
         }
     }
-   
 
     private void WriteLocationToUI(LocationData _location)
     {
@@ -323,42 +286,6 @@ public class ServiceManager : MonoBehaviour
             status = "false";
             Debug.Log("File not found!");
         }
-            
-           /* if (Time_duration > 0)
-            {
-    
-                
-                 if ((int)minutes % 5 == 0)
-            {
-                var r = new System.Random();
-                var randomLineNumber = r.Next(0, lines.Length - 1);
-
-                string line = lines[randomLineNumber];
-                GPSStatus.text = line;
-
-            }
-        }
-        
-
-        else
-        {
-            //timestamp.text = "Total time: 0 seconds";
-            GPSStatus.text = "Let's get started!!";
-
-        }*/
-
-
-
-
-       // latText.text = fileContents.Length.ToString();
-        //providerText.text =  fileContents.Length.ToString();
-        // GPSStatus.text = lines[1];
-
-        /* lngText.text = "Longitude: " + _location.longitude.ToString();
-         altText.text = "Altitude: " + (plugin.HasAltitude() ? _location.altitude.ToString() : "-");
-         accuracyText.text = "Accuracy: " + (plugin.HasAccuracy() ? _location.accuracy.ToString() : "-");
-         bearingText.text = "Bearing: " + (plugin.HasBearing() ? _location.bearing.ToString() : "-");
-         speedText.text = "Speed: " + (plugin.HasSpeed() ? _location.speed.ToString() : "-");*/
     }
 
     
@@ -366,7 +293,6 @@ public class ServiceManager : MonoBehaviour
 
     public int MessageLoaded = 0;
     
-
     public void ShowTime()
     {
         time2 = Time.unscaledTime;
@@ -409,9 +335,7 @@ public class ServiceManager : MonoBehaviour
                 UpdateAWSinfo();
             }
 
-            Debug.Log("check distance "+NewDistance.ToString());
-
-            //distanceText.text = "Distance walked: " + NewDistance.ToString() + " miles";
+            Debug.Log("Check Distance " + NewDistance.ToString());
         }
         else
         {
@@ -421,16 +345,14 @@ public class ServiceManager : MonoBehaviour
 
     void showDistance()
     {
-        Debug.Log("without internet "+newTotalDistance.ToString());
-
-        
+        Debug.Log("Without Internet " + newTotalDistance.ToString());
 
         if(newTotalDistance > NewDistance)
-            {
-                NewDistance = newTotalDistance;
-                distanceText.text = "Distance walked: " + NewDistance.ToString() + " miles";
-                Debug.Log("without internet new total distance "+ NewDistance);
-            }
+        {
+            NewDistance = newTotalDistance;
+            distanceText.text = "Distance Walked: " + NewDistance.ToString() + " miles";
+            Debug.Log("Without Internet New Total Distance: " + NewDistance);
+        }
     }
 
     void UpdateAWSinfo()
@@ -438,7 +360,7 @@ public class ServiceManager : MonoBehaviour
         Debug.Log("Update AWS called");
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            Debug.Log("No internet");
+            Debug.Log("No Internet");
         }
         else
         {

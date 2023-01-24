@@ -1,5 +1,3 @@
-
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -8,228 +6,168 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveData
 {
-    //[SerializeField] private UserData newuserdata = new UserData();
-    public static List<UserData> AllUserInfo = new List<UserData>();
-
+    public static List<ExerciseInfo> AllUserInfo = new List<ExerciseInfo>();
 
     public static void SaveIntoJson(ExerciseRecognizer newappuse)
     {
-        //UserData data = new UserData(newappuse);
         string path = Application.persistentDataPath + "/UserData.json";
         string fileContents;
-        UserList gameData = new UserList();
+        ExerciseData gameData = new ExerciseData();
 
         if (File.Exists(path))
         {
             fileContents = File.ReadAllText(path);
-            //Debug.Log("filecontent: "+ fileContents);           
-            if(fileContents.Length!=0)
+            if(fileContents.Length != 0)
             {
-                gameData = JsonUtility.FromJson<UserList>(fileContents);
+                gameData = JsonUtility.FromJson<ExerciseData>(fileContents);
             }
             
-            gameData.alluserdata.Add(new UserData()
+            gameData.alluserdata.Add(new ExerciseInfo()
             {
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                date=newappuse.date,
+                date = newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                repCount=newappuse.repCount,
-                duration=newappuse.Time_duration
+                repCount = newappuse.repCount,
+                duration = newappuse.Time_duration
             });
 
-
-
-
-
             fileContents = JsonUtility.ToJson(gameData);
-
             File.WriteAllText(path, fileContents);
-
         }
         else
         {
             
-            gameData.alluserdata.Add(new UserData()
+            gameData.alluserdata.Add(new ExerciseInfo()
             {
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                date=newappuse.date,
+                date = newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                repCount=newappuse.repCount,
-                duration=newappuse.Time_duration
+                repCount = newappuse.repCount,
+                duration = newappuse.Time_duration
             });
 
-
-
-
-
             fileContents = JsonUtility.ToJson(gameData);
-
             File.WriteAllText(path, fileContents);
         }
-
-
-
     }
 
-    //****for no camera*******************
-
+    //For no camera
     public static void SaveIntoJson(NoCameraWorkout newappuse)
     {
-        //UserData data = new UserData(newappuse);
         string path = Application.persistentDataPath + "/UserData.json";
         string fileContents;
-        UserList gameData = new UserList();
+        ExerciseData gameData = new ExerciseData();
 
         if (File.Exists(path))
         {
             fileContents = File.ReadAllText(path);
-            //Debug.Log("filecontent: "+ fileContents);           
-            if(fileContents.Length!=0)
+            if(fileContents.Length!= 0)
             {
-                gameData = JsonUtility.FromJson<UserList>(fileContents);
+                gameData = JsonUtility.FromJson<ExerciseData>(fileContents);
             }
             
-            gameData.alluserdata.Add(new UserData()
+            gameData.alluserdata.Add(new ExerciseInfo()
             {
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                date=newappuse.date,
+                date = newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                duration=newappuse.Time_duration,
-                repCount="-1"
-                
+                duration = newappuse.Time_duration,
+                repCount = "-1"
             });
 
-
-
-
-
             fileContents = JsonUtility.ToJson(gameData);
-
             File.WriteAllText(path, fileContents);
-
         }
         else
         {
-            
-            gameData.alluserdata.Add(new UserData()
+            gameData.alluserdata.Add(new ExerciseInfo()
             {
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                date=newappuse.date,
+                date = newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise,
-                duration=newappuse.Time_duration
-                
+                duration = newappuse.Time_duration
             });
 
-
-
-
-
             fileContents = JsonUtility.ToJson(gameData);
-
             File.WriteAllText(path, fileContents);
         }
-
-
-
     }
 
-    /********for BlazeposeRunner***/
-
-
+    //For BlazeposeRunner
     public static void SaveBlazePoseRunnerData(BlazePoseRunner newappuse)
     {
-        //UserData data = new UserData(newappuse);
         string path = Application.persistentDataPath + "/UserData.json";
         string fileContents;
-        UserList gameData = new UserList();
+        ExerciseData gameData = new ExerciseData();
 
         if (File.Exists(path))
         {
             fileContents = File.ReadAllText(path);
-            //Debug.Log("filecontent: "+ fileContents);           
             if(fileContents.Length!=0)
             {
-                gameData = JsonUtility.FromJson<UserList>(fileContents);
+                gameData = JsonUtility.FromJson<ExerciseData>(fileContents);
             }
             
-            gameData.alluserdata.Add(new UserData()
+            gameData.alluserdata.Add(new ExerciseInfo()
             {
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                date=newappuse.date,
+                date = newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise
             });
 
-
-
-
-
             fileContents = JsonUtility.ToJson(gameData);
-
             File.WriteAllText(path, fileContents);
-
         }
         else
         {
-            
-            gameData.alluserdata.Add(new UserData()
+            gameData.alluserdata.Add(new ExerciseInfo()
             {
                 fname = newappuse.fname,
                 lname = newappuse.lname,
                 contactno = newappuse.contactno,
-                date=newappuse.date,
+                date = newappuse.date,
                 time = newappuse.time,
                 exercise = newappuse.Exercise
             });
 
-
-
-
-
             fileContents = JsonUtility.ToJson(gameData);
-
             File.WriteAllText(path, fileContents);
         }
-
-
-
     }
 
   
-    public static UserList LoadData()
+    public static ExerciseData LoadData()
     {
         string path = Application.persistentDataPath + "/UserData.json";
         if (File.Exists(path))
         {
             string fileContents = File.ReadAllText(path);
-            //Debug.Log("filecontent: "+ fileContents);
 
-            UserList gameData = JsonUtility.FromJson<UserList>(fileContents)
-                            ?? new UserList();
+            ExerciseData gameData = JsonUtility.FromJson<ExerciseData>(fileContents)
+                            ?? new ExerciseData();
             File.WriteAllText(path, string.Empty);
             return gameData;
         }
         else
         {
-            Debug.Log("File not found!");
+            Debug.Log("File Not Found!");
             return null;
         }
-
-
     }
 
     public static GPSList LoadGPSData()
@@ -237,12 +175,10 @@ public class SaveData
         string path = Application.persistentDataPath + "/userlocation.json";
         if (File.Exists(path))
         {
-            
             string fileContents = File.ReadAllText(path);
-            string jsonData="{ \"allgpsdata\" : "+fileContents+"}";
+            string jsonData="{ \"allgpsdata\" : " + fileContents + "}";
             Debug.Log(jsonData);
             
-            //Debug.Log("filecontent: "+ fileContents);
             try
             {
                 GPSList gpsData = JsonUtility.FromJson<GPSList>(jsonData)
@@ -259,17 +195,13 @@ public class SaveData
         }
         else
         {
-            Debug.Log("File not found!");
+            Debug.Log("File Not Found!");
             return null;
         }
-
-
     }
 
-
-     public static NotificationList LoadNotifications()
+    public static NotificationList LoadNotifications()
     {
-       
         string[] paths = {Application.streamingAssetsPath, "Routines", "PushNotifications.json"};
         string fileContents;
         
@@ -288,17 +220,13 @@ public class SaveData
             fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + "PushNotifications.json");
         }
 
-         NotificationList Notification_Data = JsonUtility.FromJson<NotificationList>(fileContents)
+        NotificationList Notification_Data = JsonUtility.FromJson<NotificationList>(fileContents)
                             ?? new NotificationList();
-            //File.WriteAllText(path, string.Empty);
-            return Notification_Data;
-
-
+        return Notification_Data;
     }
 
     public static string LoadGoal(string textfile)
     {
-       
         string[] paths = {Application.streamingAssetsPath, "Routines", textfile};
         string fileContents;
         
@@ -317,16 +245,12 @@ public class SaveData
             fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + textfile);
         }
 
-        
-            return fileContents;
-
-
+        return fileContents;
     }
-
 
     public static string IsNotificationScheduled()
     {
-       string[] paths = {Application.streamingAssetsPath, "Routines", "Scheduled.txt"};
+        string[] paths = {Application.streamingAssetsPath, "Routines", "Scheduled.txt"};
         string fileContents;
         
         if(Application.platform == RuntimePlatform.Android)
@@ -337,169 +261,111 @@ public class SaveData
             {
             }
             fileContents = www.downloadHandler.text;
-            Debug.Log(www.downloadHandler.text);
-            //File.WriteAllText(Path.Combine(paths), string.Empty);
-            
+            Debug.Log(www.downloadHandler.text);            
         }
         else
         {
             fileContents = File.ReadAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt");
-            
-            #if !UNITY_EDITOR
-           // File.WriteAllText(Application.streamingAssetsPath + "/Routines/" + "Scheduled.txt", string.Empty);
-            #endif
         }
 
-        
-            return fileContents;
-
-        
-
+        return fileContents;
     }
-
 
     public static void SaveCameraState(int newCameraState )
     {
-        //UserData data = new UserData(newappuse);
         string path = Application.persistentDataPath + "/CameraData.json";
         string fileContents;
+
         CameraState cameraData = new CameraState();
-
-        cameraData.cameraState=newCameraState;
-
-
+        cameraData.cameraState = newCameraState;
         fileContents = JsonUtility.ToJson(cameraData);
-
         File.WriteAllText(path, fileContents);
-
-       
-
-
-
     }
 
-     public static int LoadCameraData()
+    public static int LoadCameraData()
     {
         string path = Application.persistentDataPath + "/CameraData.json";
         if (File.Exists(path))
         {
             string fileContents = File.ReadAllText(path);
-            //Debug.Log("filecontent: "+ fileContents);
-
             CameraState cameraData = JsonUtility.FromJson<CameraState>(fileContents)
                             ?? new CameraState();
-            //File.WriteAllText(path, string.Empty);
             return cameraData.cameraState;
         }
         else
         {
-            Debug.Log("File not found!");
+            Debug.Log("Camera Data File Not Found!");
             return -1;
         }
-
-
     }
 
     public static void UpdateSoundData(bool newSoundState )
     {
-   
         string path = Application.persistentDataPath + "/SoundData.data";
-       
 
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream=new FileStream(path,FileMode.Open);
-            SOundState data= formatter.Deserialize(stream) as SOundState;
-            data.soundState=newSoundState;
-            Debug.Log("inside sound update : "+data.soundState);            
+            FileStream stream = new FileStream(path,FileMode.Open);
+            SOundState data = formatter.Deserialize(stream) as SOundState;
+            data.soundState = newSoundState;
+            Debug.Log("Inside Sound Update: " + data.soundState);            
             stream.Close();
 
-            
-                BinaryFormatter OutputFormatter =new BinaryFormatter();
-        
-        FileStream outStream= new FileStream(path, FileMode.Create);
-
-        SOundState NewData= data;
-
-        OutputFormatter.Serialize(outStream, data);
-        outStream.Close();
-
-            
-            
-           
-
+            BinaryFormatter OutputFormatter = new BinaryFormatter();
+            FileStream outStream= new FileStream(path, FileMode.Create);
+            SOundState NewData= data;
+            OutputFormatter.Serialize(outStream, data);
+            outStream.Close();
         }
         else
         {
             Debug.Log("Sound config not found");
             BinaryFormatter formatter = new BinaryFormatter();
-        
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        SOundState data = new SOundState(true);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
-
-            
+            FileStream stream = new FileStream(path, FileMode.Create);
+            SOundState data = new SOundState(true);
+            formatter.Serialize(stream, data);
+            stream.Close();
         }
-
-       
-
-
-
     }
 
      public static SOundState LoadSoundState()
     {
         string path = Application.persistentDataPath + "/SoundData.data";
     
-        
         if(File.Exists(path))
         {
-            
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream=new FileStream(path,FileMode.Open);
-            SOundState data= formatter.Deserialize(stream) as SOundState;
-            Debug.Log("Sound data");
-            Debug.Log(data.soundState.ToString());
+            FileStream stream = new FileStream(path,FileMode.Open);
+            SOundState data = formatter.Deserialize(stream) as SOundState;
+            Debug.Log("Sound data: " + data.soundState.ToString());
             stream.Close();
             return data;
-
         }
         else
         {
-            Debug.Log("Saved file not found");
+            Debug.Log("Saved File Not Found");
             return null;
         }
-
-
     }
-
-
-
-    
 }
 
 [System.Serializable]
-public class UserList
+public class ExerciseData
 {
-    public List<UserData> alluserdata;
-
-    public UserList()
+    public List<ExerciseInfo> alluserdata;
+    public ExerciseData()
     {
-        alluserdata=new List<UserData>();
+        alluserdata = new List<ExerciseInfo>();
     }
 }
 
 [System.Serializable]
-public class UserData
+public class ExerciseInfo
 {
     public string fname;
     public string lname;
     public long contactno;
-
     public string date,time;
     public string exercise;
     public string repCount;
@@ -514,7 +380,7 @@ public class GPSList
 
     public GPSList()
     {
-        allgpsdata=new List<newLocation>();
+        allgpsdata = new List<newLocation>();
     }
 }
 
@@ -523,15 +389,14 @@ public class GPSList
 public class newLocation
 {
    public long contactNo;
-        public string currentDate ;
-        public string currentTime ;
-        public string firstName ;
+        public string currentDate;
+        public string currentTime;
+        public string firstName;
         public string lastName;
-        public double latitude ;
-        public double longitude ;
-        public string startTime ;
+        public double latitude;
+        public double longitude;
+        public string startTime;
         public double totaldistance;
-
 }
 
 [System.Serializable]
@@ -541,7 +406,7 @@ public class NotificationList
 
     public NotificationList()
     {
-        allnotifications=new List<UserNotification>();
+        allnotifications = new List<UserNotification>();
     }
 }
 
@@ -550,37 +415,22 @@ public class UserNotification
 {
     public string message;
     public string url;
-
     public int interval;
-    
 }
 
 
 [System.Serializable]
 public class CameraState
 {
-   
     public int cameraState;
-
-    
 }
 
 [System.Serializable]
 public class SOundState
 {
-   
     public bool soundState;
-
     public SOundState(bool newSoundstate)
     {
-        soundState=newSoundstate;
-    }
-
-    
+        soundState = newSoundstate;
+    }   
 }
-
-
-
-
-
-

@@ -19,14 +19,6 @@ public class BackgroundiOS : MonoBehaviour {
 		private static extern void backgroundLaunch (string _fname, string _lname, long _contactno, string _start_time, string _current_date, string _filename);
 		[DllImport ("__Internal")]
 		private static extern void backgroundStop ();		
-
-    //     void OnApplicationFocus ( bool focus )
-    //  {
-    //      if ( focus )  
-    //      {
-    //          InvokeRepeating("UpdateAWSinfo", 0.1f, 30f);
-    //      }  
-    //  }
 	#endif
 
     [SerializeField] public Text latText;
@@ -46,9 +38,7 @@ public class BackgroundiOS : MonoBehaviour {
     public double totaldistance;
     public Text timestamp;
     public bool walkStart = false;
-
     public bool pause = false;
-
     public double NewDistance = 0.0;
 
 
@@ -134,11 +124,7 @@ public class BackgroundiOS : MonoBehaviour {
         public string StartTime { get; set; }
         [DynamoDBProperty]
         public string CurrentTime { get; set; }
-        
-
-
     }
-
 
     //**********************************************************************
 
@@ -147,7 +133,7 @@ public class BackgroundiOS : MonoBehaviour {
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         
         Screen.orientation = ScreenOrientation.Portrait;
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
 
         fname = data.fname;
         lname = data.lname;
@@ -186,8 +172,7 @@ public class BackgroundiOS : MonoBehaviour {
         SceneManager.LoadScene("MainMenu");
 	}
 
-    //pause timer for "pause walking" option
-
+    //Pause Timer for "Pause Walking" Option
      public void OnClickPauseTimer()
     {
         if(pause == false)
@@ -201,7 +186,6 @@ public class BackgroundiOS : MonoBehaviour {
             pauseTime2 = Time.unscaledTime;
             new_duration = new_duration+(pauseTime2-pauseTime1);
         }
-
     }	
 
     private void WriteLocationToUI(string message)
@@ -212,12 +196,8 @@ public class BackgroundiOS : MonoBehaviour {
         string path = Application.persistentDataPath + "/userlocation.json";
         if (File.Exists(path))
         {
-            fileContents = File.ReadAllText(path);
-           // fileContents="{ \"allgpsdata\" : "+fileContents+"}";
-           
+            fileContents = File.ReadAllText(path);           
             status = "true";
-            //Debug.Log("filecontent: "+ fileContents);
-
         }
         else
         {
@@ -248,7 +228,6 @@ public class BackgroundiOS : MonoBehaviour {
         if(timestamp is null) timestamp = GameObject.Find("timestamp").GetComponent<Text>();
           if (Time_duration > 0)
             {
-    
                 hours = (int)(Time_duration / 3600);
                 minutes = ((Time_duration % 3600) / 60);
                 seconds = (int)(Time_duration % 60);
@@ -266,8 +245,7 @@ public class BackgroundiOS : MonoBehaviour {
 
                 if (minutes > 0 && ((int)minutes % 5 == 0))
                 {
-                int lineNumber = (int)(minutes / 5);
-
+                    int lineNumber = (int)(minutes / 5);
                     string line = lines[lineNumber];
                     GPSStatus.text = line;
                 }
@@ -283,7 +261,7 @@ public class BackgroundiOS : MonoBehaviour {
     {
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            Debug.Log("No internet");
+            Debug.Log("No Internet");
         }
         else
         {
@@ -335,7 +313,6 @@ public class BackgroundiOS : MonoBehaviour {
                            double lon1,
                            double lon2)
     {
-
         double dLat = (Math.PI / 180) * (lat2 - lat1);
         double dLon = (Math.PI / 180) * (lon2 - lon1);
 
@@ -362,5 +339,4 @@ public class BackgroundiOS : MonoBehaviour {
     {
         if(walkStart == true && pause == false) ShowTime();
     }
-
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Android;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Amazon.DynamoDBv2;
@@ -141,22 +140,15 @@ public class Walk : MonoBehaviour
         UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         Screen.orientation = ScreenOrientation.Portrait;
-        // InputSystem.EnableDevice(StepCounter.current);
-        // InputSystem.AddDevice<StepCounter>();
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
 
         fname = data.fname;
         lname = data.lname;
         contactno = data.contactno;
-        //DontDestroyOnLoad(gameObject);
 
         StartCoroutine(StartLocationService());
         Debug.Log(DateTime.Now.ToString("HH:mm:ss"));
         LoadMessages();
-        
-
-
-
     }
 
     private void LoadMessages()
@@ -187,7 +179,7 @@ public class Walk : MonoBehaviour
         {
             Permission.RequestUserPermission(Permission.FineLocation);
         }
-        Application.runInBackground=true;
+        Application.runInBackground = true;
     }
    
 
@@ -221,13 +213,10 @@ public class Walk : MonoBehaviour
         if (Input.location.status == LocationServiceStatus.Failed)
         {
             GPSStatus.text = "Unable to determine location";
-            //Debug.Log("Unable to determine location");
             yield break;
         }
         else
         {
-
-
             InvokeRepeating("UpdateGPSData", 0.5f, 30f);
         }
 
@@ -235,27 +224,13 @@ public class Walk : MonoBehaviour
 
     private void UpdateGPSData()
     {
-
-
-
         count++;
         if (Input.location.status == LocationServiceStatus.Running)
         {
-
-
-            //Lat.text = "Lat: " + Input.location.lastData.latitude.ToString();
             latitude = Input.location.lastData.latitude;
-            //lat2=Convert.ToDouble(latitude);
             Long.text = "Long: " + Input.location.lastData.longitude.ToString();
             longitude = Input.location.lastData.longitude;
-            //long2=Convert.ToDouble(longitude);
-            //timestamp.text = "timestamp: " + Time.time.ToString();
-
-            updatecalled.text = "Update called:" + count.ToString() + " times";
-
-
-            //SaveData.SaveGPSData(this);
-           // UpdateAWSinfo();
+            updatecalled.text = "Update Called:" + count.ToString() + " times";
 
             if (count <= 1)
             {
@@ -277,7 +252,7 @@ public class Walk : MonoBehaviour
                 new_lat = Convert.ToDouble(latitude);
                 new_long = Convert.ToDouble(longitude);
 
-                if (lat1 != new_lat || new_long != new_long)
+                if (lat1 != new_lat)
                 {
                     lat2 = new_lat;
                     long2 = new_long;
@@ -293,47 +268,28 @@ public class Walk : MonoBehaviour
                     timestamp.text = "Duration : " + minute.ToString() + " minute " + second.ToString() + " seconds";
                 else
                     timestamp.text = "Duration : " + second.ToString() + " seconds";
-
-
-
+                
                 if (minute % 5 == 0)
                 {
                     var r = new System.Random();
                     var randomLineNumber = r.Next(0, lines.Length - 1);
-
                     string line = lines[randomLineNumber];
                     GPSStatus.text = line;
-
                 }
-
-
-
             }
 
             else
             {
                 timestamp.text = "Total time: 0 seconds";
                 GPSStatus.text = "Let's get started!!";
-
             }
 
 
             currentdistance = distance(lat1, lat2, long1, long2);
-            //GPSStatus.text = "Running";
             Lat.text = "Current time " + current_time.ToString();
-
             totaldistance += currentdistance;
             totaldistance=(float)Math.Round(totaldistance * 100) / 100;
-
             TotalDistance.text = "Distance: " + (totaldistance * 0.62).ToString() + " miles";
-
-
-            //*******************************aws update****************************
-
-
-
-
-
         }
         else
         {
@@ -357,17 +313,7 @@ public class Walk : MonoBehaviour
 
                 GPSINFO newUser = new GPSINFO
                 {
-                    /*FirstName = newuse.fname,
-                    LastName = newuse.lname,
-                    ContactNumber = newuse.contactno,
-                    latitudeData = newuse.latitudedata,
-                    longitudeData = newuse.longitudedata,
-                    UserKey = newuse.contactno + newuse.current_date + newuse.current_time,
-                    Date = newuse.current_date,
-                    StartTime = newuse.start_time,
-                    CurrentTime = newuse.current_time*/
-
-                       FirstName = newuse.firstName,
+                    FirstName = newuse.firstName,
                     LastName = newuse.lastName,
                     ContactNumber = newuse.contactNo,
                     latitudeData = newuse.latitude,
@@ -387,61 +333,7 @@ public class Walk : MonoBehaviour
                 {
                     TableName = @"GPSINFO"
                 };
-
-
-                /****************************update****************************
-
-                GPSINFO GPSRetrieved = null;
-
-                
-                Context.LoadAsync<GPSINFO>(user_key, (result) =>
-                 {
-                     if (result.Exception == null)
-                     {
-                         GPSRetrieved = result.Result as GPSINFO;
-                         // Update few properties.
-                         GPSRetrieved.Position_Lat = position_lat;
-                         GPSRetrieved.Position_Long = position_long;
-                         // Replace existing authors list with this
-
-                         Context.SaveAsync<GPSINFO>(GPSRetrieved, (res) =>
-             {
-                 if (res.Exception == null)
-                     Debug.Log("\nTable updated");
-             });
-                     }
-                     else
-                     {
-                         GPSINFO newUser = new GPSINFO
-                {
-                    FirstName = newuse.fname,
-                    LastName = newuse.lname,
-                    ContactNumber = newuse.contactno,
-                    latitudeData = newuse.latitudedata,
-                    longitudeData = newuse.longitudedata,
-                    UserKey = user_key,
-                    Position_Lat = position_lat,
-                    Position_Long = position_long,
-                    //Datetime = newuse.time
-                    Date = newuse.current_date,
-                    StartTime = newuse.start_time
-                };
-                Context.SaveAsync(newUser, (save_result) =>
-                {
-                    if (save_result.Exception == null)
-                        Debug.Log("GPS saved");
-                });
-
-                var request = new DescribeTableRequest
-                {
-                    TableName = @"GPSINFO"
-                };
-
-                     }
-                 });*/
             }
-
-
         }
     }
 
@@ -468,6 +360,4 @@ public class Walk : MonoBehaviour
         double c = 2 * Math.Asin(Math.Sqrt(a));
         return rad * c;
     }
-
-
 }

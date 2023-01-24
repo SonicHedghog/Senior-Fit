@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Data;
@@ -14,14 +13,12 @@ public static class SaveUserData
     static string SeniorFitDB = "SeniorFitDB.s3db";
     private static IDataReader reader;
 
-    public static void SaveUser(loginscript newlogin)
+    public static void SaveUser(LoginSetUp newlogin)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/user.data";
         FileStream stream = new FileStream(path, FileMode.Create);
-
-        userdata data = new userdata(newlogin);
-
+        UserData data = new UserData(newlogin);
         formatter.Serialize(stream, data);
         stream.Close();
 
@@ -59,7 +56,7 @@ public static class SaveUserData
             dbcmd.CommandText = query2; // fill the command
             reader = dbcmd.ExecuteReader(); // execute command which returns a reader
             reader.Close();
-                Debug.Log("Tables Created");
+            Debug.Log("Tables Created");
         }
         catch (Exception e)
         {
@@ -68,62 +65,47 @@ public static class SaveUserData
         }
     }
 
-    
-
-
-    public static userdata LoadUser()
+    public static UserData LoadUser()
     {
         string path = Application.persistentDataPath + "/user.data";
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream=new FileStream(path,FileMode.Open);
-            userdata data= formatter.Deserialize(stream) as userdata;
+            UserData data= formatter.Deserialize(stream) as UserData;
             stream.Close();
             return data;
-
         }
         else
         {
-            Debug.Log("Saved file not found");
+            Debug.Log("File 'user.data' Not Found");
             return null;
         }
     }
 
      public static void UpdateUserVersion(string newVersion)
     {
-         string path = Application.persistentDataPath + "/user.data";
+        string path = Application.persistentDataPath + "/user.data";
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream=new FileStream(path,FileMode.Open);
-            userdata data= formatter.Deserialize(stream) as userdata;
-            data.version=newVersion;
-            Debug.Log("inside update version : "+data.version);            
+            FileStream stream = new FileStream(path,FileMode.Open);
+            UserData data = formatter.Deserialize(stream) as UserData;
+            data.version = newVersion;
+            Debug.Log("Inside Update Version: " + data.version);            
             stream.Close();
 
             
-                BinaryFormatter OutputFormatter =new BinaryFormatter();
-        
-        FileStream outStream= new FileStream(path, FileMode.Create);
-
-        userdata NewData= data;
-
-        OutputFormatter.Serialize(outStream, data);
-        outStream.Close();
-
-            
-            
-           
-
+            BinaryFormatter OutputFormatter =new BinaryFormatter();
+            FileStream outStream = new FileStream(path, FileMode.Create);
+            UserData NewData = data;
+            OutputFormatter.Serialize(outStream, data);
+            outStream.Close();
         }
         else
         {
-            Debug.Log("Saved file not found");
-            
+            Debug.Log("Saved File Not Found");   
         }
-        
-
     }
 
     

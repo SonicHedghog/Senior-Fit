@@ -36,25 +36,17 @@ public class SceneChange : MonoBehaviour
 
     void Start()
     {
-        //cameraButton.onClick.AddListener(PermissionButtonClick);
-       // noCameraButton.onClick.AddListener(noPermissionButtonClick);
-        
         Screen.orientation = ScreenOrientation.LandscapeLeft;
-        userdata data = SaveUserData.LoadUser();
-        if (data == null)
-            SceneManager.LoadScene("LoginMenu");
-        
+        UserData data = SaveUserData.LoadUser();
+        if (data == null) SceneManager.LoadScene("LoginMenu");
 
         Debug.Log("Saved user info : "+data.fname+data.lname+data.contactno+data.LoginTime);
 
-        
         #if UNITY_ANDROID
         var notificationIntentData = AndroidNotificationCenter.GetLastNotificationIntent();
         if (notificationIntentData != null)
         {
             Debug.Log("senior fit notification");
-            //var id = notificationIntentData.Id;
-           // var channel = notificationIntentData.IntentData;
             var notification = notificationIntentData.Notification;
             string link=notification.IntentData;
 
@@ -153,7 +145,7 @@ public class SceneChange : MonoBehaviour
     {
         Debug.Log("new version available");
        
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
         string fname = data.fname;
       
         DateTime oldDate = data.LoginTime;
@@ -601,7 +593,7 @@ public class SceneChange : MonoBehaviour
 
         count++;
         
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
         #if UNITY_ANDROID
         var c1 = new AndroidNotificationChannel()
         {

@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using TensorFlowLite;
 using Cysharp.Threading.Tasks;
@@ -14,9 +12,6 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
 
 /// <summary>
 /// BlazePose form MediaPipe
@@ -213,7 +208,7 @@ public sealed class BlazePoseRunner : MonoBehaviour
             default:
                 break;
         }
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
 
         fname = data.fname;
         lname = data.lname;
@@ -264,9 +259,9 @@ public sealed class BlazePoseRunner : MonoBehaviour
 
         else
         {
-            UserList newuserlist = SaveData.LoadData();
+            ExerciseData newuserlist = SaveData.LoadData();
 
-            foreach (UserData newuse in newuserlist.alluserdata)
+            foreach (ExerciseInfo newuse in newuserlist.alluserdata)
             {
                 //AppUse newuse = AppUse.LoadAppUse();
 
