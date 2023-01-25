@@ -18,6 +18,9 @@ using Amazon.CognitoIdentity;
 using Amazon.Runtime;
 using Amazon;
 using Mono.Data.Sqlite;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 public class NoCameraWorkout : MonoBehaviour
 {
@@ -129,14 +132,14 @@ public class NoCameraWorkout : MonoBehaviour
     {
         try
         {
+            // Try Loading in ML model to see if phone is compatible
             var poseDetect = new PoseDetect("ML Models/pose_detection.tflite");
         }
-        catch (DllNotFoundException e)
+        catch (DllNotFoundException)
         {
-            Debug.Log("Phone not compatible");
+            Debug.Log("Phone Not Compatible");
             cameraButton.SetActive(false);
         }
-
         UnityInitializer.AttachToGameObject(this.gameObject);
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         Screen.orientation = ScreenOrientation.LandscapeLeft;
@@ -144,60 +147,73 @@ public class NoCameraWorkout : MonoBehaviour
         switch(exercisenumber)
         {
             case 1:
-                Exercise="Seated March";
+                Exercise = "Seated March";
+                cameraButton.SetActive(CheckFileExistence("new_SeatedMarch"));
                 break;
             case 2:
-                Exercise="Single Leg Stance";
+                Exercise = "Single Leg Stance";
+                cameraButton.SetActive(CheckFileExistence("Single_Leg_Stance"));
                 break;
             case 3:
-                Exercise="Shoulder Touch";
+                Exercise = "Shoulder Touch";
+                cameraButton.SetActive(CheckFileExistence("Shoulder_touch"));
                 break;
             case 4:
-                Exercise="Chair Sit To Stand";
+                Exercise = "Chair Sit To Stand";
+                cameraButton.SetActive(CheckFileExistence("Chair_Sit_to_Stand"));
                 break;
             case 5:
-                Exercise="Marching In Place";
+                Exercise = "Marching In Place";
+                cameraButton.SetActive(CheckFileExistence("Marching_in_Place"));
                 break;
             case 6:
                 Exercise = "Seated Hamstring Stretch";
+                cameraButton.SetActive(CheckFileExistence("Seated_Hamstring_Stretch_CSV"));
                 break;
             case 7:
                 Exercise = "Rock The Boat";
+                cameraButton.SetActive(CheckFileExistence("RockTheBoat"));
                 break;
             case 8:
                 Exercise = "Shoulder Stretch";
+                cameraButton.SetActive(CheckFileExistence("Shoulder_Stretch"));
                 break;
             case 9:
                 Exercise = "Standing Calf Stretch";
+                cameraButton.SetActive(CheckFileExistence("Standing_Calf_Stretch"));
                 break;
             case 10:
                 Exercise = "Standing Leg Curl";
+                cameraButton.SetActive(CheckFileExistence("Standing_Leg_Curl"));
                 break;
             case 11:
-                Exercise = "Standing Thigh Stretch";;
+                Exercise = "Standing Thigh Stretch";
+                cameraButton.SetActive(CheckFileExistence("Standing_Thigh_Stretch"));
                 break;
             case 12:
                 Exercise = "Wall Push Up";
+                cameraButton.SetActive(CheckFileExistence("Wall_Push_Up"));
                 break;
             case 13:
                 Exercise = "Side Stepping";
+                cameraButton.SetActive(CheckFileExistence("Side_Stepping"));
                 break;
             case 14:
                 Exercise = "Heel To Toe Walking";
+                cameraButton.SetActive(CheckFileExistence("Heel_To_Toe_Walking"));
                 break;
             default:
-                Exercise="Seated Hamstring Stretch";
+                Exercise = "Seated Hamstring Stretch";
+                cameraButton.SetActive(CheckFileExistence("Seated_Hamstring_Stretch_CSV"));
                 break;
-
-            
         }
-        UserData data = SaveUserData.LoadUser();
 
-        fname=data.fname;
-        lname=data.lname;
-        contactno=data.contactno;
-        date=DateTime.Now.ToString("yyyy/MM/dd");
-        time= DateTime.Now.ToString("HH:mm:ss");
+        UserData data = SaveUserData.LoadUser();
+        fname = data.fname;
+        lname = data.lname;
+        contactno = data.contactno;
+        date = DateTime.Now.ToString("yyyy/MM/dd");
+        time = DateTime.Now.ToString("HH:mm:ss");
         SaveData.SaveIntoJson(this);
 
         SetVideoAddress();
@@ -241,7 +257,7 @@ public class NoCameraWorkout : MonoBehaviour
 
         
         if (webCamPermission)
-    {
+        {
             SaveData.SaveCameraState(1);
             CamPermission = true;
             SceneManager.LoadScene("WorkoutSpace");
@@ -288,6 +304,36 @@ public class NoCameraWorkout : MonoBehaviour
                 timeText.text = $"{seconds} seconds";
             }
         }
+    }
+
+    bool CheckFileExistence(string filename)
+    {
+        string[] paths = {Application.streamingAssetsPath, "BlazePoseData", filename + ".csv"};
+        List<string> fileLines;
+        try 
+        {
+            if(Application.platform == RuntimePlatform.Android)
+            {
+                var www = UnityEngine.Networking.UnityWebRequest.Get(Path.Combine(paths));
+                www.SendWebRequest();
+                while (!www.isDone)
+                {
+                }
+                fileLines = www.downloadHandler.text.Split('\n').ToList();
+                Debug.Log(www.downloadHandler.text);
+            }
+            else
+            {
+                fileLines = File.ReadAllLines(Application.streamingAssetsPath + "/BlazePoseData/" + filename + ".csv").ToList();
+            }
+        } 
+        catch (IOException) 
+        {
+            Debug.Log("Exercise Data Not Found");
+            return false;
+        }
+
+        return true;
     }
     
      void updateAWSTable()

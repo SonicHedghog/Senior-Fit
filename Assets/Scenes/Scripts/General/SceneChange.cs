@@ -12,15 +12,12 @@ using Unity.Notifications.iOS;
 
 using UnityEngine.SceneManagement;
 
-
-
-
 public class SceneChange : MonoBehaviour
 {
     BlazePoseRunner blazePoseRunner;
     private static bool isFlipped = false;
     private static int exercisenumber = 0;
-    public static int tutorialNumber=0;
+    public static int tutorialNumber = 0;
 
     NotificationList newnotification;
 
@@ -28,11 +25,10 @@ public class SceneChange : MonoBehaviour
     public Button noCameraButton;
     
 
-    public static bool cameraAllow=false;
-    public static bool camPermission=false;
+    public static bool cameraAllow = false;
+    public static bool camPermission = false;
 
     private static int req_fps = 0;
-   // private static string new_url = "";
 
     void Start()
     {
@@ -48,21 +44,17 @@ public class SceneChange : MonoBehaviour
         {
             Debug.Log("senior fit notification");
             var notification = notificationIntentData.Notification;
-            string link=notification.IntentData;
+            string link = notification.IntentData;
 
-            //string link = "https://www.google.com/";
-            //if (link.Length != 0)
-            {
-                Application.OpenURL(link);
-                Debug.Log("senior fit url link" + link);
-                 Debug.Log("senior fit link" + link);
-            }
+            Application.OpenURL(link);
+            Debug.Log("senior fit url link" + link);
+            Debug.Log("senior fit link" + link);
 
         }
-        string s=SaveData.IsNotificationScheduled();
-        Debug.Log("noti status found "+s);
-        Debug.Log("login version saved : "+data.version);
-        if(s!=data.version)
+        string s = SaveData.IsNotificationScheduled();
+        Debug.Log("noti status found " + s);
+        Debug.Log("login version saved: " + data.version);
+        if(s != data.version)
         {
             ScheduleAndroidNotifications();
             SaveUserData.UpdateUserVersion(s);
@@ -75,56 +67,47 @@ public class SceneChange : MonoBehaviour
         {
             Debug.Log("senior fit notification");
 
-            string link=notification.Data;
+            string link = notification.Data;
 
             if (link.Length != 0)
             {
                 Application.OpenURL(link);
                 Debug.Log("senior fit url link" + link);
-                 Debug.Log("senior fit link" + link);
+                Debug.Log("senior fit link" + link);
             }
 
         }
-        string s=SaveData.IsNotificationScheduled();
-        Debug.Log("noti status found "+s);
-        Debug.Log("login version saved : "+data.version);
-        if(s!=data.version)
+        string s = SaveData.IsNotificationScheduled();
+        Debug.Log("noti status found " + s);
+        Debug.Log("login version saved: "+ data.version);
+        if(s != data.version)
         {
             ScheduleiOSNotifications();
             SaveUserData.UpdateUserVersion(s);
         }
         #endif
-        
-        
-
     }
     
-
-#if UNITY_ANDROID
+    #if UNITY_ANDROID
     public void ScheduleAndroidNotifications()
     {
-        Debug.Log("new version available");
+        Debug.Log("New Version Available");
        
         UserData data = SaveUserData.LoadUser();
         string fname = data.fname;
       
         DateTime oldDate = data.LoginTime;
-        DateTime current=System.DateTime.Now;
-      //  if(DateTime.Compare(oldDate, current)<0)            
+        DateTime current = System.DateTime.Now;
       
-        int time=0;
+        int time = 0;
         string body;
-        //DateTime oldDate = data.LoginTime;
-        //DateTime current=System.DateTime.Now;
         newnotification = SaveData.LoadNotifications();
         #if UNITY_ANDROID
         AndroidNotificationCenter.CancelAllScheduledNotifications();
         #endif
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            //time=noti.interval/2;
-            time=noti.interval;
-            //DateTime scheduled=oldDate.AddHours(time);
+            time = noti.interval;
             DateTime scheduled=oldDate.AddDays(time);
             if(DateTime.Compare(scheduled, current)>=0)
             {
@@ -132,7 +115,7 @@ public class SceneChange : MonoBehaviour
                 Debug.Log("body " + body);
                 string link = noti.url;
                 EventAlarmTest(time, fname, body,link);
-                Debug.Log("notification scheduled for : "+noti.interval);
+                Debug.Log("notification scheduled for: "+noti.interval);
             }
         }
         Debug.Log(fname);
@@ -143,26 +126,22 @@ public class SceneChange : MonoBehaviour
 #if UNITY_IOS
     public void ScheduleiOSNotifications()
     {
-        Debug.Log("new version available");
+        Debug.Log("New Version Available");
        
         UserData data = SaveUserData.LoadUser();
         string fname = data.fname;
       
         DateTime oldDate = data.LoginTime;
-        DateTime current=System.DateTime.Now;
-      //  if(DateTime.Compare(oldDate, current)<0)            
+        DateTime current = System.DateTime.Now;
       
-        int time=0;
+        int time = 0;
         string body;
-        //DateTime oldDate = data.LoginTime;
-        //DateTime current=System.DateTime.Now;
         newnotification = SaveData.LoadNotifications();
         iOSNotificationCenter.GetLastRespondedNotification();
         foreach (UserNotification noti in newnotification.allnotifications)
         {
-            //time=noti.interval/2;
-            time=noti.interval;
-            DateTime scheduled=oldDate.AddHours(time);
+            time = noti.interval;
+            DateTime scheduled = oldDate.AddHours(time);
 
             if(DateTime.Compare(scheduled, current)>=0)
             {
@@ -170,14 +149,13 @@ public class SceneChange : MonoBehaviour
                 Debug.Log("body " + body);
                 string link = noti.url;
                 EventAlarmTest(time, fname, body,link);
-                Debug.Log("notification scheduled for : "+noti.interval);
+                Debug.Log("notification scheduled for: "+noti.interval);
             }
         }
         Debug.Log(fname);
         Debug.Log("App Updated : notification successful");
     }
-#endif
-
+    #endif
 
     public void OpenFB()
     {
@@ -186,38 +164,31 @@ public class SceneChange : MonoBehaviour
 
     void PermissionButtonClick()
     {
+        cameraAllow = true;
+        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+        #if PLATFORM_ANDROID
+        webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+        #endif
 
-        cameraAllow=true;
-                bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
-            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-        
         if (!webCamPermission)
         {
-           
-           Application.RequestUserAuthorization(UserAuthorization.WebCam);
+            Application.RequestUserAuthorization(UserAuthorization.WebCam);
             webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
 
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-
-
+            #if PLATFORM_ANDROID
+            Permission.RequestUserPermission(Permission.Camera);
+            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+            #endif
         }
     }
     
     void noPermissionButtonClick()
     {
-        cameraAllow=false;
+        cameraAllow = false;
     }
 
     public void Walk()
     {
-        //SceneManager.LoadScene("Walk");
         SceneManager.LoadScene("Walk");
     }
 
@@ -226,12 +197,11 @@ public class SceneChange : MonoBehaviour
         Application.Quit();
     }
 
-
-    
     public void BackToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
+
     public void FlipCamera()
     {
         isFlipped = !isFlipped;
@@ -246,238 +216,129 @@ public class SceneChange : MonoBehaviour
     {
         return exercisenumber;
     }
+
     public static int GetFPS()
     {
         return req_fps;
     }
-     public static int GetTutorialNumber()
+
+    public static int GetTutorialNumber()
     {
         return tutorialNumber;
     }
 
     public void DisableCamera()
     {
-        exercisenumber=GetExerciseNumber();
-
+        exercisenumber = GetExerciseNumber();
         SaveData.SaveCameraState(0);
-         SceneManager.LoadScene("NoCameraWorkout");
-            
-        
+        SceneManager.LoadScene("NoCameraWorkout");
     }
-
-    
-
-    /*public void StartSeatedMarch()
-    {
-        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
-            webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-        //userdata data = SaveUserData.LoadUser();
-
-
-
-        exercisenumber = 1;
-        req_fps = 25;
-        if (webCamPermission)
-        {
-            SceneManager.LoadScene("WorkoutSpace");
-        }
-
-        else
-        {
-            Application.RequestUserAuthorization(UserAuthorization.WebCam);
-            webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-                webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
-
-            if (webCamPermission)
-            {
-                SceneManager.LoadScene("WorkoutSpace");
-                //blazePoseRunner.filename="Shoulder_touch";
-            }
-        }
-    }*/
-
-
-
-
 
     public void StartShoulderTouch()
     {
         exercisenumber = 3;
         req_fps = 30;
         LoadWorkoutScene();
-
-     
-
     }
-
-    
-
-    
 
     public void ChairSitToStand()
     {
-       
         exercisenumber = 4;
         req_fps = 25;
         LoadWorkoutScene();
-       
     }
 
     public void MarchinginPlace()
     {
-        exercisenumber=5;
-        req_fps=25;
-         LoadWorkoutScene();
-        
+        exercisenumber = 5;
+        req_fps = 25;
+        LoadWorkoutScene();
     }
 
-     public void SeatedHamstringStretch()
+    public void SeatedHamstringStretch()
     {
         exercisenumber=6;
-        req_fps=25;
+        req_fps = 25;
         LoadWorkoutScene();
-        
     }
 
-     public void SingleLegStance()
+    public void SingleLegStance()
     {
-        
-
         exercisenumber = 2;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
 
     public void RockTheBoat()
     {
-        
-
         exercisenumber = 7;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
 
-     public void WallPushUp()
+    public void WallPushUp()
     {
-        
-
         exercisenumber = 12;
         req_fps = 25;
-       
-        LoadWorkoutScene();
-        
-       
+        SceneManager.LoadScene("NoCameraWorkout");
     }
-     public void LegCurl()
+    public void LegCurl()
     {
-        
-
         exercisenumber = 10;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
-     public void CalfStretch()
+    public void CalfStretch()
     {
-        
-
         exercisenumber = 9;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
-     public void ThighStretch()
+    public void ThighStretch()
     {
-        
-
         exercisenumber = 11;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
-     public void ShoulderStretch()
+    public void ShoulderStretch()
     {
-        
-
         exercisenumber = 8;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
-     public void SideStepping()
+    public void SideStepping()
     {
-        
-
         exercisenumber = 13;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
 
-     public void HeelToToe()
+    public void HeelToToe()
     {
-        
-
         exercisenumber = 14;
         req_fps = 25;
-       
         LoadWorkoutScene();
-        
-       
     }
-
-
-
-
-    
 
     public static void LoadWorkoutScene()
     {
        
-                bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
-#if PLATFORM_ANDROID
+        bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
+        #if PLATFORM_ANDROID
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
-#endif
+        #endif
 
         int CameraState=SaveData.LoadCameraData();
-        Debug.Log("camera state :"+CameraState.ToString());
+        Debug.Log("Camera State:" + CameraState.ToString());
         
-        if (webCamPermission && CameraState==1)
+        if (webCamPermission && CameraState == 1)
         {
             SceneManager.LoadScene("WorkoutSpace");
         }
 
         else
         {
-          
-            
-                SceneManager.LoadScene("NoCameraWorkout");
-            
-
-           
+            SceneManager.LoadScene("NoCameraWorkout");
         }
         
         
