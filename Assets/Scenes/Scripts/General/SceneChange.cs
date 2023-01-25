@@ -105,7 +105,7 @@ public class SceneChange : MonoBehaviour
     {
         Debug.Log("new version available");
        
-        userdata data = SaveUserData.LoadUser();
+        UserData data = SaveUserData.LoadUser();
         string fname = data.fname;
       
         DateTime oldDate = data.LoginTime;
