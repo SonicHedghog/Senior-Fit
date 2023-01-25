@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1007239244}
-  music: {fileID: 0}
+  music: {fileID: 772718405}
 --- !u!114 &79706254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.8440425
+  m_AspectRatio: 0.28469387
 --- !u!1 &285458467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3441,7 +3441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1007239244}
-  music: {fileID: 0}
+  music: {fileID: 772718405}
 --- !u!114 &1124019089484949551
 MonoBehaviour:
   m_ObjectHideFlags: 0
