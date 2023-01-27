@@ -245,7 +245,7 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 4;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public void MarchinginPlace()
@@ -259,7 +259,7 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber=6;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public void SingleLegStance()
@@ -273,7 +273,7 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 7;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public void WallPushUp()
@@ -286,19 +286,19 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 10;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
     public void CalfStretch()
     {
         exercisenumber = 9;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
     public void ThighStretch()
     {
         exercisenumber = 11;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
     public void ShoulderStretch()
     {
@@ -310,14 +310,14 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 13;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public void HeelToToe()
     {
         exercisenumber = 14;
         req_fps = 25;
-        LoadWorkoutScene();
+        SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public static void LoadWorkoutScene()
@@ -328,7 +328,7 @@ public class SceneChange : MonoBehaviour
             webCamPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
         #endif
 
-        int CameraState=SaveData.LoadCameraData();
+        int CameraState = SaveData.LoadCameraData();
         Debug.Log("Camera State:" + CameraState.ToString());
         
         if (webCamPermission && CameraState == 1)
@@ -340,118 +340,110 @@ public class SceneChange : MonoBehaviour
         {
             SceneManager.LoadScene("NoCameraWorkout");
         }
-        
-        
     }
-
-    
-
-   
     
     public void ShoulderTouchTutorial()
     {
-        tutorialNumber=1;
+        tutorialNumber = 1;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void ChairSitTutorial()
     {
-        tutorialNumber=2;
+        tutorialNumber = 2;
 
         SceneManager.LoadScene("VideoTutorial");
     }
 
-     public void SingleLegStanceTutorial()
+    public void SingleLegStanceTutorial()
     {
-        tutorialNumber=3;
+        tutorialNumber = 3;
 
         SceneManager.LoadScene("VideoTutorial");
     }
-     public void SeatedHamstringTutorial()
+    public void SeatedHamstringTutorial()
     {
-        tutorialNumber=4;
+        tutorialNumber = 4;
 
         SceneManager.LoadScene("VideoTutorial");
     }
      public void MarchingTutorial()
     {
-        tutorialNumber=5;
+        tutorialNumber = 5;
 
         SceneManager.LoadScene("VideoTutorial");
     }
      public void HeeltoToeTutorial()
     {
-        tutorialNumber=6;
+        tutorialNumber = 6;
 
         SceneManager.LoadScene("VideoTutorial");
     }
      public void RocktheBoatTutorial()
     {
-        tutorialNumber=7;
+        tutorialNumber = 7;
 
         SceneManager.LoadScene("VideoTutorial");
     }
      public void ShoulderStretchTutorial()
     {
-        tutorialNumber=8;
+        tutorialNumber = 8;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void SideSteppingTutorial()
     {
-        tutorialNumber=9;
+        tutorialNumber = 9;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void StandingCalfStretchTutorial()
     {
-        tutorialNumber=10;
+        tutorialNumber = 10;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void StandingLegCurlTutorial()
     {
-        tutorialNumber=11;
+        tutorialNumber = 11;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void StandingThighStretchTutorial()
     {
-        tutorialNumber=12;
+        tutorialNumber = 12;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void WalkingInstructions()
     {
-        tutorialNumber=13;
+        tutorialNumber = 13;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void WalkingwithArmSwingsTutorial()
     {
-        tutorialNumber=14;
+        tutorialNumber = 14;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void WalkingwithHighKneesTutorial()
     {
-        tutorialNumber=15;
+        tutorialNumber = 15;
 
         SceneManager.LoadScene("VideoTutorial");
     }
     public void WallPushUpsTutorial()
     {
-        tutorialNumber=16;
+        tutorialNumber = 16;
 
         SceneManager.LoadScene("VideoTutorial");
     }
 
-
-    int count=0;
+    int count = 0;
   
     public void EventAlarmTest(int minutesOnTheHour, string firstname, string body,string link)
     {
-
         count++;
         
         UserData data = SaveUserData.LoadUser();
@@ -489,10 +481,4 @@ public class SceneChange : MonoBehaviour
     #endif
 
     }
-
-
-
-
-
 }
-
