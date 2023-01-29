@@ -16,7 +16,7 @@ public static class SaveUserData
     public static void SaveUser(LoginSetUp newlogin)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/user.data";
+        string path = Application.persistentDataPath + "/loginData.data";
         FileStream stream = new FileStream(path, FileMode.Create);
         UserData data = new UserData(newlogin);
         formatter.Serialize(stream, data);
@@ -65,16 +65,72 @@ public static class SaveUserData
         }
     }
 
-    public static UserData LoadUser()
+
+    //*****************change "userdata" to "UserData"***************///////////
+
+    public static void ChangeClassName()
     {
         string path = Application.persistentDataPath + "/user.data";
+         string newPath=Application.persistentDataPath + "/loginData.data";
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream=new FileStream(path,FileMode.Open);
-            UserData data= formatter.Deserialize(stream) as UserData;
+            FileStream stream=new FileStream(path,FileMode.Open,FileAccess.Read);
+            userdata previous_data= formatter.Deserialize(stream) as userdata;
+            Debug.Log("Previous data "+previous_data.version.ToString());
             stream.Close();
-            return data;
+            Debug.Log("STream closed");
+
+            try
+            {
+                    File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                    Debug.LogException(ex);
+            }
+
+           
+           
+            BinaryFormatter OutputFormatter =new BinaryFormatter();
+            FileStream outStream = new FileStream(newPath, FileMode.Create,FileAccess.Write);
+            UserData NewData =  new UserData(previous_data);
+            OutputFormatter.Serialize(outStream, NewData);
+            outStream.Close();
+        }
+        else
+        {
+            Debug.Log("File 'user.data' Not Found");
+            
+        }
+    }
+
+
+     public static UserData LoadUser()
+    {
+        string path = Application.persistentDataPath + "/user.data";
+        string newPath=Application.persistentDataPath + "/loginData.data";
+        if(File.Exists(path))
+        {
+           
+            
+                Debug.Log("change of userdata class");
+                ChangeClassName();
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream newstream=new FileStream(newPath,FileMode.Open,FileAccess.Read);
+                UserData data= formatter.Deserialize(newstream) as UserData;
+                newstream.Close();
+                return data;
+
+        }
+        else if(File.Exists(newPath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+                FileStream newstream=new FileStream(newPath,FileMode.Open,FileAccess.Read);
+                UserData data= formatter.Deserialize(newstream) as UserData;
+                newstream.Close();
+                return data;
+
         }
         else
         {
@@ -83,13 +139,14 @@ public static class SaveUserData
         }
     }
 
+
      public static void UpdateUserVersion(string newVersion)
     {
-        string path = Application.persistentDataPath + "/user.data";
+        string path = Application.persistentDataPath + "/loginData.data";
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path,FileMode.Open);
+            FileStream stream = new FileStream(path,FileMode.Open,FileAccess.Read);
             UserData data = formatter.Deserialize(stream) as UserData;
             data.version = newVersion;
             Debug.Log("Inside Update Version: " + data.version);            
@@ -97,7 +154,7 @@ public static class SaveUserData
 
             
             BinaryFormatter OutputFormatter =new BinaryFormatter();
-            FileStream outStream = new FileStream(path, FileMode.Create);
+            FileStream outStream = new FileStream(path, FileMode.Create,FileAccess.Write);
             UserData NewData = data;
             OutputFormatter.Serialize(outStream, data);
             outStream.Close();
@@ -108,12 +165,30 @@ public static class SaveUserData
         }
     }
 
-    
-
-
-
-    
-
-
+   
     
 }
+
+
+// Just used for changing 'userdata' back to 'UserData'////
+
+
+[System.Serializable]
+public class userdata 
+{
+    public string fname;
+    public string lname;
+    public long contactno;
+    public string version;
+    public DateTime LoginTime;
+
+    public userdata(LoginSetUp newlogin)
+    {
+        fname = newlogin.fname;
+        lname = newlogin.lname;
+        contactno = newlogin.contactno;
+        LoginTime = newlogin.LoginTime;
+        version = newlogin.version;
+    }
+}
+   

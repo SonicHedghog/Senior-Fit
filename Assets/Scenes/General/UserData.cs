@@ -17,5 +17,14 @@ public class UserData
         LoginTime = newlogin.LoginTime;
         version = newlogin.version;
     }
+
+    public UserData(userdata previousData)
+    {
+        fname = previousData.fname;
+        lname = previousData.lname;
+        contactno = previousData.contactno;
+        LoginTime = previousData.LoginTime;
+        version = previousData.version;
+    }
 }
    

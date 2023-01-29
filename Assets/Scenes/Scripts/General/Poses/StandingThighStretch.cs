@@ -57,12 +57,12 @@ namespace Poses
             return _repCount == 0;
         }
 
-        public override string GetTutorialAddress()
+       /* public override string GetTutorialAddress()
         {
             if(lastExercise.Contains("Standing_Thigh_Stretch_FR"))
                 return Application.streamingAssetsPath + "/TutorialClips/" + name.Replace(' ', '_').ToLower() + "_right_tutorial.mp4";
             else return Application.streamingAssetsPath + "/TutorialClips/" + name.Replace(' ', '_').ToLower() + "_left_tutorial.mp4";
-        }
+        }*/
 
         public override bool IsFinished(TensorFlowLite.PoseNet.Result[] result, Text t){ return false; }
     }

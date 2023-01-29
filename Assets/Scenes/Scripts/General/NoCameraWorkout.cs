@@ -168,7 +168,7 @@ public class NoCameraWorkout : MonoBehaviour
                 break;
             case 6:
                 Exercise = "Seated Hamstring Stretch";
-                cameraButton.SetActive(CheckFileExistence("Seated_Hamstring_Stretch_CSV"));
+                cameraButton.SetActive(CheckFileExistence("Seated_Hamstring_Stretch"));
                 break;
             case 7:
                 Exercise = "Rock The Boat";
@@ -204,7 +204,7 @@ public class NoCameraWorkout : MonoBehaviour
                 break;
             default:
                 Exercise = "Seated Hamstring Stretch";
-                cameraButton.SetActive(CheckFileExistence("Seated_Hamstring_Stretch_CSV"));
+                cameraButton.SetActive(CheckFileExistence("Seated_Hamstring_Stretch"));
                 break;
         }
 

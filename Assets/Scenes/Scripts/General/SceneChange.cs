@@ -33,8 +33,13 @@ public class SceneChange : MonoBehaviour
     void Start()
     {
         Screen.orientation = ScreenOrientation.LandscapeLeft;
+        
         UserData data = SaveUserData.LoadUser();
-        if (data == null) SceneManager.LoadScene("LoginMenu");
+        if (data == null)
+        {
+            SceneManager.LoadScene("LoginMenu");
+
+        } 
 
         Debug.Log("Saved user info : "+data.fname+data.lname+data.contactno+data.LoginTime);
 
@@ -98,6 +103,9 @@ public class SceneChange : MonoBehaviour
       
         DateTime oldDate = data.LoginTime;
         DateTime current = System.DateTime.Now;
+
+
+        Debug.Log("First Login time : "+oldDate.ToString());
       
         int time = 0;
         string body;
@@ -259,7 +267,8 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber=6;
         req_fps = 25;
-        SceneManager.LoadScene("NoCameraWorkout");
+        LoadWorkoutScene();
+        //SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public void SingleLegStance()
@@ -292,13 +301,15 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 9;
         req_fps = 25;
-        SceneManager.LoadScene("NoCameraWorkout");
+        LoadWorkoutScene();
+        //SceneManager.LoadScene("NoCameraWorkout");
     }
     public void ThighStretch()
     {
         exercisenumber = 11;
         req_fps = 25;
-        SceneManager.LoadScene("NoCameraWorkout");
+        LoadWorkoutScene();
+        //SceneManager.LoadScene("NoCameraWorkout");
     }
     public void ShoulderStretch()
     {

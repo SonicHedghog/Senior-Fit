@@ -31,7 +31,7 @@ namespace Poses
             name = "Seated Hamstring Stretch";
 
             // Set up Pose Classifier Processor
-            processor = new PoseClassifierProcessor("Seated_Hamstring_Stretch_CSV", true,7.0f,6.0f);
+            processor = new PoseClassifierProcessor("Seated_Hamstring_Stretch", true,7.0f,6.0f);
         }
 
         public override bool IsFinished(Result result, Text t)
