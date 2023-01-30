@@ -333,6 +333,11 @@ public class NoCameraWorkout : MonoBehaviour
             return false;
         }
 
+        if(exercisenumber != 3 && exercisenumber != 2 && exercisenumber != 6 && exercisenumber != 9 
+            && exercisenumber != 11 && exercisenumber != 8 && exercisenumber != 5)
+        {
+            return false;
+        }
         return true;
     }
     
