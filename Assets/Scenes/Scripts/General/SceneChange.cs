@@ -265,10 +265,8 @@ public class SceneChange : MonoBehaviour
 
     public void SeatedHamstringStretch()
     {
-        exercisenumber=6;
+        exercisenumber = 6;
         req_fps = 25;
-        LoadWorkoutScene();
-        //SceneManager.LoadScene("NoCameraWorkout");
     }
 
     public void SingleLegStance()
@@ -301,15 +299,11 @@ public class SceneChange : MonoBehaviour
     {
         exercisenumber = 9;
         req_fps = 25;
-        LoadWorkoutScene();
-        //SceneManager.LoadScene("NoCameraWorkout");
     }
     public void ThighStretch()
     {
         exercisenumber = 11;
         req_fps = 25;
-        LoadWorkoutScene();
-        //SceneManager.LoadScene("NoCameraWorkout");
     }
     public void ShoulderStretch()
     {
@@ -331,7 +325,7 @@ public class SceneChange : MonoBehaviour
         SceneManager.LoadScene("NoCameraWorkout");
     }
 
-    public static void LoadWorkoutScene()
+    public void LoadWorkoutScene()
     {
        
         bool webCamPermission = Application.HasUserAuthorization(UserAuthorization.WebCam);
